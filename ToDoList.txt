@@ -1,0 +1,179 @@
+Handle Energy Upgrades
+Larvae Delay Time
+Create default build order file
+SCV Equivalent Drones
+
+
+Database:
+
+TargetBuild:
+	- GameID
+	- TargetBuildID
+	- Build settings (gas micro)
+	- Initial build
+	- Stagnation Count
+	- Request Count
+
+Waypoint:
+	- WaypointID
+	- TargetBuildID
+	- WaypointIndex
+	- MinTime
+	- MaxTime
+
+BuildOrder:
+	- BuildOrderID
+
+BuildOrderResult:
+	- BuildOrderID
+	- BuildingCount (1-32)
+	- UnitCount (1-32)
+	- ResearchCount (1-32)
+
+BuildOrderTime:
+	- BuildOrderID
+	- VersionID
+	- Time
+
+BuildOrderCommands:
+	- BuildOrderID
+	- BuildOrderIndex
+	- CommandID
+
+
+
+
+Initial build orders:
+
+	m_initialBuildOrders["4 gate"] =
+		"9 Pylon\n" \
+		"11 Chrono Nexus\n" \
+		"12 Gateway\n" \
+		"13 Chrono Nexus\n" \
+		"14 Assimilator\n" \
+		"16 3*Move Probe To Gas\n" \
+		"16 Pylon\n" \
+		"17 Cybernetics Core\n" \
+		"18 Zealot\n" \
+		"22 Warp Gate Transformation\n" \
+		"22 Chrono Cybernetics Core\n" \
+		"22 Stalker\n" \
+		"24 Chrono Cybernetics Core\n" \
+		"24 3*Gateway\n" \
+		"24 Chrono Cybernetics Core\n" \
+		"24 Stalker\n" \
+		"26 Pylon\n" \
+		"26 2*Chrono Cybernetics Core\n" \
+		"26 4*Convert Gateway To Warp Gate\n";
+
+	m_initialBuildOrders["3 gate robo"] =
+		"9 Pylon\n" \
+		"11 Chrono Nexus\n" \
+		"12 Chrono Nexus\n" \
+		"13 Gateway\n" \
+		"15 Assimilator\n" \
+		"16 Pylon\n" \
+		"16 3*Move Probe To Gas\n" \
+		"17 Cybernetics Core\n" \
+		"18 Zealot\n" \
+		"22 Pylon\n" \
+		"22 Stalker\n" \
+		"24 Warp Gate Transformation\n" \
+		"24 Chrono Cybernetics Core\n" \
+		"25 Assimilator\n" \
+		"25 Chrono Cybernetics Core\n" \
+		"26 Gateway\n" \
+		"26 3*Move Probe To Gas\n" \
+		"26 Chrono Cybernetics Core\n" \
+		"27 Sentry\n" \
+		"30 Pylon\n" \
+		"30 Gateway\n" \
+		"31 Robotics Facility\n";
+
+	m_initialBuildOrders["3 gate expand"] =
+		"9 Pylon\n" \
+		"11 Chrono Nexus\n" \
+		"12 Chrono Nexus\n" \
+		"13 Gateway\n" \
+		"15 Assimilator\n" \
+		"16 Pylon\n" \
+		"16 3*Move Probe To Gas\n" \
+		"18 Cybernetics Core\n" \
+		"20 Assimilator\n" \
+		"20 Zealot\n" \
+		"23 Warp Gate Transformation\n" \
+		"23 Chrono Cybernetics Core\n" \
+		"23 Pylon\n" \
+		"23 3*Move Probe To Gas\n" \
+		"24 Chrono Cybernetics Core\n" \
+		"24 Stalker\n" \
+		"26 Gateway\n" \
+		"27 Gateway\n" \
+		"27 Chrono Cybernetics Core\n" \
+		"28 Sentry\n" \
+		"31 Nexus\n";
+
+	m_initialBuildOrders["9 pylon 13 gate"] =
+		"9 Pylon\n" \
+		"11 Chrono Nexus\n" \
+		"12 Chrono Nexus\n" \
+		"13 Gateway\n";
+
+
+	m_initialBuildOrders["1-1-1"] =
+		"10 Supply Depot\n" \
+		"12 Barracks (Naked)\n" \
+		"13 Refinery\n" \
+		"15 3*Move SCV To Gas\n" \
+		"15 Orbital Command\n" \
+		"15 Marine\n" \
+		"16 Supply Depot\n" \
+		"16 Refinery\n" \
+		"16 Marine\n" \
+		"17 Calldown MULE\n" \
+		"18 3*Move SCV To Gas\n" \
+		"19 Factory (Naked)\n" \
+		"19 Barracks Tech Lab\n" \
+		"20 Marine\n" \
+		"23 Starport (Naked)\n";
+
+	m_initialBuildOrders["15 OC with gas"] =
+		"10 Supply Depot\n" \
+		"12 Barracks (Naked)\n" \
+		"13 Refinery\n" \
+		"15 3*Move SCV To Gas\n" \
+		"15 Orbital Command\n";
+
+	m_initialBuildOrders["2 rax OC"] =
+		"10 Supply Depot\n" \
+		"12 Barracks (Naked)\n" \
+		"14 Barracks (Naked)\n" \
+		"15 Marine\n" \
+		"15 Orbital Command\n";
+
+	m_initialBuildOrders["2 rax OC"] =
+		"10 Supply Depot\n" \
+		"12 Barracks (Naked)\n" \
+		"14 Barracks (Naked)\n" \
+		"15 Marine\n" \
+		"15 Orbital Command\n";
+
+
+	m_initialBuildOrders["14 Pool 15 Hatch"] =
+		"9 Overlord\n" \
+		"14 Spawning Pool\n" \
+		"15 Hatchery\n" \
+		"16 Queen\n" \
+		"18 Extractor\n" \
+		"17 Overlord\n" \
+		"17 Zergling\n";
+
+	m_initialBuildOrders["15 Hatch 15 Pool"] =
+		"9 Overlord\n" \
+		"15 Hatchery\n" \
+		"15 Spawning Pool\n" \
+		"15 Extractor\n" \
+		"16 Overlord\n" \
+		"16 3*Move Drone To Gas\n" \
+		"17 Zergling\n" \
+		"18 Queen\n";

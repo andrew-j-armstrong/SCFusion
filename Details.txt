@@ -1,0 +1,25 @@
+Commands:
+Build Unit
+Build Building
+Research Tech
+Building Ability
+Unit Ability
+
+
+Command ID structure:
+<Category> 8 bits
+<TypeID> 8 bits
+<Data> 16 bits
+
+
+
+Events:
+Building Complete
+Unit Complete
+Research Complete
+
+
+Event ID structure:
+<Category> 8 bits
+<TypeID> 8 bits
+<Data> 16 bits

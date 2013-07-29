@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SCFusionBuild>
+	<XMLFileVersion>1.0</XMLFileVersion>
+  <GameLongDescription>Starcraft II: Heart of the Swarm</GameLongDescription>
+  <GameMinVersion>2.0.7</GameMinVersion>
+  <Race>Protoss</Race>
+  <Settings>
+    <MaximumTime>1000</MaximumTime>
+    <ScoutingWorker deathTime="500">150</ScoutingWorker>
+    <GasMicro>Three to gas only</GasMicro>
+    <AllowWaitCommands>False</AllowWaitCommands>
+    <MaxAPM>300</MaxAPM>
+    <InitialBuildOrder>
+      <Command>Build Probe</Command>
+      <Command>Build Probe</Command>
+      <Command>Build Probe</Command>
+      <Command>Build Pylon</Command>
+      <Command>Build Probe</Command>
+    </InitialBuildOrder>
+  </Settings>
+  <Waypoints>
+    <Waypoint>
+      <MaxTime>300</MaxTime>
+      <Target name="Minerals">
+        <Value>100</Value>
+      </Target>
+      <Target name="Probe">
+        <Minimum>9</Minimum>
+      </Target>
+    </Waypoint>
+    <Waypoint target="true">
+      <MinTime>300</MinTime>
+      <Target name="Probe">
+        <Minimum>12</Minimum>
+        <MinimumUnderConstruction>1</MinimumUnderConstruction>
+      </Target>
+      <Target name="Stalker">
+        <Minimum>5</Minimum>
+      </Target>
+      <Target name="Warp Gate Transformation">
+        <Value>Required</Value>
+      </Target>
+    </Waypoint>
+  </Waypoints>
+  <BuildOrder>
+    <Command>Build Probe</Command>
+    <Command>Chrono Boost Nexus</Command>
+    <Command>Build Probe</Command>
+    <Command>Build Pylon</Command>
+    <Command>Build Probe</Command>
+    <Command>Build Gateway</Command>
+    <Command>Build Probe</Command>
+    <Command>Build Assimilator</Command>
+    <Command>Build Probe</Command>
+    <Command>Move Three Probes To Gas</Command>
+    <Command>Build Probe</Command>
+    <Command>Build Cybernetics Core</Command>
+    <Command>Build Gateway</Command>
+    <Command>Build Pylon</Command>
+    <Command>Build Stalker</Command>
+    <Command>Research Warp Gate Transformation</Command>
+    <Command>Chrono Boost Cybernetics Core</Command>
+    <Command>Build Stalker</Command>
+    <Command>Build Stalker</Command>
+    <Command>Chrono Boost Cybernetics Core</Command>
+    <Command>Build Pylon</Command>
+    <Command>Build Stalker</Command>
+    <Command>Build Stalker</Command>
+    <Command>Chrono Boost Cybernetics Core</Command>
+    <Command>Chrono Boost Cybernetics Core</Command>
+    <Command>Build Probe</Command>
+    <Command>Chrono Boost Cybernetics Core</Command>
+    <Command>Build Probe</Command>
+    <Command>Chrono Boost Cybernetics Core</Command>
+    <Command>Build Probe</Command>
+  </BuildOrder>
+</SCFusionBuild>

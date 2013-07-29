@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SCFusionBuild>
+  <XMLFileVersion>1.0</XMLFileVersion>
+  <GameLongDescription>Starcraft II: Heart of the Swarm</GameLongDescription>
+  <GameMinVersion>2.0.7</GameMinVersion>
+  <Race>Zerg</Race>
+  <Settings>
+    <MaximumTime>1200</MaximumTime>
+    <GasMicro>Three to gas only</GasMicro>
+    <AllowWaitCommands>False</AllowWaitCommands>
+  </Settings>
+  <Waypoints>
+    <Waypoint target="true">
+      <Target name="Zergling">
+        <Minimum>5</Minimum>
+      </Target>
+    </Waypoint>
+  </Waypoints>
+  <BuildOrder>
+    <Command>Build Spawning Pool</Command>
+    <Command>Build Drone</Command>
+    <Command>Build Drone</Command>
+    <Command>Build Zergling</Command>
+    <Command>Build Zergling</Command>
+    <Command>Build Zergling</Command>
+    <Command>Build Macro Hatchery</Command>
+  </BuildOrder>
+</SCFusionBuild>

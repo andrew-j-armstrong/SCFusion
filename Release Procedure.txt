@@ -1,0 +1,16 @@
+1. Update Version Info (Resources)
+2. Update WIX
+	2a. ProductVersion
+	2b. Package Description
+	(2c. Update Versions XML Files)
+3. Build solution
+4. Rename Setup.exe
+5. Upload release
+6. Add new item to SCFusionVersionRSS.xml
+	6a. Title
+	6b. Description
+	6c. PubDate
+	6d. URL
+	6e. Version
+	6f. Short Version
+7. Upload SCFusionVersionRSS.xml

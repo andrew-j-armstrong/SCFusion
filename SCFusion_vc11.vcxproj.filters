@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{8cf65ba9-7619-429c-9a55-c9e9d60d54a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Genetic Algorithm">
+      <UniqueIdentifier>{46317e57-cd95-4332-8576-b939552634f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="A Star">
+      <UniqueIdentifier>{cf81ba36-cf92-4375-a937-cc4747660454}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2">
+      <UniqueIdentifier>{f4f72a9c-0a3b-4305-9abb-aa38bd429eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bitmaps">
+      <UniqueIdentifier>{957d7697-50a1-48ce-853f-49b209b3e4d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Versions">
+      <UniqueIdentifier>{6077e4eb-344e-4df4-b41e-e0a85a588c5c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\FastRand.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FastString.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\HashFunction.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Hashtable.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\LinkedList.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MemoryPool.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MemoryPoolManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ThreadPool.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MDIParent.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MDIChild.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GA\GAConfiguration.cpp">
+      <Filter>Genetic Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="GA\GAPopulation.cpp">
+      <Filter>Genetic Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="GA\GASequenceChromosome.cpp">
+      <Filter>Genetic Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="GA\GAStringFitnessCalc.cpp">
+      <Filter>Genetic Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2Engine.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\GameCalcs.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="RaceChoiceDlg.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeValidator.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeTextCtrl.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Tokeniser.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Building.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Command.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Event.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2FitnessCalc.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Output.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Race.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2RaceData.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2RaceInfo.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Research.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2State.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Target.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Unit.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Version.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2\SC2Waypoint.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\LockFreeMemoryPool.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Vector.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\FastRand.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FastSortedQueue.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FastString.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\HashFunction.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Hashtable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\LinkedList.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MemoryPool.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MemoryPoolManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ThreadPool.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Vector.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="MDIParent.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MDIChild.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GAConfiguration.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GAEngine.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GAPopulation.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GASequenceChromosome.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GAValueArrayChromosome.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GAVillage.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Lock.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASEngine.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASSingleParent.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASMultipleParent.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASBuildStateNode.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASStoreStateNode.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASNoDuplicateManager.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASHashTableStoreStateDuplicateManager.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASHashTableBuildStateDuplicateManager.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASVectorOpenListManager.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GAStringFitnessCalc.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GAChromosomeFitness.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GA\GAPopulationSort.h">
+      <Filter>Genetic Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2Engine.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\FitnessValue.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\GameCalcs.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\resource.h" />
+    <ClInclude Include="RaceChoiceDlg.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\GasMicro.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\TargetMinMax.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeValidator.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeTextCtrl.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Tokeniser.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar\ASBinaryTreeOpenListManager.h">
+      <Filter>A Star</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PriorityQueue.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Compare.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Building.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Command.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Defines.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Event.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2FitnessCalc.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Output.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Race.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2RaceData.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2RaceInfo.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Research.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2State.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Target.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Unit.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Version.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2Waypoint.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\LockFreeMemoryPool.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\LockFreeCircularQueue.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2\SC2SolverEngine.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bitmaps\copy.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\cut.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\help.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\new.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\open.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\paste.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\preview.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\print.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\save.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\SC2Fusion.png">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\SC2Fusion.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="icon1.ico" />
+    <None Include="bitmaps\SC2FusionF32.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\SC2FusionF16.png">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\SC2FusionF32.png">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\SC2FusionF64.png">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\Protoss.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\Terran.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\Zerg.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="propgrid.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Details.txt" />
+    <Text Include="ToDoList.txt" />
+    <Text Include="NewAlgorithm.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Versions\WoL_1_4_3_BU.xml">
+      <Filter>Versions</Filter>
+    </Xml>
+    <Xml Include="Versions\HotS_Patch_13.xml">
+      <Filter>Versions</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

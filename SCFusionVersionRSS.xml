@@ -1,0 +1,20 @@
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>SCFusion</title>
+    <link>http://scbuildorder.googlecode.com/files/SCFusionVersionRSS.xml</link>
+    <description>Most recent changes with links to updates.</description>
+    <language>en</language>
+    <item>
+      <title>Version 1.15</title>
+      <description>
+        Enhancements:
+        Updated HotS version to 2.0.9 BU.
+        
+        Bug Fixes:
+        Viper now requires Hive instead of Spire.
+      </description>
+      <pubDate>Fri, 26 July 2013 17:00:00 +1000</pubDate>
+      <enclosure url="http://scbuildorder.googlecode.com/files/SCFusion%20v1.15%20Setup.msi" sparkle:version="1.0.15.1" sparkle:shortVersionString="1.15" type="application/octet-stream"/>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,1 @@
+unsigned long MurmurHash2 ( const void * key, int len, unsigned long seed );
