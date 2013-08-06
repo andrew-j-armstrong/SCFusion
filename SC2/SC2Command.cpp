@@ -2010,7 +2010,7 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 
 	events.add(CSC2Event(state.m_time + m_buildUnitCompletionTime / ((m_unitOccupiesBuilding && 0 != (sourceBuildingState->status & m_raceData.m_chronoBoostStatusFlags)) ? CHRONOBOOST_MULTIPLIER : 1.0), CSC2Event::eUnitComplete, m_unitOccupiesBuilding, m_unitOccupiesBuilding ? sourceBuildingState->buildingID : 0, m_buildUnitTypeID, m_buildUnitCount));
 	state.m_unitUnderConstructionFlags |= ((SC2UnitFlags)1 << m_buildUnitTypeID);
-	state.m_unitUnderConstruction[m_buildUnitTypeID]++;
+	state.m_unitUnderConstruction[m_buildUnitTypeID] += m_buildUnitCount;
 	state.m_supplyCapUnderConstruction += m_buildUnit->GetProvidedSupply() * m_buildUnitCount;
 
 	return true;
