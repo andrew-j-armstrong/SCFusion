@@ -2417,7 +2417,6 @@
         </Command>
         <Command category="BuildUnit">
           <Name>Build Viking From Naked Starport</Name>
-          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <BuildingRequirement>Starport</BuildingRequirement>
           <SourceBuilding>Starport</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
@@ -2460,6 +2459,7 @@
         </Command>
         <Command category="BuildUnit">
           <Name>Build Medivac From Naked Starport</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <BuildingRequirement>Starport</BuildingRequirement>
           <SourceBuilding>Starport</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
@@ -2470,6 +2470,7 @@
         </Command>
         <Command category="BuildUnit">
           <Name>Build Medivac From Starport With Reactor 1</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <BuildingRequirement>Starport With Reactor</BuildingRequirement>
           <SourceBuilding>Starport With Reactor</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
@@ -3388,6 +3389,9 @@
         <Unit>
           <Name>Infestor</Name>
           <SupplyCost>2</SupplyCost>
+          <MaxEnergy>200</MaxEnergy>
+          <StartingEnergy>50</StartingEnergy>
+          <EnergyRechargeRate>0.5625</EnergyRechargeRate>
         </Unit>
         <Unit>
           <Name>Swarm Host</Name>
