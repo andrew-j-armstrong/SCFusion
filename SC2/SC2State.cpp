@@ -379,6 +379,15 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 		{
 			SBuildingState *buildingState = m_allBuildings[entry.m_event.m_data.m_sourceID];
 			size_t oldBuildingTypeID = buildingState->buildingTypeID;
+			CBuildingStateList *oldBuildingStateList = m_buildings[oldBuildingTypeID];
+			for(size_t i=0; i < oldBuildingStateList->size(); i++)
+			{
+				if(oldBuildingStateList->GetAt(i) == buildingState)
+				{
+					oldBuildingStateList->erase(i);
+					break;
+				}
+			}
 			const CSC2Building &oldBuilding = *m_raceData.m_buildings[oldBuildingTypeID];
 			buildingState->buildingTypeID = entry.m_event.m_data.m_targetID;
 			const CSC2Building &newBuilding = *m_raceData.m_buildings[buildingState->buildingTypeID];

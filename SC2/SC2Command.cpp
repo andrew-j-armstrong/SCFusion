@@ -1314,11 +1314,6 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 	}
 	if(m_morphSourceBuilding)
 	{
-		for(size_t i=0; i < sourceBuildingList.size(); i++)
-		{
-			if(sourceBuildingList[i] == sourceBuilding)
-				sourceBuildingList.m_buildingList.erase(i);
-		}
 		state.m_buildingUnderConstructionFlags |= ((SC2BuildingFlags)1 << m_morphSourceBuildingTypeID);
 		state.m_buildingUnderConstruction[m_morphSourceBuildingTypeID]++;
 		state.m_buildingMorphing[m_sourceBuildingTypeID]++;
@@ -1329,12 +1324,6 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 	}
 	if(m_morphTargetBuilding)
 	{
-		CSC2State::CBuildingStateList &targetBuildingList = *state.m_buildings[m_targetBuildingTypeID];
-		for(size_t i=0; i < targetBuildingList.size(); i++)
-		{
-			if(targetBuildingList[i] == targetBuilding)
-				targetBuildingList.m_buildingList.erase(i);
-		}
 		state.m_buildingUnderConstructionFlags |= ((SC2BuildingFlags)1 << m_morphTargetBuildingTypeID);
 		state.m_buildingUnderConstruction[m_morphTargetBuildingTypeID]++;
 		state.m_buildingMorphing[m_targetBuildingTypeID]++;

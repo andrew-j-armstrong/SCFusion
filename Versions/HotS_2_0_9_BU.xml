@@ -507,6 +507,7 @@
           <ResearchRequirement>Warp Gate Transformation</ResearchRequirement>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <SourceBuilding>Gateway</SourceBuilding>
+          <AppliesSourceBuildingStatus duration="10">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="10">Warp Gate</MorphSourceBuilding>
         </Command>
 
@@ -1104,15 +1105,6 @@
           <SubCommand>Build Archon From 2 Dark Templar</SubCommand>
         </Command>
       </Commands>
-      <RequiredCommands>
-        <RequiredCommand>
-          <BuildingRequirement>Pylon</BuildingRequirement>
-          <BuildingRequirement>Gateway</BuildingRequirement>
-          <ResearchRequirement>Warp Gate Transformation</ResearchRequirement>
-          <BuildingCount minimum="1">Gateway</BuildingCount>
-          <Command>Convert Gateway To Warp Gate</Command>
-        </RequiredCommand>
-      </RequiredCommands>
       <Targets>
         <Target category="BuildingCount">
           <Name>Nexus</Name>
@@ -1902,6 +1894,7 @@
           <BuildingRequirement>Barracks</BuildingRequirement>
           <SourceBuilding>Barracks</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="50">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="50">Barracks With Reactor</MorphSourceBuilding>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
@@ -1911,6 +1904,7 @@
           <BuildingRequirement>Barracks</BuildingRequirement>
           <SourceBuilding>Barracks</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="25">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="25">Barracks With Tech Lab</MorphSourceBuilding>
           <MineralCost>25</MineralCost>
           <GasCost>25</GasCost>
@@ -1920,6 +1914,7 @@
           <BuildingRequirement>Barracks</BuildingRequirement>
           <SourceBuilding>Barracks</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Barracks</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -1928,6 +1923,7 @@
           <SourceBuilding>Barracks With Reactor</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Barracks</MorphSourceBuilding>
           <BuildingComplete time="5">Reactor</BuildingComplete>
         </Command>
@@ -1937,6 +1933,7 @@
           <SourceBuilding>Barracks With Tech Lab</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Barracks</MorphSourceBuilding>
           <BuildingComplete time="5">Tech Lab</BuildingComplete>
         </Command>
@@ -1944,6 +1941,8 @@
           <Name>Land Naked Barracks</Name>
           <BuildingRequirement>Flying Barracks</BuildingRequirement>
           <SourceBuilding>Flying Barracks</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Barracks</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -1952,6 +1951,8 @@
           <BuildingRequirement>Reactor</BuildingRequirement>
           <SourceBuilding>Flying Barracks</SourceBuilding>
           <TargetBuilding consume="True">Reactor</TargetBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Barracks With Reactor</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -1960,6 +1961,8 @@
           <BuildingRequirement>Tech Lab</BuildingRequirement>
           <SourceBuilding>Flying Barracks</SourceBuilding>
           <TargetBuilding consume="True">Tech Lab</TargetBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Barracks With Tech Lab</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -1968,6 +1971,7 @@
           <BuildingRequirement>Barracks</BuildingRequirement>
           <SourceBuilding>Command Center</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="35">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="35">Orbital Command</MorphSourceBuilding>
           <MineralCost>150</MineralCost>
         </Command>
@@ -1977,6 +1981,7 @@
           <BuildingRequirement>Engineering Bay</BuildingRequirement>
           <SourceBuilding>Command Center</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="50">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="50">Planetary Fortress</MorphSourceBuilding>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
@@ -1995,6 +2000,8 @@
           <SourceBuilding>Orbital Command</SourceBuilding>
           <EnergyCost>50</EnergyCost>
           <TargetBuilding>Supply Depot</TargetBuilding>
+          <RequiresTargetBuildingStatusAbsent>Busy</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus duration="5">Busy</AppliesTargetBuildingStatus>
           <MorphTargetBuilding time="5">Extra Supply Depot</MorphTargetBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2002,6 +2009,7 @@
           <BuildingRequirement>Factory</BuildingRequirement>
           <SourceBuilding>Factory</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="50">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="50">Factory With Reactor</MorphSourceBuilding>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
@@ -2011,6 +2019,7 @@
           <BuildingRequirement>Factory</BuildingRequirement>
           <SourceBuilding>Factory</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="25">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="25">Factory With Tech Lab</MorphSourceBuilding>
           <MineralCost>25</MineralCost>
           <GasCost>25</GasCost>
@@ -2020,6 +2029,7 @@
           <BuildingRequirement>Factory</BuildingRequirement>
           <SourceBuilding>Factory</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Factory</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2028,6 +2038,7 @@
           <SourceBuilding>Factory With Reactor</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Factory</MorphSourceBuilding>
           <BuildingComplete time="5">Reactor</BuildingComplete>
         </Command>
@@ -2037,6 +2048,7 @@
           <SourceBuilding>Factory With Tech Lab</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Factory</MorphSourceBuilding>
           <BuildingComplete time="5">Tech Lab</BuildingComplete>
         </Command>
@@ -2044,6 +2056,8 @@
           <Name>Land Naked Factory</Name>
           <BuildingRequirement>Flying Factory</BuildingRequirement>
           <SourceBuilding>Flying Factory</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Factory</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2052,6 +2066,8 @@
           <BuildingRequirement>Reactor</BuildingRequirement>
           <SourceBuilding>Flying Factory</SourceBuilding>
           <TargetBuilding consume="True">Reactor</TargetBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Factory With Reactor</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2060,6 +2076,8 @@
           <BuildingRequirement>Tech Lab</BuildingRequirement>
           <SourceBuilding>Flying Factory</SourceBuilding>
           <TargetBuilding consume="True">Tech Lab</TargetBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Factory With Tech Lab</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2067,6 +2085,7 @@
           <BuildingRequirement>Starport</BuildingRequirement>
           <SourceBuilding>Starport</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="50">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="50">Starport With Reactor</MorphSourceBuilding>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
@@ -2076,6 +2095,7 @@
           <BuildingRequirement>Starport</BuildingRequirement>
           <SourceBuilding>Starport</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="25">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="25">Starport With Tech Lab</MorphSourceBuilding>
           <MineralCost>25</MineralCost>
           <GasCost>25</GasCost>
@@ -2085,6 +2105,7 @@
           <BuildingRequirement>Starport</BuildingRequirement>
           <SourceBuilding>Starport</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Starport</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2093,6 +2114,7 @@
           <SourceBuilding>Starport With Reactor</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Starport</MorphSourceBuilding>
           <BuildingComplete time="5">Reactor</BuildingComplete>
         </Command>
@@ -2102,6 +2124,7 @@
           <SourceBuilding>Starport With Tech Lab</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Flying Starport</MorphSourceBuilding>
           <BuildingComplete time="5">Tech Lab</BuildingComplete>
         </Command>
@@ -2109,6 +2132,8 @@
           <Name>Land Naked Starport</Name>
           <BuildingRequirement>Flying Starport</BuildingRequirement>
           <SourceBuilding>Flying Starport</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Starport</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2117,6 +2142,8 @@
           <BuildingRequirement>Reactor</BuildingRequirement>
           <SourceBuilding>Flying Starport</SourceBuilding>
           <TargetBuilding consume="True">Reactor</TargetBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Starport With Reactor</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2125,6 +2152,8 @@
           <BuildingRequirement>Tech Lab</BuildingRequirement>
           <SourceBuilding>Flying Starport</SourceBuilding>
           <TargetBuilding consume="True">Tech Lab</TargetBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="5">Busy</AppliesSourceBuildingStatus>
           <MorphSourceBuilding time="5">Starport With Tech Lab</MorphSourceBuilding>
         </Command>
         <Command category="BuildingAbility">
@@ -2459,7 +2488,6 @@
         </Command>
         <Command category="BuildUnit">
           <Name>Build Medivac From Naked Starport</Name>
-          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <BuildingRequirement>Starport</BuildingRequirement>
           <SourceBuilding>Starport</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
@@ -2481,6 +2509,7 @@
         </Command>
         <Command category="BuildUnit">
           <Name>Build Medivac From Starport With Reactor 2</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <BuildingRequirement>Starport With Reactor</BuildingRequirement>
           <SourceBuilding>Starport With Reactor</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
@@ -3662,8 +3691,8 @@
           <BuildingRequirement>Spawning Pool</BuildingRequirement>
           <SourceBuilding>Hatchery</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <MorphSourceBuilding time="80">Lair</MorphSourceBuilding>
           <AppliesSourceBuildingStatus duration="80">Busy</AppliesSourceBuildingStatus>
+          <MorphSourceBuilding time="80">Lair</MorphSourceBuilding>
           <MineralCost>150</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -3673,8 +3702,8 @@
           <BuildingRequirement>Infestation Pit</BuildingRequirement>
           <SourceBuilding>Lair</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <MorphSourceBuilding time="100">Hive</MorphSourceBuilding>
           <AppliesSourceBuildingStatus duration="100">Busy</AppliesSourceBuildingStatus>
+          <MorphSourceBuilding time="100">Hive</MorphSourceBuilding>
           <MineralCost>200</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -3684,8 +3713,8 @@
           <BuildingRequirement>Hive</BuildingRequirement>
           <SourceBuilding>Spire</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <MorphSourceBuilding time="100">Greater Spire</MorphSourceBuilding>
           <AppliesSourceBuildingStatus duration="100">Busy</AppliesSourceBuildingStatus>
+          <MorphSourceBuilding time="100">Greater Spire</MorphSourceBuilding>
           <MineralCost>100</MineralCost>
           <GasCost>150</GasCost>
         </Command>
