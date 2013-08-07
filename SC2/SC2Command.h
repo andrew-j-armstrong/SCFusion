@@ -27,6 +27,8 @@ public:
 	virtual bool RequiresGeyser() const = 0;
 	virtual bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const = 0;
 	virtual bool IsBuildWorkerCommand() const = 0;
+	virtual bool IsMoveWorkerCommand() const = 0;
+	virtual bool IsSpellCommand() const = 0;
 	virtual size_t GetProvidedSupply() const = 0;
 	virtual size_t GetRequiredSupply() const = 0;
 	virtual SC2BuildingFlags GetBuildingRequirementFlags() const = 0;
@@ -82,6 +84,8 @@ public:
 	bool WillBuildGeyserBuilding() const { return false; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return false; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
 	bool RequiresGeyser() const { return false; }
@@ -138,6 +142,8 @@ public:
 	bool RequiresGeyser() const { return true; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsMoveWorkerCommand() const { return true; }
+	bool IsSpellCommand() const { return false; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -188,6 +194,8 @@ public:
 	bool RequiresGeyser() const { return false; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return m_spawnBase || m_buildBuilding->GetProvidedSupply() > 0 || m_buildBuilding->IsBase() || m_buildBuilding->GetMaxLarvaeCount() > 0; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return false; }
 	size_t GetProvidedSupply() const { return m_buildBuilding->GetProvidedSupply(); }
 	size_t GetRequiredSupply() const { return 0; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -257,6 +265,8 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return m_spawnBase; }
 	bool IsBuildWorkerCommand() const { return m_buildUnit && m_buildUnit->IsWorker(); }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return m_energyCost > 0.0; }
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -356,6 +366,8 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return true; }
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return false; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return (SC2BuildingFlags)0; }
@@ -409,6 +421,8 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return m_buildUnit->GetProvidedSupply() > 0 || m_buildUnit->IsWorker(); }
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return m_buildUnit && m_buildUnit->IsWorker(); }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return false; }
 	size_t GetProvidedSupply() const { return m_buildUnit->GetProvidedSupply(); }
 	size_t GetRequiredSupply() const { return m_buildUnit->GetSupplyCost(); }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -477,6 +491,8 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return m_buildUnit && m_buildUnit->IsWorker(); }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return m_sourceUnitName == wxT("Queen"); }
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -572,6 +588,9 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return false; }
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return false; }
+
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -637,6 +656,8 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return false; }
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -687,7 +708,9 @@ public:
 	bool RequiresGeyser() const { return false; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return false; }
-	bool IsBuildWorkerCommand() const { return false; }
+	bool IsBuildWorkerCommand() const { return m_name == wxT("Build SCV"); }
+	bool IsMoveWorkerCommand() const { return false; }
+	bool IsSpellCommand() const { return m_name == wxT("Queen Spawn Larvae"); }
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }

@@ -733,6 +733,22 @@ void CSC2State::PrintDetails(wxString &output) const
 			output += wxString::Format(L" %u %s", buildingStateList->size(), buildingStateList->m_building.GetName());
 	}
 
+	bool uc = false;
+
+	for(size_t i=0; i < m_buildingUnderConstruction.size(); i++)
+	{
+		if(m_buildingUnderConstruction[i] > 0)
+		{
+			if(!uc)
+			{
+				output.Append(L"\nUC:        ");
+				uc = true;
+			}
+			output += wxString::Format(L" %u %s", m_buildingUnderConstruction[i], m_buildings[i]->m_building.GetName());
+		}
+	}
+	uc = false;
+
 	output.Append(L"\nUnits:     ");
 
 	for(size_t i=0; i < m_units.size(); i++)
@@ -743,12 +759,39 @@ void CSC2State::PrintDetails(wxString &output) const
 			output += wxString::Format(L" %u %s", unitStateList->size(), unitStateList->m_unit.GetName());
 	}
 
+	for(size_t i=0; i < m_unitUnderConstruction.size(); i++)
+	{
+		if(m_unitUnderConstruction[i] > 0)
+		{
+			if(!uc)
+			{
+				output.Append(L"\nUC:        ");
+				uc = true;
+			}
+			output += wxString::Format(L" %u %s", m_unitUnderConstruction[i], m_units[i]->m_unit.GetName());
+		}
+	}
+	uc = false;
+
 	output.Append(L"\nResearch:  ");
 
 	for(size_t i=0; i < m_researchCompleted.size(); i++)
 	{
 		if(m_researchCompleted[i])
 			output += wxString::Format(L" %s", m_raceData.m_research[i]->GetName());
+	}
+
+	for(size_t i=0; i < m_researchUnderConstruction.size(); i++)
+	{
+		if(m_researchUnderConstruction[i])
+		{
+			if(!uc)
+			{
+				output.Append(L"\nUC:        ");
+				uc = true;
+			}
+			output += wxString::Format(L" %s", m_raceData.m_research[i]->GetName());
+		}
 	}
 
 	output.Append(L"\n");

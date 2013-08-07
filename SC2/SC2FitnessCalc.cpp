@@ -158,11 +158,11 @@ public:
 	{
 	}
 
-	inline void ProcessWaypointTimeOverlapsed(size_t waypointIndex, const CSC2Waypoint *waypoint, const CSC2State &state)
+	inline void ProcessWaypointTimeOverlapsed(size_t waypointIndex, size_t numberOfWaypoints, const CSC2Waypoint *waypoint, const CSC2State &state)
 	{
 	}
 
-	inline void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint *waypoint, const CSC2State &state)
+	inline void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, size_t numberOfWaypoints, const CSC2Waypoint *waypoint, const CSC2State &state)
 	{
 		m_fitness.m_succeeded = succeeded;
 		m_fitness.m_requirementsValue += waypoint->targetValue(state, succeeded);
@@ -209,19 +209,19 @@ public:
 		m_output.ProcessEvent(event, *waypoint, state);
 	}
 
-	inline void ProcessWaypointTimeOverlapsed(size_t waypointIndex, const CSC2Waypoint *waypoint, const CSC2State &state)
+	inline void ProcessWaypointTimeOverlapsed(size_t waypointIndex, size_t numberOfWaypoints, const CSC2Waypoint *waypoint, const CSC2State &state)
 	{
 		if(m_failedWaypoint)
 			return;
 
 		m_failedWaypoint = true;
 
-		m_output.ProcessWaypointComplete(false, waypointIndex, *waypoint, state);
+		m_output.ProcessWaypointComplete(false, waypointIndex, numberOfWaypoints, *waypoint, state);
 	}
 
-	inline void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint *waypoint, const CSC2State &state)
+	inline void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, size_t numberOfWaypoints, const CSC2Waypoint *waypoint, const CSC2State &state)
 	{
-		m_output.ProcessWaypointComplete(succeeded, waypointIndex, *waypoint, state);
+		m_output.ProcessWaypointComplete(succeeded, waypointIndex, numberOfWaypoints, *waypoint, state);
 	}
 
 	inline void ProcessValidationComplete(CVector<const CSC2Command *> &buildOrder, const CSC2Waypoint *waypoint, size_t cmdIndex, const CSC2State &state)
@@ -271,7 +271,7 @@ void CSC2FitnessCalc::ValidateAndCalculateFitness(CVector<const CSC2Command *> &
 					{
 						// Process the event
 						if(events[0].m_time > waypoint->m_targetTime.max)
-							result.ProcessWaypointTimeOverlapsed(waypointIndex, waypoint, state);
+							result.ProcessWaypointTimeOverlapsed(waypointIndex, m_waypoints.size(), waypoint, state);
 
 						if(events[0].m_time > m_timeLimit)
 							break;
@@ -328,7 +328,7 @@ void CSC2FitnessCalc::ValidateAndCalculateFitness(CVector<const CSC2Command *> &
 					else
 					{
 						if(state.m_time + resourceWaitTime > waypoint->m_targetTime.max)
-							result.ProcessWaypointTimeOverlapsed(waypointIndex, waypoint, state);
+							result.ProcessWaypointTimeOverlapsed(waypointIndex, m_waypoints.size(), waypoint, state);
 
 						if(state.m_time + resourceWaitTime > m_timeLimit)
 							break;
@@ -377,7 +377,7 @@ void CSC2FitnessCalc::ValidateAndCalculateFitness(CVector<const CSC2Command *> &
 					{
 						// Process the event
 						if(events[0].m_time > waypoint->m_targetTime.max)
-							result.ProcessWaypointTimeOverlapsed(waypointIndex, waypoint, state);
+							result.ProcessWaypointTimeOverlapsed(waypointIndex, m_waypoints.size(), waypoint, state);
 
 						if(events[0].m_time > m_timeLimit)
 							break;
@@ -426,7 +426,7 @@ void CSC2FitnessCalc::ValidateAndCalculateFitness(CVector<const CSC2Command *> &
 					if(minimumPostCommandTime > state.m_time)
 					{
 						if(minimumPostCommandTime > waypoint->m_targetTime.max)
-							result.ProcessWaypointTimeOverlapsed(waypointIndex, waypoint, state);
+							result.ProcessWaypointTimeOverlapsed(waypointIndex, m_waypoints.size(), waypoint, state);
 
 						if(minimumPostCommandTime > m_timeLimit)
 							break;
@@ -512,7 +512,7 @@ void CSC2FitnessCalc::ValidateAndCalculateFitness(CVector<const CSC2Command *> &
 			}
 		}
 
-		result.ProcessWaypointComplete(satisfied, waypointIndex, waypoint, state);
+		result.ProcessWaypointComplete(satisfied, waypointIndex, m_waypoints.size(), waypoint, state);
 
 		if(!satisfied)
 			break;

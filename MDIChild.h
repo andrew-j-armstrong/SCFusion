@@ -44,6 +44,7 @@ private:
 	void OnScoutingWorkerReturns(wxCommandEvent& event);
 	void OnScoutingWorkerEndTime(wxCommandEvent& event);
 	void OnMaxAPM(wxCommandEvent& event);
+	void OnOutputCheckboxes(wxCommandEvent& event);
 	void OnOutputURL(wxTextUrlEvent &event);
 	void OnSave(wxCommandEvent& event);
 	void OnSaveAs(wxCommandEvent& event);
@@ -51,11 +52,11 @@ private:
 	void AddWaypoint(wxCommandEvent & WXUNUSED(event));
 	void RemoveWaypoint(wxCommandEvent & WXUNUSED(event));
 	void Start(wxCommandEvent & WXUNUSED(event));
-	void UpdateOutputFormat(wxCommandEvent & WXUNUSED(event));
+	//void UpdateOutputFormat(wxCommandEvent & WXUNUSED(event));
 	void UpdateInitialBuildOrder(wxCommandEvent & WXUNUSED(event));
 
 	void UpdateScoutingCheckboxes();
-	void UpdateOutputFormat();
+	//void UpdateOutputFormat();
 
 private:
 	wxString m_fileName;
@@ -76,6 +77,22 @@ private:
 	wxStaticText* m_staticText1;
 	wxChoice* m_choiceOutput;
 	wxTextCtrl* m_txtOutput;
+	wxCheckBox* m_chkOutputTime;
+	wxCheckBox* m_chkOutputRessources;
+	wxCheckBox* m_chkOutputSupplyCap;
+	wxCheckBox* m_chkOutputWorkers;
+	wxCheckBox* m_chkOutputChronoboostsAvailable;
+	wxCheckBox* m_chkOutputWorkersTransfert;
+	wxCheckBox* m_chkOutputScoutingWorker;
+	wxCheckBox* m_chkOutputWorkersCompletion;
+	wxCheckBox* m_chkOutputUnitsCompletion;
+	wxCheckBox* m_chkOutputBuildingsCompletion;
+	wxCheckBox* m_chkOutputTechCompletion;
+	wxCheckBox* m_chkOutputSpells;
+	wxCheckBox* m_chkOutputSpellsCompletion;
+	wxCheckBox* m_chkOutputOthers;
+	wxCheckBox* m_chkOutputWaypoints;
+	wxCheckBox* m_chkOutputLarvae;
 	wxTimer* m_timer;
 
 	wxTextCtrl *m_txtMaxTime;

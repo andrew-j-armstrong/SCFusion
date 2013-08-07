@@ -34,9 +34,26 @@
 #define wxID_SCOUTINGWORKERENDTIME		(wxID_HIGHEST + 7)
 #define wxID_MAXAPM						(wxID_HIGHEST + 8)
 #define wxID_INITIALBUILDORDER_CHOICE	(wxID_HIGHEST + 9)
-#define wxID_OUTPUTFORMAT				(wxID_HIGHEST + 10)
+//#define wxID_OUTPUTFORMAT				(wxID_HIGHEST + 10)
 #define wxID_OUTPUT						(wxID_HIGHEST + 11)
 #define wxID_COMPLETIONLIKELIHOOD		(wxID_HIGHEST + 12)
+#define wxID_OUTPUTTIME         		(wxID_HIGHEST + 13)
+#define wxID_OUTPUTRESSOURCES         	(wxID_HIGHEST + 14)
+#define wxID_OUTPUTSUPPLYCAP    		(wxID_HIGHEST + 15)
+#define wxID_OUTPUTWORKERS         		(wxID_HIGHEST + 16)
+#define wxID_OUTPUTCHRONOBOOSTSAVAILABLE (wxID_HIGHEST + 17)
+#define wxID_OUTPUTWORKERSTRANSFERT     (wxID_HIGHEST + 18)
+#define wxID_OUTPUTSCOUTINGWORKER      	(wxID_HIGHEST + 19)
+#define wxID_OUTPUTWORKERSCOMPLETION    (wxID_HIGHEST + 20)
+#define wxID_OUTPUTUNITSCOMPLETION     	(wxID_HIGHEST + 21)
+#define wxID_OUTPUTBUILDINGSCOMPLETION  (wxID_HIGHEST + 22)
+#define wxID_OUTPUTTECHCOMPLETION     	(wxID_HIGHEST + 23)
+#define wxID_OUTPUTSPELLS       		(wxID_HIGHEST + 24)
+#define wxID_OUTPUTSPELLSCOMPLETION   	(wxID_HIGHEST + 25)
+#define wxID_OUTPUTOTHERS     		    (wxID_HIGHEST + 26)
+#define wxID_OUTPUTWAYPOINTS        	(wxID_HIGHEST + 27)
+#define wxID_OUTPUTLARVAE            	(wxID_HIGHEST + 28)
+
 
 #define INITIAL_MESSAGE				"Welcome to SCFusion!\n" \
 									"\n" \
@@ -87,6 +104,22 @@ BEGIN_EVENT_TABLE(MyChild, wxMDIChildFrame)
 	//EVT_KILL_FOCUS(wxID_SCOUTINGWORKERENDTIME, MyChild::OnScoutingWorkerEndTime)
 
 	EVT_CHECKBOX(wxID_MAXAPM, MyChild::OnMaxAPM)
+	EVT_CHECKBOX(wxID_OUTPUTTIME, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTRESSOURCES, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTSUPPLYCAP, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTWORKERS, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTCHRONOBOOSTSAVAILABLE, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTWORKERSTRANSFERT, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTSCOUTINGWORKER, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTWORKERSCOMPLETION, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTUNITSCOMPLETION, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTBUILDINGSCOMPLETION, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTTECHCOMPLETION, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTSPELLS, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTSPELLSCOMPLETION, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTOTHERS, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTWAYPOINTS, MyChild::OnOutputCheckboxes)
+	EVT_CHECKBOX(wxID_OUTPUTLARVAE, MyChild::OnOutputCheckboxes)
 
 	EVT_TIMER(wxID_TIMER, MyChild::OnTimer)
 
@@ -282,20 +315,132 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 
 	wxBoxSizer *bSizer8 = new wxBoxSizer(wxHORIZONTAL);
 
+	wxGridSizer *gSizer;
+	
+	if(m_engine->GetRace() == eProtoss)
+		gSizer = new wxGridSizer(3, 5, 5, 5);
+	else if(m_engine->GetRace() == eTerran)
+		gSizer = new wxGridSizer(3, 5, 5, 5);
+	else
+		gSizer = new wxGridSizer(3, 5, 5, 5);
+
 	m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("Output Format:"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText1->Wrap(-1);
 	bSizer8->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
 
-	wxArrayString arrOutputChoices;
+	/*wxArrayString arrOutputChoices;
 	arrOutputChoices.Add(wxT("Minimal"));
 	arrOutputChoices.Add(wxT("Simple"));
 	arrOutputChoices.Add(wxT("Detailed"));
 	arrOutputChoices.Add(wxT("Full"));
 	m_choiceOutput = new wxChoice(this, wxID_OUTPUTFORMAT, wxDefaultPosition, wxDefaultSize, arrOutputChoices, 0);
-	m_choiceOutput->SetSelection(1);
+	m_choiceOutput->SetSelection(1);*/
+
+	m_chkOutputTime = new wxCheckBox(this, wxID_OUTPUTTIME, "Time");
+	m_chkOutputRessources = new wxCheckBox(this, wxID_OUTPUTRESSOURCES, "Ressources");
+	m_chkOutputSupplyCap = new wxCheckBox(this, wxID_OUTPUTSUPPLYCAP, "Supply cap");
+	m_chkOutputWorkers = new wxCheckBox(this, wxID_OUTPUTWORKERS, "Workers");
+	if(m_engine->GetRace() == eProtoss)
+	{
+		m_chkOutputChronoboostsAvailable = new wxCheckBox(this, wxID_OUTPUTCHRONOBOOSTSAVAILABLE, "Chronoboosts available");
+		m_chkOutputSpells = new wxCheckBox(this, wxID_OUTPUTSPELLS, "Chronoboosts");
+		m_chkOutputSpellsCompletion = new wxCheckBox(this, wxID_OUTPUTSPELLSCOMPLETION, "Chronoboosts end");
+	}
+	else if(m_engine->GetRace() == eTerran)
+	{
+		m_chkOutputSpells = new wxCheckBox(this, wxID_OUTPUTSPELLS, "Mules/Supply drop");
+		m_chkOutputSpellsCompletion = new wxCheckBox(this, wxID_OUTPUTSPELLSCOMPLETION, "Mules/Supply drop end");
+	}
+	else
+	{
+		m_chkOutputSpells = new wxCheckBox(this, wxID_OUTPUTSPELLS, "Spawn larvae/tumor");
+		m_chkOutputSpellsCompletion = new wxCheckBox(this, wxID_OUTPUTSPELLSCOMPLETION, "Larvae/tumor spawned");
+		m_chkOutputLarvae = new wxCheckBox(this, wxID_OUTPUTLARVAE, "Larvae count");
+	}
+	m_chkOutputWorkersTransfert = new wxCheckBox(this, wxID_OUTPUTWORKERSTRANSFERT, "Workers transfert");
+	m_chkOutputScoutingWorker = new wxCheckBox(this, wxID_OUTPUTSCOUTINGWORKER, "Scouting worker");
+	m_chkOutputWorkersCompletion = new wxCheckBox(this, wxID_OUTPUTWORKERSCOMPLETION, "Workers completion");
+	m_chkOutputUnitsCompletion = new wxCheckBox(this, wxID_OUTPUTUNITSCOMPLETION, "Units completion");
+	m_chkOutputBuildingsCompletion = new wxCheckBox(this, wxID_OUTPUTBUILDINGSCOMPLETION, "Buildings completion");
+	m_chkOutputTechCompletion = new wxCheckBox(this, wxID_OUTPUTTECHCOMPLETION, "Tech completion");
+	m_chkOutputOthers = new wxCheckBox(this, wxID_OUTPUTOTHERS, "Others");
+	m_chkOutputWaypoints = new wxCheckBox(this, wxID_OUTPUTWAYPOINTS, "Waypoints");
+
 	bSizer8->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
 
+	if(m_engine->GetRace() == eZerg)
+	{
+		gSizer->Add(m_chkOutputTime, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputRessources, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputSupplyCap, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputWorkers, 0, wxALIGN_LEFT);	
+		gSizer->Add(m_chkOutputWorkersCompletion, 0, wxALIGN_LEFT);
+		
+		gSizer->Add(m_chkOutputSpells, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputSpellsCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputUnitsCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputBuildingsCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputTechCompletion, 0, wxALIGN_LEFT);
+
+		gSizer->Add(m_chkOutputWorkersTransfert, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputScoutingWorker, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputLarvae, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputWaypoints, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputOthers, 0, wxALIGN_LEFT);
+	}
+	else if(m_engine->GetRace() == eProtoss)
+	{
+		gSizer->Add(m_chkOutputTime, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputRessources, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputSupplyCap, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputChronoboostsAvailable, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputWaypoints, 0, wxALIGN_LEFT);
+
+		gSizer->Add(m_chkOutputWorkers, 0, wxALIGN_LEFT);	
+		gSizer->Add(m_chkOutputWorkersTransfert, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputScoutingWorker, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputSpells, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputSpellsCompletion, 0, wxALIGN_LEFT);
+
+		gSizer->Add(m_chkOutputWorkersCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputUnitsCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputBuildingsCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputTechCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputOthers, 0, wxALIGN_LEFT);
+	}
+	else
+	{
+		gSizer->Add(m_chkOutputTime, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputRessources, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputSupplyCap, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputWorkers, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputWaypoints, 0, wxALIGN_LEFT);
+
+		gSizer->Add(m_chkOutputWorkersTransfert, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputScoutingWorker, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputSpells, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputSpellsCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputOthers, 0, wxALIGN_LEFT);
+
+		gSizer->Add(m_chkOutputWorkersCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputUnitsCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputBuildingsCompletion, 0, wxALIGN_LEFT);
+		gSizer->Add(m_chkOutputTechCompletion, 0, wxALIGN_LEFT);
+	}
+
+	m_chkOutputTime->SetValue(true);
+	m_chkOutputRessources->SetValue(true);
+	m_chkOutputSupplyCap->SetValue(true);
+	m_chkOutputWorkers->SetValue(true);
+	m_chkOutputWaypoints->SetValue(true);
+	m_chkOutputWorkersTransfert->SetValue(true);
+	m_chkOutputScoutingWorker->SetValue(true);
+	m_chkOutputSpells->SetValue(true);
+
+	bSizer8->Add(gSizer, 0, wxEXPAND, 0);
+
 	bSizer4->Add(bSizer8, 0, wxEXPAND, 0);
+
 
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
@@ -384,8 +529,8 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	Connect(wxID_APPLY, wxEVT_COMMAND_BUTTON_CLICKED, 
 		wxCommandEventHandler(MyChild::Start));
 
-	Connect(wxID_OUTPUTFORMAT, wxEVT_COMMAND_CHOICE_SELECTED, 
-		wxCommandEventHandler(MyChild::UpdateOutputFormat));
+	/*Connect(wxID_OUTPUTFORMAT, wxEVT_COMMAND_CHOICE_SELECTED, 
+		wxCommandEventHandler(MyChild::UpdateOutputFormat));*/
 
 	Connect(wxID_INITIALBUILDORDER_CHOICE, wxEVT_COMMAND_CHOICE_SELECTED, 
 		wxCommandEventHandler(MyChild::UpdateInitialBuildOrder));
@@ -395,7 +540,21 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_txtScoutingWorkerEndTime->Connect(wxEVT_KILL_FOCUS, wxCommandEventHandler(MyChild::OnScoutingWorkerEndTime), 0, this);
 
 	UpdateScoutingCheckboxes();
-	UpdateOutputFormat();
+	//UpdateOutputFormat();
+	bool larvae = false, chronosAvailable = false;
+
+	if(m_engine->GetRace() == eZerg)
+		larvae = m_chkOutputLarvae->IsChecked();
+	else if(m_engine->GetRace() == eProtoss)
+		chronosAvailable = m_chkOutputChronoboostsAvailable->IsChecked();
+
+	m_engine->SetOutput(new CSC2OutputCustom(m_engine->GetRaceInfo(), m_chkOutputTime->IsChecked(), m_chkOutputRessources->IsChecked(),
+	m_chkOutputSupplyCap->IsChecked(), m_chkOutputWorkers->IsChecked(), chronosAvailable, 
+	m_chkOutputWorkersTransfert->IsChecked(), m_chkOutputScoutingWorker->IsChecked(), m_chkOutputWorkersCompletion->IsChecked(), 
+	m_chkOutputUnitsCompletion->IsChecked(), m_chkOutputBuildingsCompletion->IsChecked(), m_chkOutputTechCompletion->IsChecked(), 
+	m_chkOutputSpells->IsChecked(), m_chkOutputSpellsCompletion->IsChecked(), m_chkOutputOthers->IsChecked(),
+	m_chkOutputWaypoints->IsChecked(), larvae));
+	PrintBestGame();
 	UpdateTitle();
 }
 
@@ -450,6 +609,28 @@ void MyChild::OnMaxAPM(wxCommandEvent& event)
 	SetModified();
 }
 
+void MyChild::OnOutputCheckboxes(wxCommandEvent& event)
+{
+	if(m_engine)
+	{
+		bool larvae = false, chronosAvailable = false;
+
+		if(m_engine->GetRace() == eZerg)
+			larvae = m_chkOutputLarvae->IsChecked();
+		else if(m_engine->GetRace() == eProtoss)
+			chronosAvailable = m_chkOutputChronoboostsAvailable->IsChecked();
+
+		m_engine->SetOutput(new CSC2OutputCustom(m_engine->GetRaceInfo(), m_chkOutputTime->IsChecked(), m_chkOutputRessources->IsChecked(),
+		m_chkOutputSupplyCap->IsChecked(), m_chkOutputWorkers->IsChecked(), chronosAvailable, 
+		m_chkOutputWorkersTransfert->IsChecked(), m_chkOutputScoutingWorker->IsChecked(), m_chkOutputWorkersCompletion->IsChecked(), 
+		m_chkOutputUnitsCompletion->IsChecked(), m_chkOutputBuildingsCompletion->IsChecked(), m_chkOutputTechCompletion->IsChecked(), 
+		m_chkOutputSpells->IsChecked(), m_chkOutputSpellsCompletion->IsChecked(), m_chkOutputOthers->IsChecked(),
+		m_chkOutputWaypoints->IsChecked(), larvae));
+
+		PrintBestGame();
+	}
+}
+
 void MyChild::UpdateScoutingCheckboxes()
 {
 	if(!m_chkScoutingWorker->IsChecked())
@@ -471,7 +652,7 @@ void MyChild::UpdateScoutingCheckboxes()
 	}
 }
 
-void MyChild::UpdateOutputFormat(wxCommandEvent &event)
+/*void MyChild::UpdateOutputFormat(wxCommandEvent &event)
 {
 	UpdateOutputFormat();
 }
@@ -498,7 +679,7 @@ void MyChild::UpdateOutputFormat()
 	}
 
 	PrintBestGame();
-}
+}*/
 
 void MyChild::UpdateInitialBuildOrder(wxCommandEvent &event)
 {
@@ -932,7 +1113,7 @@ struct SLocation
 
 */
 
-void MyChild::TestStuff()
+/*void MyChild::TestStuff()
 {
 	wxString output;
 
@@ -1054,7 +1235,7 @@ void MyChild::TestStuff()
 	buildOrder.push_back(wxT("Build Marine From Naked Barracks"));
 	buildOrder.push_back(wxT("Build Marine From Naked Barracks"));
 	*/
-
+/*
 	terranBuildOrder.push_back(wxT("Build SCV From Command Center"));
 	terranBuildOrder.push_back(wxT("Build Refinery"));
 	terranBuildOrder.push_back(wxT("Build SCV From Command Center"));
@@ -1358,7 +1539,7 @@ void MyChild::TestStuff()
 	m_txtOutput->SetValue(output);
 */
 
-}
+//}
 
 /*
 #define QUEUECOUNT 10
@@ -1621,8 +1802,27 @@ void MyChild::PrintBestGame()
 		m_txtOutput->Refresh(true);
 */
 
+		double lastScrollPos = m_txtOutput->GetScrollPos(wxVERTICAL);
+		double lastScrollRange = m_txtOutput->GetScrollRange(wxVERTICAL);
+		wxTextPos lastNumberOfLines = m_txtOutput->GetNumberOfLines();
+		
+		m_txtOutput->ShowPosition(m_txtOutput->GetLastPosition());
+
+		bool lastScrollBarAtTheBottom = m_txtOutput->GetScrollPos(wxVERTICAL) == lastScrollPos;
+
 		m_txtOutput->Clear();
 		m_txtOutput->AppendText(output);
+
+		if(lastScrollPos == 0 || lastNumberOfLines == 0)
+			m_txtOutput->ShowPosition(0);
+		else if(lastScrollBarAtTheBottom)
+			m_txtOutput->ShowPosition(m_txtOutput->GetLastPosition());
+		else
+		{
+			// best approximation i found, tries to keep the scrollbar at the same position
+			long pos = (double)m_txtOutput->GetLastPosition() * (lastScrollPos / lastScrollRange) * ((double)m_txtOutput->GetNumberOfLines() / (double)lastNumberOfLines);
+			m_txtOutput->ShowPosition(pos);
+		}
 	}
 }
 
@@ -1885,6 +2085,7 @@ void MyChild::OnMove(wxMoveEvent& event)
 
 void MyChild::OnSize(wxSizeEvent& event)
 {
+	Refresh();
 	event.Skip();
 }
 
