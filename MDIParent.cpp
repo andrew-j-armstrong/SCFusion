@@ -189,7 +189,7 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 {
 	(void)wxMessageBox("Starcraft Fusion\n"
-		"Author: CarbonTwelve 2011-2013"
+		"Author: CarbonTwelve 2011-2014"
 		, "About Starcraft Fusion");
 }
 

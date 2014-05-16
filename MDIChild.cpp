@@ -1600,29 +1600,28 @@ void MyChild::PrintBestGame()
 	wxString existing = m_txtOutput->GetValue();
 	if(existing != output)
 	{
-/*		SCROLLINFO scrollInfo;
-		scrollInfo.cbSize = sizeof(SCROLLINFO);
-		scrollInfo.fMask = SIF_POS|SIF_RANGE|SIF_PAGE;
-		::GetScrollInfo(m_txtOutput->GetHWND(), SB_VERT, &scrollInfo);
+		int clientHeight = m_txtOutput->GetClientSize().GetHeight();
 
-		double ratio;
-		if(1 + scrollInfo.nMax - scrollInfo.nPage > 0)
-			ratio = (double)scrollInfo.nPos / (1 + scrollInfo.nMax - scrollInfo.nPage);
-		else
-			ratio = 0.0;
+		wxTextCoord col, topRow, bottomRow;
+		m_txtOutput->HitTest(wxPoint(0, 0), &col, &topRow);
+		m_txtOutput->HitTest(wxPoint(0, clientHeight), &col, &bottomRow);
 
-		m_txtOutput->SetValue(output);
-		m_txtOutput->Refresh(true);
+		int lastScrollPos = m_txtOutput->GetScrollPos(wxVERTICAL);
+		int lastScrollRange = m_txtOutput->GetScrollRange(wxVERTICAL);
 
-		scrollInfo.fMask = SIF_POS|SIF_RANGE|SIF_PAGE|SIF_DISABLENOSCROLL;
-		::GetScrollInfo(m_txtOutput->GetHWND(), SB_VERT, &scrollInfo);
-		scrollInfo.nPos = ratio  *(1 + scrollInfo.nMax - scrollInfo.nPage);
-		::SetScrollInfo(m_txtOutput->GetHWND(), SB_VERT, &scrollInfo, TRUE);
-		m_txtOutput->Refresh(true);
-*/
-
+		m_txtOutput->Freeze();
 		m_txtOutput->Clear();
 		m_txtOutput->AppendText(output);
+
+		m_txtOutput->ShowPosition(0);
+
+		if(lastScrollRange - clientHeight - 1 > 0)
+		{
+			// Approximation
+			int scrollableLines = m_txtOutput->GetNumberOfLines() - (bottomRow - topRow);
+			m_txtOutput->ScrollLines(min((scrollableLines * lastScrollPos) / (lastScrollRange - clientHeight - 1), scrollableLines));
+		}
+		m_txtOutput->Thaw();
 	}
 }
 
@@ -1885,6 +1884,7 @@ void MyChild::OnMove(wxMoveEvent& event)
 
 void MyChild::OnSize(wxSizeEvent& event)
 {
+	Refresh();
 	event.Skip();
 }
 

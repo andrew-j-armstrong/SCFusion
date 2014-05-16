@@ -573,6 +573,11 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 				m_workersMovingToMinerals++;
 				events.add(CSC2Event(m_time + 2.0, CSC2Event::eWorkerStartMiningMinerals));
 			}
+			if(0.0 < newUnit.GetMineralIncomeRate())
+			{
+				m_bonusMineralIncomeRate += newUnit.GetMineralIncomeRate();
+				RecalculateMineralIncomeRate();
+			}
 			m_supplyCap += newUnit.GetProvidedSupply() - oldUnit.GetProvidedSupply();
 		}
 		break;
@@ -601,6 +606,11 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 					m_workersOnGas--;
 					RecalculateGasIncomeRate();
 				}
+			}
+			if(0.0 < oldUnit.GetMineralIncomeRate())
+			{
+				m_bonusMineralIncomeRate -= oldUnit.GetMineralIncomeRate();
+				RecalculateMineralIncomeRate();
 			}
 			m_supply -= oldUnit.GetSupplyCost();
 			m_supplyCap -= oldUnit.GetProvidedSupply();

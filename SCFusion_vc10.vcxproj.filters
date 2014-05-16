@@ -393,7 +393,7 @@
     <None Include="SCFusionVersionRSS.xml" />
     <None Include="Release Procedure.txt" />
     <None Include="SampleSaveFile.xml" />
-    <None Include="Versions\HotS_2_0_9_BU.xml">
+    <None Include="Versions\HotS_2_1_1.xml">
       <Filter>Versions</Filter>
     </None>
   </ItemGroup>

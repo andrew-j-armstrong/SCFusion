@@ -964,7 +964,14 @@ bool CSC2Engine::SetInitialBuildOrder(const wxString &buildOrder)
 	wxStringTokenizer tokenizer(buildOrder, wxT("\r\n"), wxTOKEN_DEFAULT);
 	while(tokenizer.HasMoreTokens())
 	{
-		wxString commandName = tokenizer.GetNextToken();
+		wxString commandName = tokenizer.GetNextToken().Trim(true).Trim(false);
+
+		int commandCount = 1;
+		if(commandName.Contains("*"))
+		{
+			commandCount = wxAtoi(commandName.Mid(0, commandName.Index('*')).Trim(true));
+			commandName = commandName.Mid(commandName.Index('*') + 1).Trim(false);
+		}
 
 		const CSC2Command *command = NULL;
 
@@ -988,8 +995,9 @@ bool CSC2Engine::SetInitialBuildOrder(const wxString &buildOrder)
 
 		if(command == NULL)
 			return false;
-
-		m_initialBuildOrder.push_back(command);
+		
+		for(int i=0; i < commandCount; i++)
+			m_initialBuildOrder.push_back(command);
 	}
 
 	return true;

@@ -5,16 +5,17 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>Version 1.15</title>
+      <title>Version 1.16</title>
       <description>
         Enhancements:
-        Updated HotS version to 2.0.9 BU.
+        Updated HotS version to 2.1.1.
+        Improved initial build order interpretation to handle multiplied syntax.
         
         Bug Fixes:
-        Viper now requires Hive instead of Spire.
+        MULEs dying will now remove their additional income.
       </description>
-      <pubDate>Fri, 26 July 2013 17:00:00 +1000</pubDate>
-      <enclosure url="http://scbuildorder.googlecode.com/files/SCFusion%20v1.15%20Setup.msi" sparkle:version="1.0.15.1" sparkle:shortVersionString="1.15" type="application/octet-stream"/>
+      <pubDate>Thu, 15 May 2014 12:30:00 +1000</pubDate>
+      <enclosure url="http://sourceforge.net/projects/scfusion/files/SCFusion%20v1.16%20Setup.msi/download" sparkle:version="1.0.16.1" sparkle:shortVersionString="1.16" type="application/octet-stream"/>
     </item>
   </channel>
 </rss>
