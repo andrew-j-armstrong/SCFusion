@@ -237,7 +237,7 @@ template<typename TResult>
 void CSC2FitnessCalc::ValidateAndCalculateFitness(CVector<const CSC2Command *> &buildOrder, CSC2State &state, CPriorityQueue<CSC2Event> &events, TResult &result) const
 {
 	size_t cmdIndex = 0;
-	const CSC2Waypoint *waypoint;
+	const CSC2Waypoint *waypoint = NULL;
 	bool satisfied = true, requirementsTested, requirementsSatisfied;
 	for(size_t waypointIndex = 0; waypointIndex < m_waypoints.size(); waypointIndex++)
 	{

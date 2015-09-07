@@ -93,7 +93,7 @@ bool CSC2RaceInfo::LoadXML(const wxXmlNode *xmlRace)
 		m_buildingPrerequisitCommands.push_back(new CVector<const CSC2Command *>());
 
 		CVector<CVector<const CSC2Command *> *> *buildingStatusList = new CVector<CVector<const CSC2Command *> *>();
-		for(size_t j=0; j < m_data.m_buildingStatusList.size(); j++)
+		for(size_t j=0; j < m_data.m_buildingStatuses.size(); j++)
 			buildingStatusList->push_back(new CVector<const CSC2Command *>());
 
 		m_buildingStatusPrerequisitCommands.push_back(buildingStatusList);

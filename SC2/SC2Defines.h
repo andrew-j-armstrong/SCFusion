@@ -6,9 +6,6 @@
 #define SC2_UNIT_TRACKING_LIMIT			8
 #define SC2_RESEARCH_ID_LIMIT			64
 
-#define CHRONOBOOST_MULTIPLIER			1.5
-#define CHRONOBOOST_DURATION			20.0
-
 #if SC2_BUILDING_ID_LIMIT <= 32
 typedef unsigned long SC2BuildingFlags;
 #else

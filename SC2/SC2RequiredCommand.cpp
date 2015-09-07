@@ -49,7 +49,7 @@ bool CSC2RequiredCommand::LoadXML(const wxXmlNode *xmlCommand)
 
 			CTargetOptionalMinMax<size_t> minMax;
 			wxString strValue;
-			unsigned long value;
+			unsigned long value = 0;
 			if(child->GetAttribute("minimum", &strValue) && strValue.ToULong(&value))
 			{
 				minMax.haveMin = true;
@@ -69,7 +69,7 @@ bool CSC2RequiredCommand::LoadXML(const wxXmlNode *xmlCommand)
 
 			CTargetOptionalMinMax<size_t> minMax;
 			wxString strValue;
-			unsigned long value;
+			unsigned long value = 0;
 			if(child->GetAttribute("minimum", &strValue) && strValue.ToULong(&value))
 			{
 				minMax.haveMin = true;

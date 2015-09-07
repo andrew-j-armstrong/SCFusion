@@ -24,8 +24,6 @@ public:
 	double GetMineralIncomeRate() const { return m_mineralIncomeRate; }
 	double GetExpirationTime() const { return m_expirationTime; }
 
-	bool ResolveIDs(const std::vector<wxString> &buildingStatusList, const std::vector<wxString> &buildingNames, const std::vector<wxString> &unitNames, const std::vector<wxString> &researchNames) { return true; }
-
 protected:
 	wxString m_name;
 	size_t m_gameStartCount;

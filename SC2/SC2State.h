@@ -66,6 +66,7 @@ public:
 		size_t larvaeCount;
 		double maxEnergyTime;
 		double larvaeDelayTime;
+		double productionBoost;
 		SC2BuildingStatusFlags status;
 	};
 	class CBuildingStateList : public CMemPoolNode<CBuildingStateList>

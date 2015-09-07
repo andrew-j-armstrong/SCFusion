@@ -139,6 +139,9 @@
     <ClCompile Include="SC2\SC2RequiredCommand.cpp">
       <Filter>SC2</Filter>
     </ClCompile>
+    <ClCompile Include="SC2\SC2BuildingStatus.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\FastRand.h">
@@ -329,6 +332,9 @@
     <ClInclude Include="SC2\SC2RequiredCommand.h">
       <Filter>SC2</Filter>
     </ClInclude>
+    <ClInclude Include="SC2\SC2BuildingStatus.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="bitmaps\copy.xpm">
@@ -393,11 +399,16 @@
     <None Include="SCFusionVersionRSS.xml" />
     <None Include="Release Procedure.txt" />
     <None Include="SampleSaveFile.xml" />
-    <None Include="Versions\HotS_2_1_1.xml">
+    <None Include="Versions\HotS_2_1_10.xml">
       <Filter>Versions</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SCFusion.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Versions\LotV_2_5_1_BU_20150903.xml">
+      <Filter>Versions</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

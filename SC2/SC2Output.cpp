@@ -3,6 +3,9 @@
 
 void CSC2OutputMinimal::ProcessCommand(const CSC2Command *command, const CSC2Waypoint &waypoint, const CSC2State &state)
 {
+	if (command->IsAutoCastAbility())
+		return;
+
 	if(command->GetPostCommandDuration() > 0.0 && m_lastCommandWaitDuration > 0.0)
 	{
 		m_lastCommandCount++;
@@ -98,6 +101,9 @@ void CSC2OutputMinimal::ProcessWaypointComplete(bool succeeded, size_t waypointI
 
 void CSC2OutputSimple::ProcessCommand(const CSC2Command *command, const CSC2Waypoint &target, const CSC2State &state)
 {
+	if (command->IsAutoCastAbility())
+		return;
+
 	if(command->GetPostCommandDuration() > 0.0)
 	{
 		if(m_lastCommandWaitDuration == 0.0)
@@ -301,7 +307,7 @@ void CSC2OutputFull::ProcessEvent(const CSC2Event &event, const CSC2Waypoint &wa
 			while(status > 0)
 			{
 				if(status & 1)
-					output = wxString::Format(L"(%s: %s applied)", state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->GetName(), state.m_raceData.m_buildingStatusList[statusIndex]);
+					output = wxString::Format(L"(%s: %s applied)", state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->GetName(), state.m_raceData.m_buildingStatuses[statusIndex]->GetName());
 
 				status >>= 1;
 				statusIndex++;
@@ -315,7 +321,7 @@ void CSC2OutputFull::ProcessEvent(const CSC2Event &event, const CSC2Waypoint &wa
 			while(status > 0)
 			{
 				if(status & 1)
-					output = wxString::Format(L"(%s: %s lapsed)", state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->GetName(), state.m_raceData.m_buildingStatusList[statusIndex]);
+					output = wxString::Format(L"(%s: %s lapsed)", state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->GetName(), state.m_raceData.m_buildingStatuses[statusIndex]->GetName());
 
 				status >>= 1;
 				statusIndex++;

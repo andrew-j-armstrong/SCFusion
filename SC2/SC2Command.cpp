@@ -6,6 +6,7 @@ CSC2Command::CSC2Command(const CSC2RaceData &raceData)
 	: m_raceData(raceData)
 	, m_name()
 	, m_isAvailableToGeneticAlgorithm(true)
+	, m_isAutoCastAbility(false)
 {
 }
 
@@ -407,15 +408,15 @@ bool CSC2BuildBuildingCommand::ResolveIDs(const CSC2RaceData &raceData, const CV
 	for(size_t i=0; i < m_buildBuildingInitialStatusNames.size(); i++)
 	{
 		const wxString &buildingStatusName = m_buildBuildingInitialStatusNames[i];
-		for(size_t j=0; j < raceData.m_buildingStatusList.size(); j++)
+		for (size_t j = 0; j < raceData.m_buildingStatuses.size(); j++)
 		{
-			if(buildingStatusName == raceData.m_buildingStatusList[j])
+			if (buildingStatusName == raceData.m_buildingStatuses[j]->GetName())
 			{
 				m_buildBuildingInitialStatus |= ((SC2BuildingStatusFlags)1 << j);
 				break;
 			}
 
-			if(j >= raceData.m_buildingStatusList.size() - 1)
+			if (j >= raceData.m_buildingStatuses.size() - 1)
 			{
 				wxMessageBox(wxString::Format("Undefined building status '%s'", buildingStatusName));
 				return false;
@@ -613,6 +614,8 @@ CSC2BuildingAbilityCommand::CSC2BuildingAbilityCommand(const CSC2RaceData &raceD
 	, m_sourceBuilding(NULL)
 	, m_requireSourceBuildingStatusAbsentNames()
 	, m_requireSourceBuildingStatusAbsent(0)
+	, m_requireSourceBuildingStatusNames()
+	, m_requireSourceBuildingStatus(0)
 	, m_targetBuildingName()
 	, m_targetBuildingTypeID(0)
 	, m_targetBuilding(NULL)
@@ -622,16 +625,20 @@ CSC2BuildingAbilityCommand::CSC2BuildingAbilityCommand(const CSC2RaceData &raceD
 	, m_mineralCost(0.0)
 	, m_gasCost(0.0)
 	, m_energyCost(0.0)
+	, m_removeSourceBuildingStatusNames()
+	, m_removeSourceBuildingStatusIDs()
+	, m_removeSourceBuildingStatus(0)
 	, m_applySourceBuildingStatusNames()
 	, m_applySourceBuildingStatusIDs()
 	, m_applySourceBuildingStatus()
-	, m_appliesChronoBoostToTarget(false)
 	, m_applySourceBuildingStatusDuration()
 	, m_applySourceBuildingStatusDelay()
+	, m_sourceProductionBoost(1.0)
 	, m_applyTargetBuildingStatusNames()
 	, m_applyTargetBuildingStatusID(0)
 	, m_applyTargetBuildingStatus(0)
 	, m_applyTargetBuildingStatusDuration(0.0)
+	, m_targetProductionBoost(1.0)
 	, m_morphSourceBuildingName()
 	, m_morphSourceBuildingTypeID(0)
 	, m_morphSourceBuilding(NULL)
@@ -705,6 +712,10 @@ bool CSC2BuildingAbilityCommand::LoadXML(const wxXmlNode *xmlCommand)
 		{
 			m_isAvailableToGeneticAlgorithm = (content == "True");
 		}
+		else if (child->GetName() == wxT("IsAutoCastAbility"))
+		{
+			m_isAutoCastAbility = (content == "True");
+		}
 		else if (child->GetName() == wxT("BuildingRequirement"))
 		{
 			m_buildingRequirementNames.push_back(content);
@@ -717,6 +728,10 @@ bool CSC2BuildingAbilityCommand::LoadXML(const wxXmlNode *xmlCommand)
 		{
 			child->GetAttribute(wxT("energy"), wxT("0.0")).ToCDouble(&m_energyCost);
 			m_sourceBuildingName = content;
+		}
+		else if (child->GetName() == wxT("RequiresSourceBuildingStatus"))
+		{
+			m_requireSourceBuildingStatusNames.push_back(content);
 		}
 		else if (child->GetName() == wxT("RequiresSourceBuildingStatusAbsent"))
 		{
@@ -754,6 +769,10 @@ bool CSC2BuildingAbilityCommand::LoadXML(const wxXmlNode *xmlCommand)
 		{
 			child->GetAttribute(wxT("time"), wxT("0.0")).ToCDouble(&m_buildUnitTime);
 			m_buildUnitName = content;
+		}
+		else if (child->GetName() == wxT("RemovesSourceBuildingStatus"))
+		{
+			m_removeSourceBuildingStatusNames.push_back(content);
 		}
 		else if (child->GetName() == wxT("AppliesSourceBuildingStatus"))
 		{
@@ -852,19 +871,39 @@ bool CSC2BuildingAbilityCommand::ResolveIDs(const CSC2RaceData &raceData, const 
 			return false;
 		}
 
-		for(size_t i=0; i < m_requireSourceBuildingStatusAbsentNames.size(); i++)
+		for (size_t i = 0; i < m_requireSourceBuildingStatusNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_requireSourceBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_requireSourceBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
+			{
+				wxMessageBox(wxString::Format("Undefined building state '%s'", m_requireSourceBuildingStatusNames[i]));
+				return false;
+			}
+			m_requireSourceBuildingStatus |= ((SC2BuildingStatusFlags)1 << statusIndex);
+		}
+
+		for (size_t i = 0; i < m_requireSourceBuildingStatusAbsentNames.size(); i++)
+		{
+			size_t statusIndex = UINT_MAX;
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
+			{
+				if (m_requireSourceBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
+				{
+					statusIndex = j;
+					break;
+				}
+			}
+
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_requireSourceBuildingStatusAbsentNames[i]));
 				return false;
@@ -872,25 +911,48 @@ bool CSC2BuildingAbilityCommand::ResolveIDs(const CSC2RaceData &raceData, const 
 			m_requireSourceBuildingStatusAbsent |= ((SC2BuildingStatusFlags)1 << statusIndex);
 		}
 
-		for(size_t i=0; i < m_applySourceBuildingStatusNames.size(); i++)
+		for (size_t i = 0; i < m_removeSourceBuildingStatusNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_applySourceBuildingStatusNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_removeSourceBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
+			{
+				wxMessageBox(wxString::Format("Undefined building state '%s'", m_removeSourceBuildingStatusNames[i]));
+				return false;
+			}
+			m_removeSourceBuildingStatusIDs.push_back(statusIndex);
+			m_removeSourceBuildingStatus |= (SC2BuildingStatusFlags)1 << statusIndex;
+			m_sourceProductionBoost /= m_raceData.m_buildingStatuses[statusIndex]->GetProductionBoostFactor();
+		}
+
+		for (size_t i = 0; i < m_applySourceBuildingStatusNames.size(); i++)
+		{
+			size_t statusIndex = UINT_MAX;
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
+			{
+				if (m_applySourceBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
+				{
+					statusIndex = j;
+					break;
+				}
+			}
+
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_applySourceBuildingStatusNames[i]));
 				return false;
 			}
 			m_applySourceBuildingStatusIDs.push_back(statusIndex);
 			m_applySourceBuildingStatus.push_back((SC2BuildingStatusFlags)1 << statusIndex);
+			m_sourceProductionBoost *= m_raceData.m_buildingStatuses[statusIndex]->GetProductionBoostFactor();
 		}
 	}
 
@@ -914,16 +976,16 @@ bool CSC2BuildingAbilityCommand::ResolveIDs(const CSC2RaceData &raceData, const 
 		for(size_t i=0; i < m_requireTargetBuildingStatusAbsentNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for(size_t j=0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_requireTargetBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_requireTargetBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_requireTargetBuildingStatusAbsentNames[i]));
 				return false;
@@ -934,25 +996,24 @@ bool CSC2BuildingAbilityCommand::ResolveIDs(const CSC2RaceData &raceData, const 
 		for(size_t i=0; i < m_applyTargetBuildingStatusNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_applyTargetBuildingStatusNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_applyTargetBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_applyTargetBuildingStatusNames[i]));
 				return false;
 			}
 			m_applyTargetBuildingStatusID = statusIndex;
 			m_applyTargetBuildingStatus |= ((SC2BuildingStatusFlags)1 << statusIndex);
+			m_targetProductionBoost *= m_raceData.m_buildingStatuses[statusIndex]->GetProductionBoostFactor();
 		}
-
-		m_appliesChronoBoostToTarget = (0 != (m_applyTargetBuildingStatus & m_raceData.m_chronoBoostStatusFlags));
 	}
 
 	if(!m_morphSourceBuildingName.IsEmpty())
@@ -1076,22 +1137,24 @@ bool CSC2BuildingAbilityCommand::HasRequirements(const CSC2State &state) const
 		if(NULL != m_targetBuilding && 0 == state.m_buildings[m_targetBuildingTypeID]->size())
 			return false;
 	}
-	if(0 != m_requireSourceBuildingStatusAbsent)
+	if (0 != m_requireSourceBuildingStatus || 0 != m_requireSourceBuildingStatusAbsent)
 	{
 		bool availableBuilding = false;
 		const CSC2State::CBuildingStateList &sourceBuildingList = *state.m_buildings[m_sourceBuildingTypeID];
-		for(size_t i=0; i < sourceBuildingList.size(); i++)
+		for (size_t i = 0; i < sourceBuildingList.size(); i++)
 		{
-			if(0 != (sourceBuildingList[i]->status & m_requireSourceBuildingStatusAbsent))
+			if (m_requireSourceBuildingStatus != (sourceBuildingList[i]->status & m_requireSourceBuildingStatus))
+				continue;
+			if (0 != (sourceBuildingList[i]->status & m_requireSourceBuildingStatusAbsent))
 				continue;
 
 			availableBuilding = true;
 			break;
 		}
-		if(!availableBuilding)
+		if (!availableBuilding)
 			return false;
 	}
-	if(0 != m_requireTargetBuildingStatusAbsent)
+	if (0 != m_requireTargetBuildingStatusAbsent)
 	{
 		bool availableBuilding = false;
 		const CSC2State::CBuildingStateList &targetBuildingList = *state.m_buildings[m_targetBuildingTypeID];
@@ -1179,12 +1242,17 @@ size_t CSC2BuildingAbilityCommand::GetSourceID(const CSC2State &state) const
 
 		return sourceIndex;
 	}
-	else if(m_requireSourceBuildingStatusAbsent)
+	else if (0 != m_requireSourceBuildingStatus || 0 != m_requireSourceBuildingStatusAbsent)
 	{
-		for(size_t i=0; i < sourceBuildingList.size(); i++)
+		for (size_t i = 0; i < sourceBuildingList.size(); i++)
 		{
-			if(0 == (sourceBuildingList[i]->status & m_requireSourceBuildingStatusAbsent))
-				return sourceBuildingList[i]->buildingID;
+			if (m_requireSourceBuildingStatus != (sourceBuildingList[i]->status & m_requireSourceBuildingStatus))
+				continue;
+			if (0 != (sourceBuildingList[i]->status & m_requireSourceBuildingStatusAbsent))
+				continue;
+
+			return sourceBuildingList[i]->buildingID;
+			break;
 		}
 	}
 	else
@@ -1200,14 +1268,16 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 	state.m_gas -= m_gasCost;
 
 	CSC2State::CBuildingStateList &sourceBuildingList = *state.m_buildings[m_sourceBuildingTypeID];
-	CSC2State::SBuildingState *sourceBuilding;
+	CSC2State::SBuildingState *sourceBuilding = NULL;
 	if(0.0 < m_energyCost)
 	{
 		size_t sourceIndex = 0;
 		double earliestMaxEnergyTime = DBL_MAX;
 		for(size_t i=0; i < sourceBuildingList.size(); i++)
 		{
-			if(0 != (sourceBuildingList[i]->status & m_requireSourceBuildingStatusAbsent))
+			if (m_requireSourceBuildingStatus != (sourceBuildingList[i]->status & m_requireSourceBuildingStatus))
+				continue;
+			if (0 != (sourceBuildingList[i]->status & m_requireSourceBuildingStatusAbsent))
 				continue;
 
 			if(earliestMaxEnergyTime > sourceBuildingList[i]->maxEnergyTime)
@@ -1220,15 +1290,17 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 
 		sourceBuildingList.UseEnergy(sourceIndex, m_energyCost, state.m_time);
 	}
-	else if(m_requireSourceBuildingStatusAbsent)
+	else if (0 != m_requireSourceBuildingStatus || 0 != m_requireSourceBuildingStatusAbsent)
 	{
 		for(size_t i=0; i < sourceBuildingList.size(); i++)
 		{
-			if(0 == (sourceBuildingList[i]->status & m_requireSourceBuildingStatusAbsent))
-			{
-				sourceBuilding = sourceBuildingList[i];
-				break;
-			}
+			if (m_requireSourceBuildingStatus != (sourceBuildingList[i]->status & m_requireSourceBuildingStatus))
+				continue;
+			if (0 != (sourceBuildingList[i]->status & m_requireSourceBuildingStatusAbsent))
+				continue;
+			
+			sourceBuilding = sourceBuildingList[i];
+			break;
 		}
 	}
 	else
@@ -1237,7 +1309,7 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 	CSC2State::SBuildingState *targetBuilding = NULL;
 	if(m_targetBuilding)
 	{
-		if(m_appliesChronoBoostToTarget)
+		if (1.0 < m_targetProductionBoost)
 		{
 			double maxEventTime = 0.0;
 			for(size_t i=0; i < events.size(); i++)
@@ -1289,8 +1361,33 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 				targetBuilding = state.m_buildings[m_targetBuildingTypeID]->m_buildingList[state.m_buildings[m_targetBuildingTypeID]->size() - 1];
 		}
 	}
-	if(m_appliesChronoBoostToTarget)
+	if (1.0 != m_sourceProductionBoost)
 	{
+		sourceBuilding->productionBoost *= m_sourceProductionBoost;
+		CVector<CSC2Event> eventsModified;
+		bool eventModified = true;
+		while(eventModified)
+		{
+			eventModified = false;
+			for(size_t eventIndex=0; eventIndex < events.size(); eventIndex++)
+			{
+				const CSC2Event::SEvent::SData &eventData = events.getQueue()[eventIndex].m_event.m_data;
+				if(eventData.m_sourceIsBuilding && eventData.m_sourceID == sourceBuilding->buildingID)
+				{
+					eventModified = true;
+					CSC2Event event = events.pop(eventIndex);
+					event.m_time = state.m_time + (event.m_time - state.m_time) / m_sourceProductionBoost;
+					eventsModified.push_back(event);
+					break;
+				}
+			}
+		}
+		for(size_t i=0; i < eventsModified.size(); i++)
+			events.add(eventsModified[i]);
+	}
+	if (1.0 != m_targetProductionBoost)
+	{
+		targetBuilding->productionBoost *= m_targetProductionBoost;
 		CVector<CSC2Event> eventsModified;
 		bool eventModified = true;
 		while(eventModified)
@@ -1303,7 +1400,7 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 				{
 					eventModified = true;
 					CSC2Event event = events.pop(eventIndex);
-					event.m_time = state.m_time + (event.m_time - state.m_time) / CHRONOBOOST_MULTIPLIER;
+					event.m_time = state.m_time + (event.m_time - state.m_time) / m_targetProductionBoost;
 					eventsModified.push_back(event);
 					break;
 				}
@@ -1360,7 +1457,37 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 		state.m_unitUnderConstruction[m_buildUnitTypeID]++;
 		state.m_supplyCapUnderConstruction += m_buildUnit->GetProvidedSupply();
 	}
-	for(size_t i=0; i < m_applySourceBuildingStatus.size(); i++)
+	if (m_removeSourceBuildingStatus)
+	{
+		CVector<CSC2Event> eventsModified;
+
+		bool eventModified = true;
+		while (eventModified)
+		{
+			eventModified = false;
+			for (size_t eventIndex = 0; eventIndex < events.size(); eventIndex++)
+			{
+				const CSC2Event::SEvent::SData &eventData = events.getQueue()[eventIndex].m_event.m_data;
+				if (eventData.m_sourceIsBuilding
+					&& eventData.m_sourceID == targetBuilding->buildingID
+					&& eventData.m_eventCategory == CSC2Event::eBuildingStatusLapse
+					&& 0 != (eventData.m_data & m_removeSourceBuildingStatus))
+				{
+					eventModified = true;
+
+					CSC2Event event = events.pop(eventIndex); // Remove the event to lapse it later
+					event.m_event.m_data.m_data &= (~m_removeSourceBuildingStatus);
+					if (0 != event.m_event.m_data.m_data)
+						eventsModified.push_back(event);
+				}
+			}
+		}
+
+		for (size_t i = 0; i < eventsModified.size(); i++)
+			events.add(eventsModified[i]);
+		sourceBuilding->status &= (~m_removeSourceBuildingStatus);
+	}
+	for (size_t i = 0; i < m_applySourceBuildingStatus.size(); i++)
 	{
 		if(0.0 == m_applySourceBuildingStatusDelay[i])
 			sourceBuilding->status |= m_applySourceBuildingStatus[i];
@@ -1370,13 +1497,13 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 		if(0.0 < m_applySourceBuildingStatusDuration[i])
 			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration[i], CSC2Event::eBuildingStatusLapse, true, sourceBuilding->buildingID, 0, m_applySourceBuildingStatus[i]));
 	}
-	if(m_applyTargetBuildingStatus)
+	if (m_applyTargetBuildingStatus)
 	{
 		targetBuilding->status |= m_applyTargetBuildingStatus;
-		if(0.0 < m_applyTargetBuildingStatusDuration)
+		if (0.0 < m_applyTargetBuildingStatusDuration)
 			events.add(CSC2Event(state.m_time + m_applyTargetBuildingStatusDuration, CSC2Event::eBuildingStatusLapse, true, targetBuilding->buildingID, 0, m_applyTargetBuildingStatus));
 	}
-	if(m_spawnBase)
+	if (m_spawnBase)
 	{
 		state.m_basesUnderConstruction++;
 		events.add(CSC2Event(state.m_time + m_spawnBaseTime, CSC2Event::eSpawnBase));
@@ -1387,7 +1514,7 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 
 bool CSC2BuildingAbilityCommand::IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const
 {
-	return (m_appliesChronoBoostToTarget && 0 != (buildings & ((SC2BuildingFlags)1 << m_targetBuildingTypeID)))
+	return (1.0 != m_targetProductionBoost && 0 != (buildings & ((SC2BuildingFlags)1 << m_targetBuildingTypeID)))
 		|| m_spawnBase
 		|| (m_buildUnit && (m_buildUnit->IsWorker() || 0.0 < m_buildUnit->GetMineralIncomeRate() || 0 < m_buildUnit->GetProvidedSupply()))
 		|| (m_buildBuilding && (m_buildBuilding->IsBase() || 0 < m_buildBuilding->GetProvidedSupply()))
@@ -1802,16 +1929,16 @@ bool CSC2BuildUnitCommand::ResolveIDs(const CSC2RaceData &raceData, const CVecto
 		for(size_t i=0; i < m_requireSourceBuildingStatusAbsentNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_requireSourceBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_requireSourceBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_requireSourceBuildingStatusAbsentNames[i]));
 				return false;
@@ -1822,16 +1949,16 @@ bool CSC2BuildUnitCommand::ResolveIDs(const CSC2RaceData &raceData, const CVecto
 		for(size_t i=0; i < m_applySourceBuildingStatusNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_applySourceBuildingStatusNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_applySourceBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_applySourceBuildingStatusNames[i]));
 				return false;
@@ -1956,7 +2083,7 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 		if(0.0 < m_applySourceBuildingStatusDuration)
 		{
 			sourceBuildingState->status |= m_applySourceBuildingStatus;
-			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / ((0 != (sourceBuildingState->status & m_raceData.m_chronoBoostStatusFlags)) ? CHRONOBOOST_MULTIPLIER : 1.0), CSC2Event::eBuildingStatusLapse, true, sourceBuildingState->buildingID, 0, m_applySourceBuildingStatus));
+			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / sourceBuildingState->productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuildingState->buildingID, 0, m_applySourceBuildingStatus));
 		}
 
 		if(m_consumesLarva)
@@ -1985,7 +2112,7 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 		if(0.0 < m_applySourceBuildingStatusDuration)
 		{
 			sourceBuildingState->status |= m_applySourceBuildingStatus;
-			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / ((0 != (sourceBuildingState->status & m_raceData.m_chronoBoostStatusFlags)) ? CHRONOBOOST_MULTIPLIER : 1.0), CSC2Event::eBuildingStatusLapse, true, sourceBuildingState->buildingID, 0, m_applySourceBuildingStatus));
+			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / sourceBuildingState->productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuildingState->buildingID, 0, m_applySourceBuildingStatus));
 		}
 
 		if(m_consumesLarva)
@@ -1997,7 +2124,7 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 		}
 	}
 
-	events.add(CSC2Event(state.m_time + m_buildUnitCompletionTime / ((m_unitOccupiesBuilding && 0 != (sourceBuildingState->status & m_raceData.m_chronoBoostStatusFlags)) ? CHRONOBOOST_MULTIPLIER : 1.0), CSC2Event::eUnitComplete, m_unitOccupiesBuilding, m_unitOccupiesBuilding ? sourceBuildingState->buildingID : 0, m_buildUnitTypeID, m_buildUnitCount));
+	events.add(CSC2Event(state.m_time + m_buildUnitCompletionTime / (m_unitOccupiesBuilding ? sourceBuildingState->productionBoost : 1.0), CSC2Event::eUnitComplete, m_unitOccupiesBuilding, m_unitOccupiesBuilding ? sourceBuildingState->buildingID : 0, m_buildUnitTypeID, m_buildUnitCount));
 	state.m_unitUnderConstructionFlags |= ((SC2UnitFlags)1 << m_buildUnitTypeID);
 	state.m_unitUnderConstruction[m_buildUnitTypeID] += m_buildUnitCount;
 	state.m_supplyCapUnderConstruction += m_buildUnit->GetProvidedSupply() * m_buildUnitCount;
@@ -2048,7 +2175,7 @@ CSC2UnitAbilityCommand::CSC2UnitAbilityCommand(const CSC2RaceData &raceData)
 	, m_applyTargetBuildingStatusID(0)
 	, m_applyTargetBuildingStatus(0)
 	, m_applyTargetBuildingStatusDuration(0.0)
-	, m_appliesChronoBoostToTarget(false)
+	, m_targetProductionBoost(1.0)
 {
 }
 
@@ -2093,6 +2220,10 @@ bool CSC2UnitAbilityCommand::LoadXML(const wxXmlNode *xmlCommand)
 		else if (child->GetName() == wxT("AvailableToGeneticAlgorithm"))
 		{
 			m_isAvailableToGeneticAlgorithm = (content == "True");
+		}
+		else if (child->GetName() == wxT("IsAutoCastAbility"))
+		{
+			m_isAutoCastAbility = (content == "True");
 		}
 		else if (child->GetName() == wxT("BuildingRequirement"))
 		{
@@ -2289,16 +2420,16 @@ bool CSC2UnitAbilityCommand::ResolveIDs(const CSC2RaceData &raceData, const CVec
 		for(size_t i=0; i < m_requireTargetBuildingStatusAbsentNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_requireTargetBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_requireTargetBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_requireTargetBuildingStatusAbsentNames[i]));
 				return false;
@@ -2309,25 +2440,24 @@ bool CSC2UnitAbilityCommand::ResolveIDs(const CSC2RaceData &raceData, const CVec
 		for(size_t i=0; i < m_applyTargetBuildingStatusNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_applyTargetBuildingStatusNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_applyTargetBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_applyTargetBuildingStatusNames[i]));
 				return false;
 			}
 			m_applyTargetBuildingStatusID = statusIndex;
 			m_applyTargetBuildingStatus |= ((SC2BuildingStatusFlags)1 << statusIndex);
+			m_targetProductionBoost *= m_raceData.m_buildingStatuses[statusIndex]->GetProductionBoostFactor();
 		}
-
-		m_appliesChronoBoostToTarget = (0 != (m_applyTargetBuildingStatus & m_raceData.m_chronoBoostStatusFlags));
 	}
 
 	if(!m_morphSourceUnitName.IsEmpty())
@@ -2647,7 +2777,7 @@ bool CSC2UnitAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC
 	CSC2State::SBuildingState *targetBuilding = NULL;
 	if(m_targetBuilding)
 	{
-		if(m_appliesChronoBoostToTarget)
+		if(1.0 < m_targetProductionBoost)
 		{
 			double maxEventTime = 0.0;
 			for(size_t i=0; i < events.size(); i++)
@@ -2686,7 +2816,7 @@ bool CSC2UnitAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC
 				targetBuilding = state.m_buildings[m_targetBuildingTypeID]->m_buildingList[state.m_buildings[m_targetBuildingTypeID]->size() - 1];
 		}
 	}
-	if(m_appliesChronoBoostToTarget)
+	if (1.0 != m_targetProductionBoost)
 	{
 		CVector<CSC2Event> eventsModified;
 		bool eventModified = true;
@@ -2700,7 +2830,7 @@ bool CSC2UnitAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC
 				{
 					eventModified = true;
 					CSC2Event event = events.pop(eventIndex);
-					event.m_time = state.m_time + (event.m_time - state.m_time) / CHRONOBOOST_MULTIPLIER;
+					event.m_time = state.m_time + (event.m_time - state.m_time) / m_targetProductionBoost;
 					eventsModified.push_back(event);
 					break;
 				}
@@ -2943,16 +3073,16 @@ bool CSC2ResearchCommand::ResolveIDs(const CSC2RaceData &raceData, const CVector
 		for(size_t i=0; i < m_requireSourceBuildingStatusAbsentNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_requireSourceBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_requireSourceBuildingStatusAbsentNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_requireSourceBuildingStatusAbsentNames[i]));
 				return false;
@@ -2963,16 +3093,16 @@ bool CSC2ResearchCommand::ResolveIDs(const CSC2RaceData &raceData, const CVector
 		for(size_t i=0; i < m_applySourceBuildingStatusNames.size(); i++)
 		{
 			size_t statusIndex = UINT_MAX;
-			for(size_t j=0; j < m_raceData.m_buildingStatusList.size(); j++)
+			for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
 			{
-				if(m_applySourceBuildingStatusNames[i] == m_raceData.m_buildingStatusList[j])
+				if (m_applySourceBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName())
 				{
 					statusIndex = j;
 					break;
 				}
 			}
 
-			if(statusIndex >= m_raceData.m_buildingStatusList.size())
+			if (statusIndex >= m_raceData.m_buildingStatuses.size())
 			{
 				wxMessageBox(wxString::Format("Undefined building state '%s'", m_applySourceBuildingStatusNames[i]));
 				return false;
@@ -3069,8 +3199,8 @@ bool CSC2ResearchCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2Ev
 	state.m_minerals -= m_mineralCost;
 	state.m_gas -= m_gasCost;
 
-	bool hasChronoBoost = false;
 	CSC2State::SBuildingState *sourceBuilding = NULL;
+	double productionBoost = 1.0;
 	if(NULL != m_sourceBuilding)
 	{
 		CSC2State::CBuildingStateList &sourceBuildingList = *state.m_buildings[m_sourceBuildingTypeID];
@@ -3083,16 +3213,16 @@ bool CSC2ResearchCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2Ev
 			}
 		}
 
-		if(0 != (sourceBuilding->status & m_raceData.m_chronoBoostStatusFlags))
-			hasChronoBoost = true;
+		productionBoost = sourceBuilding->productionBoost;
+
 		if(0.0 < m_applySourceBuildingStatusDuration)
 		{
 			sourceBuilding->status |= m_applySourceBuildingStatus;
-			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / (hasChronoBoost ? CHRONOBOOST_MULTIPLIER : 1.0), CSC2Event::eBuildingStatusLapse, true, sourceBuilding->buildingID, 0, m_applySourceBuildingStatus));
+			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuilding->buildingID, 0, m_applySourceBuildingStatus));
 		}
 	}
 
-	events.add(CSC2Event(state.m_time + m_completionTime / (hasChronoBoost ? CHRONOBOOST_MULTIPLIER : 1.0), CSC2Event::eResearchComplete, NULL != sourceBuilding, sourceBuilding ? sourceBuilding->buildingID : 0, m_completeResearchID));
+	events.add(CSC2Event(state.m_time + m_completionTime / productionBoost, CSC2Event::eResearchComplete, NULL != sourceBuilding, sourceBuilding ? sourceBuilding->buildingID : 0, m_completeResearchID));
 	state.m_researchUnderConstruction[m_completeResearchID] = true;
 	state.m_researchUnderConstructionFlags |= ((SC2ResearchFlags)1 << m_completeResearchID);
 
@@ -3331,6 +3461,10 @@ bool CSC2MultiCommand::LoadXML(const wxXmlNode *xmlCommand)
 		else if (child->GetName() == wxT("AvailableToGeneticAlgorithm"))
 		{
 			m_isAvailableToGeneticAlgorithm = (content == "True");
+		}
+		else if (child->GetName() == wxT("IsAutoCastAbility"))
+		{
+			m_isAutoCastAbility = (content == "True");
 		}
 		else if (child->GetName() == wxT("SubCommand"))
 		{

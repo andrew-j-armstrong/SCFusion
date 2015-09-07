@@ -15,12 +15,16 @@ CSC2Building::CSC2Building()
 	, m_maxLarvaeSpawningCount(0)
 	, m_maxLarvaeCount(0)
 	, m_larvaeSpawnTime(0.0)
-	, m_initialStatusName()
+	, m_initialStatusNames()
 	, m_initialStatus(0)
-	, m_initialStatusDuration(0.0)
-	, m_gameStartStatusName()
+	, m_initialStatusList()
+	, m_initialStatusDurations()
+	, m_initialProductionBoost(1.0)
+	, m_gameStartStatusNames()
 	, m_gameStartStatus(0)
-	, m_gameStartStatusDuration(0.0)
+	, m_gameStartStatusList()
+	, m_gameStartStatusDurations()
+	, m_gameStartProductionBoost(1.0)
 {
 }
 
@@ -104,13 +108,17 @@ bool CSC2Building::LoadXML(const wxXmlNode *xmlBuilding)
 		}
 		else if (child->GetName() == wxT("InitialStatus"))
 		{
-			child->GetAttribute(wxT("time"), wxT("0.0")).ToCDouble(&m_initialStatusDuration);
-			m_initialStatusName = content;
+			double initialStatusDuration = 0.0;
+			child->GetAttribute(wxT("time"), wxT("0.0")).ToCDouble(&initialStatusDuration);
+			m_initialStatusDurations.push_back(initialStatusDuration);
+			m_initialStatusNames.push_back(content);
 		}
 		else if (child->GetName() == wxT("GameStartStatus"))
 		{
-			child->GetAttribute(wxT("time"), wxT("0.0")).ToCDouble(&m_gameStartStatusDuration);
-			m_gameStartStatusName = content;
+			double gameStartStatusDuration = 0.0;
+			child->GetAttribute(wxT("time"), wxT("0.0")).ToCDouble(&gameStartStatusDuration);
+			m_gameStartStatusDurations.push_back(gameStartStatusDuration);
+			m_gameStartStatusNames.push_back(content);
 		}
 		else
 		{
@@ -122,38 +130,42 @@ bool CSC2Building::LoadXML(const wxXmlNode *xmlBuilding)
 	return true;
 }
 
-bool CSC2Building::ResolveIDs(const std::vector<wxString> &buildingStatusList, const std::vector<wxString> &buildingNames, const std::vector<wxString> &unitNames, const std::vector<wxString> &researchNames)
+bool CSC2Building::ResolveIDs(const CVector<CSC2BuildingStatus *> &buildingStatuses)
 {
-	if(!m_initialStatusName.IsEmpty())
+	for (size_t i = 0; i < m_initialStatusNames.size(); i++)
 	{
 		size_t statusID = UINT_MAX;
-		for(size_t i=0; i < buildingStatusList.size(); i++)
+		for (size_t j = 0; j < buildingStatuses.size(); j++)
 		{
-			if(m_initialStatusName == buildingStatusList[i])
+			if (m_initialStatusNames[i] == buildingStatuses[j]->GetName())
 			{
-				statusID = i;
+				statusID = j;
 				break;
 			}
 		}
 
-		wxCHECK_MSG(statusID < buildingStatusList.size(), false, wxString::Format("Undefined building state '%s'", m_initialStatusName));
-		m_initialStatus = ((SC2BuildingStatusFlags)1 << statusID);
+		wxCHECK_MSG(statusID < buildingStatuses.size(), false, wxString::Format("Undefined building state '%s'", m_initialStatusNames[i]));
+		m_initialStatus |= ((SC2BuildingStatusFlags)1 << statusID);
+		m_initialStatusList.push_back(statusID);
+		m_initialProductionBoost *= buildingStatuses[statusID]->GetProductionBoostFactor();
 	}
 
-	if(!m_gameStartStatusName.IsEmpty())
+	for (size_t i = 0; i < m_gameStartStatusNames.size(); i++)
 	{
 		size_t statusID = UINT_MAX;
-		for(size_t i=0; i < buildingStatusList.size(); i++)
+		for (size_t j = 0; j < buildingStatuses.size(); j++)
 		{
-			if(m_gameStartStatusName == buildingStatusList[i])
+			if (m_gameStartStatusNames[i] == buildingStatuses[j]->GetName())
 			{
-				statusID = i;
+				statusID = j;
 				break;
 			}
 		}
 
-		wxCHECK_MSG(statusID < buildingStatusList.size(), false, wxString::Format("Undefined building state '%s'", m_gameStartStatusName));
-		m_gameStartStatus = ((SC2BuildingStatusFlags)1 << statusID);
+		wxCHECK_MSG(statusID < buildingStatuses.size(), false, wxString::Format("Undefined building state '%s'", m_gameStartStatusNames[i]));
+		m_gameStartStatus |= ((SC2BuildingStatusFlags)1 << statusID);
+		m_gameStartStatusList.push_back(statusID);
+		m_gameStartProductionBoost *= buildingStatuses[statusID]->GetProductionBoostFactor();
 	}
 
 	return true;

@@ -33,7 +33,7 @@ bool CSC2Research::LoadXML(const wxXmlNode *xmlResearch)
 	return true;
 }
 
-bool CSC2Research::ResolveIDs(const std::vector<wxString> &buildingStatusList, const std::vector<wxString> &buildingNames, const std::vector<wxString> &unitNames, const std::vector<wxString> &researchNames)
+bool CSC2Research::ResolveIDs(const std::vector<wxString> &researchNames)
 {
 	for(size_t i=0; i < m_deprecateResearch.size(); i++)
 	{

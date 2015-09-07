@@ -4,9 +4,23 @@
 #include "SC2Unit.h"
 #include "SC2Research.h"
 
+CSC2RaceData::CSC2RaceData()
+	: m_buildings()
+	, m_buildingStatuses()
+	, m_units()
+	, m_research()
+	, m_buildingNames()
+	, m_buildingStatusNames()
+	, m_unitNames()
+	, m_researchNames()
+	, m_hasLarvae(false)
+{
+}
+
 CSC2RaceData::~CSC2RaceData()
 {
 	RemoveAllPointer(m_buildings);
+	RemoveAllPointer(m_buildingStatuses);
 	RemoveAllPointer(m_units);
 	RemoveAllPointer(m_research);
 }
@@ -20,44 +34,19 @@ bool CSC2RaceData::LoadBuildingStatusesXML(const wxXmlNode *xmlBuildingStatuses)
 
 		if (child->GetName() == wxT("BuildingStatus"))
 		{
-			if(!LoadBuildingStatusXML(child))
+			CSC2BuildingStatus *buildingStatus = new CSC2BuildingStatus();
+			if (!buildingStatus->LoadXML(child))
+			{
+				delete buildingStatus;
 				return false;
+			}
+
+			m_buildingStatuses.push_back(buildingStatus);
+			m_buildingStatusNames.push_back(buildingStatus->GetName());
 		}
 		else
 		{
 			wxFAIL_MSG(wxString::Format("Unexpected XML tag in <BuildingStatuses>: '%s'", child->GetName()));
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool CSC2RaceData::LoadBuildingStatusXML(const wxXmlNode *xmlBuildingStatus)
-{
-	size_t statusID = m_buildingStatusList.size();
-	m_buildingStatusList.push_back("");
-
-	for(wxXmlNode *child = xmlBuildingStatus->GetChildren(); child; child = child->GetNext())
-	{
-		if(wxXML_COMMENT_NODE == child->GetType())
-			continue;
-
-		const wxString &content = child->GetNodeContent();
-		if (child->GetName() == wxT("Name"))
-		{
-			m_buildingStatusList[statusID] = content;
-		}
-		else if (child->GetName() == wxT("IsChronoBoost"))
-		{
-			if(content == wxT("True"))
-				m_chronoBoostStatusFlags |= ((SC2BuildingStatusFlags)1 << statusID);
-			else
-				m_chronoBoostStatusFlags &= (!((SC2BuildingStatusFlags)1 << statusID));
-		}
-		else
-		{
-			wxFAIL_MSG(wxString::Format("Unexpected XML tag in <BuildingStatus>: '%s'", child->GetName()));
 			return false;
 		}
 	}
@@ -157,9 +146,14 @@ bool CSC2RaceData::LoadResearchXML(const wxXmlNode *xmlResearch)
 
 bool CSC2RaceData::ResolveIDs()
 {
-	for(size_t i=0; i < m_buildings.size(); i++)
+	for (size_t i = 0; i < m_buildings.size(); i++)
 	{
-		if(!m_buildings[i]->ResolveIDs(m_buildingStatusList, m_buildingNames, m_unitNames, m_researchNames))
+		if (!m_buildings[i]->ResolveIDs(m_buildingStatuses))
+			return false;
+	}
+	for (size_t i = 0; i < m_research.size(); i++)
+	{
+		if (!m_research[i]->ResolveIDs(m_researchNames))
 			return false;
 	}
 

@@ -4,6 +4,7 @@
 
 #include "../Core/Vector.h"
 #include "SC2Defines.h"
+#include "SC2BuildingStatus.h"
 
 class CSC2Building
 {
@@ -27,11 +28,15 @@ public:
 	size_t GetMaxLarvaeCount() const { return m_maxLarvaeCount; }
 	double GetLarvaeSpawnTime() const { return m_larvaeSpawnTime; }
 	SC2BuildingStatusFlags GetInitialStatus() const { return m_initialStatus; }
-	double GetInitialStatusDuration() const { return m_initialStatusDuration; }
+	const CVector<size_t> &GetInitialStatusList() const { return m_initialStatusList; }
+	const CVector<double> &GetInitialStatusDurations() const { return m_initialStatusDurations; }
+	double GetInitialProductionBoost() const { return m_initialProductionBoost; }
 	SC2BuildingStatusFlags GetGameStartStatus() const { return m_gameStartStatus; }
-	double GetGameStartStatusDuration() const { return m_gameStartStatusDuration; }
+	const CVector<size_t> &GetGameStartStatusList() const { return m_gameStartStatusList; }
+	const CVector<double> &GetGameStartStatusDurations() const { return m_gameStartStatusDurations; }
+	double GetGameStartProductionBoost() const { return m_gameStartProductionBoost; }
 
-	bool ResolveIDs(const std::vector<wxString> &buildingStatusList, const std::vector<wxString> &buildingNames, const std::vector<wxString> &unitNames, const std::vector<wxString> &researchNames);
+	bool ResolveIDs(const CVector<CSC2BuildingStatus *> &buildingStatuses);
 
 protected:
 	wxString m_name;
@@ -47,10 +52,14 @@ protected:
 	size_t m_maxLarvaeSpawningCount;
 	size_t m_maxLarvaeCount;
 	double m_larvaeSpawnTime;
-	wxString m_initialStatusName;
+	std::vector<wxString> m_initialStatusNames;
 	SC2BuildingStatusFlags m_initialStatus;
-	double m_initialStatusDuration;
-	wxString m_gameStartStatusName;
+	CVector<size_t> m_initialStatusList;
+	CVector<double> m_initialStatusDurations;
+	double m_initialProductionBoost;
+	std::vector<wxString> m_gameStartStatusNames;
 	SC2BuildingStatusFlags m_gameStartStatus;
-	double m_gameStartStatusDuration;
+	CVector<size_t> m_gameStartStatusList;
+	CVector<double> m_gameStartStatusDurations;
+	double m_gameStartProductionBoost;
 };

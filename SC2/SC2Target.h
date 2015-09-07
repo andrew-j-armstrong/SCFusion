@@ -189,13 +189,14 @@ public:
 
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return 0; }
 	SC2BuildingStatusFlags GetBuildingStatusRequirementFlags(size_t buildingID) const { return 0; }
-	SC2UnitFlags GetUnitRequirementFlags() const { return ((SC2UnitFlags)1 << m_sourceUnitID); }
+	SC2UnitFlags GetUnitRequirementFlags() const { return m_requiredUnitFlags; }
 	SC2ResearchFlags GetResearchRequirementFlags() const { return 0; }
 
 protected:
-	wxString m_sourceUnitName;
-	size_t m_sourceUnitID;
-	double m_requiredEnergy;
+	std::vector<wxString> m_sourceUnitNames;
+	CVector<size_t> m_sourceUnitIDs;
+	SC2UnitFlags m_requiredUnitFlags;
+	CVector<double> m_requiredEnergy;
 };
 
 class CSC2TargetResearch : public CSC2Target

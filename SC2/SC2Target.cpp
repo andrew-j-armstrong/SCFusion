@@ -62,7 +62,6 @@ size_t CSC2TargetBuildingCount::GetStateCount(const CSC2State &state) const
 	for(size_t i=0; i < m_buildingIDs.size(); i++)
 	{
 		count += state.m_buildings[m_buildingIDs[i]]->size();
-		count += state.m_buildingMorphing[m_buildingIDs[i]];
 	}
 
 	return count;
@@ -206,15 +205,15 @@ bool CSC2TargetBuildingStatus::ResolveIDs(const CSC2RaceData &raceData, const CV
 
 	for(size_t i=0; i < m_buildingStatusNames.size(); i++)
 	{
-		for(size_t j=0; j < raceData.m_buildingStatusList.size(); j++)
+		for(size_t j=0; j < raceData.m_buildingStatuses.size(); j++)
 		{
-			if(m_buildingStatusNames[i] == raceData.m_buildingStatusList[j])
+			if (m_buildingStatusNames[i] == raceData.m_buildingStatuses[j]->GetName())
 			{
 				m_buildingStatusFlags.push_back((SC2BuildingStatusFlags)1 << j);
 				break;
 			}
 
-			wxCHECK_MSG(j != raceData.m_buildingStatusList.size() - 1, false, wxString::Format("Undefined building status '%s'", m_buildingStatusNames[i]));
+			wxCHECK_MSG(j != raceData.m_buildingStatuses.size() - 1, false, wxString::Format("Undefined building status '%s'", m_buildingStatusNames[i]));
 		}
 	}
 
@@ -301,15 +300,15 @@ bool CSC2TargetBuildingStatusDuration::ResolveIDs(const CSC2RaceData &raceData, 
 
 	for(size_t i=0; i < m_buildingStatusNames.size(); i++)
 	{
-		for(size_t j=0; j < raceData.m_buildingStatusList.size(); j++)
+		for (size_t j = 0; j < raceData.m_buildingStatuses.size(); j++)
 		{
-			if(m_buildingStatusNames[i] == raceData.m_buildingStatusList[j])
+			if (m_buildingStatusNames[i] == raceData.m_buildingStatuses[j]->GetName())
 			{
 				m_buildingStatusFlags.push_back((SC2BuildingStatusFlags)1 << j);
 				break;
 			}
 
-			wxCHECK_MSG(j != raceData.m_buildingStatusList.size() - 1, false, wxString::Format("Undefined building status '%s'", m_buildingStatusNames[i]));
+			wxCHECK_MSG(j != raceData.m_buildingStatuses.size() - 1, false, wxString::Format("Undefined building status '%s'", m_buildingStatusNames[i]));
 		}
 	}
 
@@ -416,8 +415,10 @@ size_t CSC2TargetUnitCount::GetStateCountUnderConstruction(const CSC2State &stat
 }
 
 CSC2TargetUnitAbility::CSC2TargetUnitAbility()
-	: m_sourceUnitID(0)
-	, m_requiredEnergy(0.0)
+	: m_sourceUnitIDs()
+	, m_sourceUnitNames()
+	, m_requiredEnergy()
+	, m_requiredUnitFlags(0)
 {
 }
 
@@ -435,11 +436,10 @@ bool CSC2TargetUnitAbility::LoadXML(const wxXmlNode *xmlTarget)
 		}
 		else if (child->GetName() == wxT("SourceUnit"))
 		{
-			m_sourceUnitName = content;
-		}
-		else if (child->GetName() == wxT("EnergyRequired"))
-		{
-			content.ToCDouble(&m_requiredEnergy);
+			double energyRequirement = 0.0;
+			child->GetAttribute("energy").ToCDouble(&energyRequirement);
+			m_sourceUnitNames.push_back(content);
+			m_requiredEnergy.push_back(energyRequirement);
 		}
 		else if (child->GetName() == wxT("DisplayInResults"))
 		{
@@ -457,16 +457,25 @@ bool CSC2TargetUnitAbility::LoadXML(const wxXmlNode *xmlTarget)
 
 bool CSC2TargetUnitAbility::ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands)
 {
-	for(size_t j=0; j < raceData.m_units.size(); j++)
+	for (size_t i = 0; i < m_sourceUnitNames.size(); i++)
 	{
-		if(m_sourceUnitName == raceData.m_units[j]->GetName())
+		size_t sourceUnitID = 0;
+		for (size_t j = 0; j < raceData.m_units.size(); j++)
 		{
-			m_sourceUnitID = j;
-			break;
+			if (m_sourceUnitNames[i] == raceData.m_units[j]->GetName())
+			{
+				sourceUnitID = j;
+				break;
+			}
+
+			wxCHECK_MSG(j != raceData.m_units.size() - 1, false, wxString::Format("Undefined unit '%s'", m_sourceUnitNames[i]));
 		}
 
-		wxCHECK_MSG(j != raceData.m_units.size() - 1, false, wxString::Format("Undefined unit '%s'", m_sourceUnitName));
+		m_sourceUnitIDs.push_back(sourceUnitID);
 	}
+
+	if (m_sourceUnitIDs.size() == 1)
+		m_requiredUnitFlags |= (SC2UnitFlags)(1 << m_sourceUnitIDs[0]);
 
 	return true;
 }
@@ -474,10 +483,13 @@ bool CSC2TargetUnitAbility::ResolveIDs(const CSC2RaceData &raceData, const CVect
 size_t CSC2TargetUnitAbility::GetStateCount(const CSC2State &state) const
 {
 	size_t count = 0;
-	const CSC2State::CUnitStateList *unitStates = state.m_units[m_sourceUnitID];
-	for(size_t i=0; i < unitStates->size(); i++)
+	for (size_t i = 0; i < m_sourceUnitIDs.size(); i++)
 	{
-		count += (size_t)(unitStates->CalculateEnergy(i, state.m_time) / m_requiredEnergy);
+		const CSC2State::CUnitStateList *unitStates = state.m_units[m_sourceUnitIDs[i]];
+		for (size_t j = 0; j < unitStates->size(); j++)
+		{
+			count += (size_t)(unitStates->CalculateEnergy(j, state.m_time) / m_requiredEnergy[i]);
+		}
 	}
 
 	return count;
@@ -485,8 +497,16 @@ size_t CSC2TargetUnitAbility::GetStateCount(const CSC2State &state) const
 
 size_t CSC2TargetUnitAbility::GetStateCountUnderConstruction(const CSC2State &state) const
 {
-	const CSC2State::CUnitStateList *unitStates = state.m_units[m_sourceUnitID];
-	return unitStates->size() * (size_t)(unitStates->m_unit.GetMaxEnergy() / m_requiredEnergy);
+	size_t count = 0;
+	for (size_t i = 0; i < m_sourceUnitIDs.size(); i++)
+	{
+		const CSC2State::CUnitStateList *unitStates = state.m_units[m_sourceUnitIDs[i]];
+		for (size_t j = 0; j < unitStates->size(); j++)
+		{
+			count += unitStates->size() * (size_t)(unitStates->m_unit.GetMaxEnergy() / m_requiredEnergy[i]);
+		}
+	}
+	return count;
 }
 
 CSC2TargetResearch::CSC2TargetResearch()

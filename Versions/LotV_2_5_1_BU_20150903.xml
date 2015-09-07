@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Data>
   <XMLFileVersion>1.1</XMLFileVersion>
-  <GameShortDescription>SC2 HotS</GameShortDescription>
-  <GameLongDescription>Starcraft II: Heart of the Swarm</GameLongDescription>
-  <MinVersion>2.1.1</MinVersion>
+  <GameShortDescription>SC2 LotV</GameShortDescription>
+  <GameLongDescription>Starcraft II: Legacy of the Void</GameLongDescription>
+  <MinVersion>2.5.1.20150903</MinVersion>
   <Races>
     <Race>
       <Name>Protoss</Name>
@@ -13,7 +13,7 @@
         </BuildingStatus>
         <BuildingStatus>
           <Name>Chrono Boost</Name>
-          <IsChronoBoost>True</IsChronoBoost>
+          <ProductionBoostFactor>1.2</ProductionBoostFactor>
         </BuildingStatus>
       </BuildingStatuses>
       <Buildings>
@@ -21,10 +21,12 @@
           <Name>Nexus</Name>
           <IsBase>True</IsBase>
           <GameStartCount>1</GameStartCount>
-          <ProvidedSupply>10</ProvidedSupply>
+          <ProvidedSupply>15</ProvidedSupply>
           <StartingEnergy>0</StartingEnergy>
           <MaxEnergy>100</MaxEnergy>
           <EnergyRechargeRate>0.5625</EnergyRechargeRate>
+          <InitialStatus>Chrono Boost</InitialStatus>
+          <GameStartStatus>Chrono Boost</GameStartStatus>
         </Building>
         <Building>
           <Name>Pylon</Name>
@@ -76,7 +78,7 @@
           <Name>Probe</Name>
           <IsWorker>True</IsWorker>
           <SupplyCost>1</SupplyCost>
-          <GameStartCount>6</GameStartCount>
+          <GameStartCount>12</GameStartCount>
         </Unit>
         <Unit>
           <Name>Zealot</Name>
@@ -92,6 +94,10 @@
           <StartingEnergy>50</StartingEnergy>
           <MaxEnergy>200</MaxEnergy>
           <EnergyRechargeRate>0.5625</EnergyRechargeRate>
+        </Unit>
+        <Unit>
+          <Name>Adept</Name>
+          <SupplyCost>2</SupplyCost>
         </Unit>
         <Unit>
           <Name>High Templar</Name>
@@ -119,10 +125,17 @@
         <Unit>
           <Name>Immortal</Name>
           <SupplyCost>4</SupplyCost>
+          <StartingEnergy>50</StartingEnergy>
+          <MaxEnergy>200</MaxEnergy>
+          <EnergyRechargeRate>0.5625</EnergyRechargeRate>
         </Unit>
         <Unit>
           <Name>Colossus</Name>
           <SupplyCost>6</SupplyCost>
+        </Unit>
+        <Unit>
+          <Name>Disruptor</Name>
+          <SupplyCost>3</SupplyCost>
         </Unit>
         <Unit>
           <Name>Phoenix</Name>
@@ -139,10 +152,16 @@
         <Unit>
           <Name>Carrier</Name>
           <SupplyCost>6</SupplyCost>
+          <StartingEnergy>50</StartingEnergy>
+          <MaxEnergy>200</MaxEnergy>
+          <EnergyRechargeRate>0.5625</EnergyRechargeRate>
         </Unit>
         <Unit>
           <Name>Tempest</Name>
           <SupplyCost>4</SupplyCost>
+          <StartingEnergy>50</StartingEnergy>
+          <MaxEnergy>200</MaxEnergy>
+          <EnergyRechargeRate>0.5625</EnergyRechargeRate>
         </Unit>
         <Unit>
           <Name>Mothership Core</Name>
@@ -225,6 +244,9 @@
         </Research>
         <Research>
           <Name>Blink</Name>
+        </Research>
+        <Research>
+          <Name>Shield Upgrade</Name>
         </Research>
         <Research>
           <Name>Psionic Storm</Name>
@@ -392,113 +414,1335 @@
 
         <!-- Building Abilities -->
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Nexus</Name>
+          <Name>Move Chrono Boost From Nexus To Nexus</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Nexus</TargetBuilding>
-          <CanTargetSelf>True</CanTargetSelf>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Gateway</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Nexus</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Gateway</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Nexus</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Nexus</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Warp Gate</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Gateway</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Warp Gate</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Gateway</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Gateway</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Cybernetics Core</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Warp Gate</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Cybernetics Core</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Warp Gate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Warp Gate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Forge</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Cybernetics Core</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Forge</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Cybernetics Core</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Cybernetics Core</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Twilight Council</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Forge</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Twilight Council</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Forge</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Forge</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Templar Archives</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Twilight Council</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Templar Archives</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Twilight Council</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Twilight Council</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Robotics Facility</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Templar Archives</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Robotics Facility</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Templar Archives</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Templar Archives</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Robotics Bay</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Robotics Facility</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Robotics Bay</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Robotics Facility</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Robotics Facility</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Stargate</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Robotics Bay</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Stargate</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Robotics Bay</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Robotics Bay</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
           <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
-          <Name>Chrono Boost Fleet Beacon</Name>
-          <BuildingRequirement>Pylon</BuildingRequirement>
+          <Name>Move Chrono Boost From Gateway To Stargate</Name>
           <BuildingRequirement>Nexus</BuildingRequirement>
-          <BuildingRequirement>Fleet Beacon</BuildingRequirement>
-          <SourceBuilding energy="25">Nexus</SourceBuilding>
-          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Stargate</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Stargate</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Nexus To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Gateway To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Warp Gate To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Cybernetics Core To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Cybernetics Core</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Forge To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Forge</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Twilight Council To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Templar Archives To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Templar Archives</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Facility To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Robotics Bay To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Robotics Bay</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Stargate To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Stargate</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
+        </Command>
+        <Command category="BuildingAbility">
+          <Name>Move Chrono Boost From Fleet Beacon To Fleet Beacon</Name>
+          <BuildingRequirement>Nexus</BuildingRequirement>
+          <SourceBuilding>Fleet Beacon</SourceBuilding>
+          <TargetBuilding>Fleet Beacon</TargetBuilding>
+          <CanTargetSelf>False</CanTargetSelf>
+          <RequiresSourceBuildingStatus>Chrono Boost</RequiresSourceBuildingStatus>
+          <RemovesSourceBuildingStatus>Chrono Boost</RemovesSourceBuildingStatus>
+          <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
+          <AppliesTargetBuildingStatus>Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Convert Gateway To Warp Gate</Name>
@@ -540,7 +1784,7 @@
           <SourceBuilding>Warp Gate</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="28">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="5">Zealot</UnitComplete>
+          <UnitComplete time="2">Zealot</UnitComplete>
           <MineralCost>100</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -565,7 +1809,7 @@
           <SourceBuilding>Warp Gate</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="5">Stalker</UnitComplete>
+          <UnitComplete time="2">Stalker</UnitComplete>
           <MineralCost>125</MineralCost>
           <GasCost>50</GasCost>
         </Command>
@@ -591,9 +1835,35 @@
           <SourceBuilding>Warp Gate</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="5">Sentry</UnitComplete>
+          <UnitComplete time="2">Sentry</UnitComplete>
           <MineralCost>50</MineralCost>
           <GasCost>100</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Adept At Gateway</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
+          <BuildingRequirement>Pylon</BuildingRequirement>
+          <BuildingRequirement>Gateway</BuildingRequirement>
+          <BuildingRequirement>Cybernetics Core</BuildingRequirement>
+          <SourceBuilding>Gateway</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="27">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="27" occupiesSourceBuilding="True">Adept</UnitComplete>
+          <MineralCost>100</MineralCost>
+          <GasCost>25</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Adept At Warp Gate</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
+          <BuildingRequirement>Pylon</BuildingRequirement>
+          <BuildingRequirement>Warp Gate</BuildingRequirement>
+          <BuildingRequirement>Cybernetics Core</BuildingRequirement>
+          <SourceBuilding>Warp Gate</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="22">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="2">Adept</UnitComplete>
+          <MineralCost>100</MineralCost>
+          <GasCost>25</GasCost>
         </Command>
         <Command category="BuildUnit">
           <Name>Build High Templar At Gateway</Name>
@@ -617,7 +1887,7 @@
           <SourceBuilding>Warp Gate</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="45">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="5">High Templar</UnitComplete>
+          <UnitComplete time="2">High Templar</UnitComplete>
           <MineralCost>50</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -643,7 +1913,7 @@
           <SourceBuilding>Warp Gate</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="45">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="5">Dark Templar</UnitComplete>
+          <UnitComplete time="2">Dark Templar</UnitComplete>
           <MineralCost>125</MineralCost>
           <GasCost>125</GasCost>
         </Command>
@@ -692,6 +1962,18 @@
           <GasCost>200</GasCost>
         </Command>
         <Command category="BuildUnit">
+          <Name>Build Disruptor</Name>
+          <BuildingRequirement>Pylon</BuildingRequirement>
+          <BuildingRequirement>Robotics Facility</BuildingRequirement>
+          <BuildingRequirement>Robotics Bay</BuildingRequirement>
+          <SourceBuilding>Robotics Facility</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="50">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="50" occupiesSourceBuilding="True">Disruptor</UnitComplete>
+          <MineralCost>100</MineralCost>
+          <GasCost>200</GasCost>
+        </Command>
+        <Command category="BuildUnit">
           <Name>Build Phoenix</Name>
           <BuildingRequirement>Pylon</BuildingRequirement>
           <BuildingRequirement>Stargate</BuildingRequirement>
@@ -732,7 +2014,7 @@
           <SourceBuilding>Stargate</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="120">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="120" occupiesSourceBuilding="True">Carrier</UnitComplete>
+          <UnitComplete time="90" occupiesSourceBuilding="True">Carrier</UnitComplete>
           <MineralCost>350</MineralCost>
           <GasCost>250</GasCost>
         </Command>
@@ -766,13 +2048,13 @@
           <SourceUnit>High Templar</SourceUnit>
           <TargetUnit consume="True">High Templar</TargetUnit>
           <MorphSourceUnit time="12">Archon</MorphSourceUnit>
-      </Command>
+        </Command>
         <Command category="UnitAbility">
           <Name>Build Archon From 1 High Templar &amp; 1 Dark Templar</Name>
           <SourceUnit>High Templar</SourceUnit>
           <TargetUnit consume="True">Dark Templar</TargetUnit>
           <MorphSourceUnit time="12">Archon</MorphSourceUnit>
-      </Command>
+        </Command>
         <Command category="UnitAbility">
           <Name>Build Archon From 2 Dark Templar</Name>
           <SourceUnit>Dark Templar</SourceUnit>
@@ -981,7 +2263,7 @@
           <SourceBuilding>Cybernetics Core</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="160">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="160" occupiesSourceBuilding="True">Warp Gate Transformation</ResearchComplete>
+          <ResearchComplete time="140" occupiesSourceBuilding="True">Warp Gate Transformation</ResearchComplete>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
         </Command>
@@ -1006,6 +2288,17 @@
           <ResearchComplete time="170" occupiesSourceBuilding="True">Blink</ResearchComplete>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
+        </Command>
+        <Command category="Research">
+          <Name>Research Shield Upgrade</Name>
+          <BuildingRequirement>Pylon</BuildingRequirement>
+          <BuildingRequirement>Twilight Council</BuildingRequirement>
+          <SourceBuilding>Twilight Council</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="100">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="100" occupiesSourceBuilding="True">Shield Upgrade</ResearchComplete>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Psionic Storm</Name>
@@ -1087,6 +2380,11 @@
           <Name>Build Sentry</Name>
           <SubCommand>Build Sentry At Warp Gate</SubCommand>
           <SubCommand>Build Sentry At Gateway</SubCommand>
+        </Command>
+        <Command category="Multi">
+          <Name>Build Adept</Name>
+          <SubCommand>Build Adept At Warp Gate</SubCommand>
+          <SubCommand>Build Adept At Gateway</SubCommand>
         </Command>
         <Command category="Multi">
           <Name>Build High Templar</Name>
@@ -1196,6 +2494,10 @@
           <AddUnitCount>Sentry</AddUnitCount>
         </Target>
         <Target category="UnitCount">
+          <Name>Adept</Name>
+          <AddUnitCount>Adept</AddUnitCount>
+        </Target>
+        <Target category="UnitCount">
           <Name>High Templar</Name>
           <AddUnitCount>High Templar</AddUnitCount>
         </Target>
@@ -1222,6 +2524,10 @@
         <Target category="UnitCount">
           <Name>Colossus</Name>
           <AddUnitCount>Colossus</AddUnitCount>
+        </Target>
+        <Target category="UnitCount">
+          <Name>Disruptor</Name>
+          <AddUnitCount>Disruptor</AddUnitCount>
         </Target>
         <Target category="UnitCount">
           <Name>Phoenix</Name>
@@ -1254,8 +2560,11 @@
 
         <Target category="UnitAbility">
           <Name>Force Fields Available</Name>
-          <SourceUnit>Sentry</SourceUnit>
-          <EnergyRequired>50</EnergyRequired>
+          <SourceUnit energy="50">Sentry</SourceUnit>
+        </Target>
+        <Target category="UnitAbility">
+          <Name>Photon Overcharge Available</Name>
+          <SourceUnit energy="25">Mothership Core</SourceUnit>
         </Target>
 
         <Target category="Research">
@@ -1331,6 +2640,10 @@
           <Research>Blink</Research>
         </Target>
         <Target category="Research">
+          <Name>Shield Upgrade</Name>
+          <Research>Shield Upgrade</Research>
+        </Target>
+        <Target category="Research">
           <Name>Psionic Storm</Name>
           <Research>Psionic Storm</Research>
         </Target>
@@ -1375,6 +2688,9 @@
         <BuildingStatus>
           <Name>AtBase</Name>
         </BuildingStatus>
+        <BuildingStatus>
+          <Name>Ability Cooldown</Name>
+        </BuildingStatus>
       </BuildingStatuses>
       <Buildings>
         <Building>
@@ -1382,7 +2698,7 @@
           <IsBase>True</IsBase>
           <GameStartCount>1</GameStartCount>
           <GameStartStatus>AtBase</GameStartStatus>
-          <ProvidedSupply>11</ProvidedSupply>
+          <ProvidedSupply>15</ProvidedSupply>
         </Building>
         <Building>
           <Name>Supply Depot</Name>
@@ -1417,7 +2733,7 @@
         <Building>
           <Name>Orbital Command</Name>
           <IsBase>True</IsBase>
-          <ProvidedSupply>11</ProvidedSupply>
+          <ProvidedSupply>15</ProvidedSupply>
           <StartingEnergy>50</StartingEnergy>
           <MaxEnergy>200</MaxEnergy>
           <EnergyRechargeRate>0.5625</EnergyRechargeRate>
@@ -1476,12 +2792,12 @@
           <Name>SCV</Name>
           <IsWorker>True</IsWorker>
           <SupplyCost>1</SupplyCost>
-          <GameStartCount>6</GameStartCount>
+          <GameStartCount>12</GameStartCount>
         </Unit>
         <Unit>
           <Name>MULE</Name>
-          <MineralIncomeRate>3.0</MineralIncomeRate>
-          <ExpirationTime>90</ExpirationTime>
+          <MineralIncomeRate>4.0</MineralIncomeRate>
+          <ExpirationTime>60</ExpirationTime>
         </Unit>
         <Unit>
           <Name>Marine</Name>
@@ -1519,6 +2835,13 @@
           <SupplyCost>3</SupplyCost>
         </Unit>
         <Unit>
+          <Name>Cyclone</Name>
+          <SupplyCost>3</SupplyCost>
+          <StartingEnergy>50</StartingEnergy>
+          <MaxEnergy>200</MaxEnergy>
+          <EnergyRechargeRate>0.5625</EnergyRechargeRate>
+        </Unit>
+        <Unit>
           <Name>Thor</Name>
           <SupplyCost>6</SupplyCost>
           <StartingEnergy>50</StartingEnergy>
@@ -1531,6 +2854,10 @@
         </Unit>
         <Unit>
           <Name>Medivac</Name>
+          <SupplyCost>2</SupplyCost>
+        </Unit>
+        <Unit>
+          <Name>Liberator</Name>
           <SupplyCost>2</SupplyCost>
         </Unit>
         <Unit>
@@ -1594,10 +2921,13 @@
           <Name>Infernal Pre-Igniter</Name>
         </Research>
         <Research>
-          <Name>Transformation Servos</Name>
+          <Name>Drilling Claws</Name>
         </Research>
         <Research>
-          <Name>Drilling Claws</Name>
+          <Name>Targeting Optics</Name>
+        </Research>
+        <Research>
+          <Name>Surface to Air Targeting</Name>
         </Research>
         <Research>
           <Name>Vehicle &amp; Ship Weapons 1</Name>
@@ -1622,7 +2952,7 @@
           <DeprecateResearch>Vehicle &amp; Ship Plating 2</DeprecateResearch>
         </Research>
         <Research>
-          <Name>Durable Materials</Name>
+          <Name>Explosive Shrapnel Shells</Name>
         </Research>
         <Research>
           <Name>Corvid Reactor</Name>
@@ -1632,6 +2962,12 @@
         </Research>
         <Research>
           <Name>Cloaking Field</Name>
+        </Research>
+        <Research>
+          <Name>Hyperflight Rotors</Name>
+        </Research>
+        <Research>
+          <Name>Medivac Ignite Afterburners</Name>
         </Research>
         <Research>
           <Name>Behemoth Reactor</Name>
@@ -1671,7 +3007,7 @@
           <MoveToGas>True</MoveToGas>
           <WorkerCount>3</WorkerCount>
         </Command>
-        
+
         <!-- Build Buildings -->
         <Command category="BuildBuilding">
           <Name>Build Command Center</Name>
@@ -1749,6 +3085,7 @@
         </Command>
         <Command category="BuildBuilding">
           <Name>Build Missile Turret</Name>
+          <BuildingRequirement>Barracks</BuildingRequirement>
           <BuildingRequirement>Engineering Bay</BuildingRequirement>
           <BuildingComplete time="25">Missile Turret</BuildingComplete>
           <OccupyWorker time="30.0">True</OccupyWorker>
@@ -1844,15 +3181,15 @@
           <MineralCost>150</MineralCost>
           <GasCost>100</GasCost>
         </Command>
-       <Command category="BuildBuilding">
+        <Command category="BuildBuilding">
           <Name>Build Fusion Core</Name>
-         <BuildingRequirement>Starport</BuildingRequirement>
-         <BuildingComplete time="65">Fusion Core</BuildingComplete>
-         <OccupyWorker time="70.0">True</OccupyWorker>
-         <WorkerTravelTime>5.0</WorkerTravelTime>
-         <MineralCost>150</MineralCost>
-         <GasCost>150</GasCost>
-       </Command>
+          <BuildingRequirement>Starport</BuildingRequirement>
+          <BuildingComplete time="65">Fusion Core</BuildingComplete>
+          <OccupyWorker time="70.0">True</OccupyWorker>
+          <WorkerTravelTime>5.0</WorkerTravelTime>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
+        </Command>
 
         <!-- Building Abilities -->
         <Command category="BuildingAbility">
@@ -1974,17 +3311,19 @@
         </Command>
         <Command category="BuildingAbility">
           <Name>Calldown: MULE</Name>
+          <IsAutoCastAbility>True</IsAutoCastAbility>
           <BuildingRequirement>Orbital Command</BuildingRequirement>
           <SourceBuilding>Orbital Command</SourceBuilding>
-          <EnergyCost>50</EnergyCost>
           <UnitComplete time="5">MULE</UnitComplete>
+          <RequiresSourceBuildingStatusAbsent>Ability Cooldown</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="90">Ability Cooldown</AppliesSourceBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Calldown: Extra Supplies</Name>
           <BuildingRequirement>Orbital Command</BuildingRequirement>
           <BuildingRequirement>Supply Depot</BuildingRequirement>
           <SourceBuilding>Orbital Command</SourceBuilding>
-          <EnergyCost>50</EnergyCost>
+          <EnergyCost>75</EnergyCost>
           <TargetBuilding>Supply Depot</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Busy</RequiresTargetBuildingStatusAbsent>
           <AppliesTargetBuildingStatus duration="5">Busy</AppliesTargetBuildingStatus>
@@ -2420,6 +3759,16 @@
           <GasCost>125</GasCost>
         </Command>
         <Command category="BuildUnit">
+          <Name>Build Cyclone</Name>
+          <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
+          <SourceBuilding>Factory With Tech Lab</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="45">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="45" occupiesSourceBuilding="True">Cyclone</UnitComplete>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
+        </Command>
+        <Command category="BuildUnit">
           <Name>Build Thor</Name>
           <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
           <BuildingRequirement>Armory</BuildingRequirement>
@@ -2515,6 +3864,48 @@
           <GasCost>100</GasCost>
         </Command>
         <Command category="BuildUnit">
+          <Name>Build Liberator From Naked Starport</Name>
+          <BuildingRequirement>Starport</BuildingRequirement>
+          <SourceBuilding>Starport</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Liberator From Starport With Reactor 1</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
+          <BuildingRequirement>Starport With Reactor</BuildingRequirement>
+          <SourceBuilding>Starport With Reactor</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Liberator From Starport With Reactor 2</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
+          <BuildingRequirement>Starport With Reactor</BuildingRequirement>
+          <SourceBuilding>Starport With Reactor</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="43">Addon Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Liberator From Starport With Tech Lab</Name>
+          <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
+          <SourceBuilding>Starport With Tech Lab</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
+        </Command>
+        <Command category="BuildUnit">
           <Name>Build Raven</Name>
           <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
           <SourceBuilding>Starport With Tech Lab</SourceBuilding>
@@ -2549,13 +3940,13 @@
         <!-- Unit Abilities -->
         <Command category="UnitAbility">
           <Name>Convert Hellion to Hellbat</Name>
-          <ResearchRequirement>Transformation Servos</ResearchRequirement>
+          <BuildingRequirement>Armory</BuildingRequirement>
           <SourceUnit>Hellion</SourceUnit>
           <MorphSourceUnit time="4">Hellbat</MorphSourceUnit>
         </Command>
         <Command category="UnitAbility">
           <Name>Convert Hellbat to Hellion</Name>
-          <ResearchRequirement>Transformation Servos</ResearchRequirement>
+          <BuildingRequirement>Armory</BuildingRequirement>
           <SourceUnit>Hellbat</SourceUnit>
           <MorphSourceUnit time="4">Hellion</MorphSourceUnit>
         </Command>
@@ -2710,17 +4101,6 @@
           <GasCost>150</GasCost>
         </Command>
         <Command category="Research">
-          <Name>Research Transformation Servos</Name>
-          <BuildingRequirement>Armory</BuildingRequirement>
-          <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
-          <SourceBuilding>Factory With Tech Lab</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="110">Addon Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="110" occupiesSourceBuilding="True">Transformation Servos</ResearchComplete>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
-        </Command>
-        <Command category="Research">
           <Name>Research Drilling Claws</Name>
           <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
           <SourceBuilding>Factory With Tech Lab</SourceBuilding>
@@ -2729,6 +4109,28 @@
           <ResearchComplete time="110" occupiesSourceBuilding="True">Drilling Claws</ResearchComplete>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
+        </Command>
+        <Command category="Research">
+          <Name>Research Targeting Optics</Name>
+          <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
+          <BuildingRequirement>Armory</BuildingRequirement>
+          <SourceBuilding>Factory With Tech Lab</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="79">Addon Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="79" occupiesSourceBuilding="True">Targeting Optics</ResearchComplete>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
+        </Command>
+        <Command category="Research">
+          <Name>Research Surface to Air Targeting</Name>
+          <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
+          <BuildingRequirement>Fusion Core</BuildingRequirement>
+          <SourceBuilding>Factory With Tech Lab</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="110">Addon Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="110" occupiesSourceBuilding="True">Surface to Air Targeting</ResearchComplete>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Vehicle &amp; Ship Weapons 1</Name>
@@ -2795,12 +4197,12 @@
           <GasCost>250</GasCost>
         </Command>
         <Command category="Research">
-          <Name>Research Durable Materials</Name>
+          <Name>Research Explosive Shrapnel Shells</Name>
           <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
           <SourceBuilding>Starport With Tech Lab</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="110">Addon Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="110" occupiesSourceBuilding="True">Durable Materials</ResearchComplete>
+          <ResearchComplete time="110" occupiesSourceBuilding="True">Explosive Shrapnel Shells</ResearchComplete>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -2835,6 +4237,26 @@
           <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
+          <Name>Research Hyperflight Rotors</Name>
+          <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
+          <SourceBuilding>Starport With Tech Lab</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="110">Addon Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="110" occupiesSourceBuilding="True">Hyperflight Rotors</ResearchComplete>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
+        </Command>
+        <Command category="Research">
+          <Name>Research Medivac Ignite Afterburners</Name>
+          <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
+          <SourceBuilding>Starport With Tech Lab</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="110">Addon Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="110" occupiesSourceBuilding="True">Medivac Ignite Afterburners</ResearchComplete>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
+        </Command>
+        <Command category="Research">
           <Name>Research Behemoth Reactor</Name>
           <BuildingRequirement>Fusion Core</BuildingRequirement>
           <SourceBuilding>Fusion Core</SourceBuilding>
@@ -2854,7 +4276,7 @@
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
-
+        
         <Command category="Multi">
           <Name>Build SCV</Name>
           <SubCommand>Build SCV From Planetary Fortress</SubCommand>
@@ -2895,6 +4317,11 @@
           <Name>Build Medivac From Starport With Reactor</Name>
           <SubCommand>Build Medivac From Starport With Reactor 1</SubCommand>
           <SubCommand>Build Medivac From Starport With Reactor 2</SubCommand>
+        </Command>
+        <Command category="Multi">
+          <Name>Build Liberator From Starport With Reactor</Name>
+          <SubCommand>Build Liberator From Starport With Reactor 1</SubCommand>
+          <SubCommand>Build Liberator From Starport With Reactor 2</SubCommand>
         </Command>
       </Commands>
 
@@ -2988,15 +4415,9 @@
         </Target>
 
         <Target category="BuildingAbility">
-          <Name>MULEs Available</Name>
-          <SourceBuilding>Orbital Command</SourceBuilding>
-          <EnergyRequired>50</EnergyRequired>
-        </Target>
-
-        <Target category="BuildingAbility">
           <Name>Scanner Sweeps Available</Name>
           <SourceBuilding>Orbital Command</SourceBuilding>
-          <EnergyRequired>50</EnergyRequired>
+          <EnergyRequired>100</EnergyRequired>
         </Target>
 
         <Target category="BuildingStatus">
@@ -3014,10 +4435,6 @@
         <Target category="UnitCount">
           <Name>SCV</Name>
           <AddUnitCount>SCV</AddUnitCount>
-        </Target>
-        <Target category="UnitCount">
-          <Name>MULE</Name>
-          <AddUnitCount>MULE</AddUnitCount>
         </Target>
         <Target category="UnitCount">
           <Name>Marine</Name>
@@ -3058,6 +4475,10 @@
           <AddUnitCount>Siege Tank</AddUnitCount>
         </Target>
         <Target category="UnitCount">
+          <Name>Cyclone</Name>
+          <AddUnitCount>Cyclone</AddUnitCount>
+        </Target>
+        <Target category="UnitCount">
           <Name>Thor</Name>
           <AddUnitCount>Thor</AddUnitCount>
         </Target>
@@ -3068,6 +4489,10 @@
         <Target category="UnitCount">
           <Name>Medivac</Name>
           <AddUnitCount>Medivac</AddUnitCount>
+        </Target>
+        <Target category="UnitCount">
+          <Name>Liberator</Name>
+          <AddUnitCount>Liberator</AddUnitCount>
         </Target>
         <Target category="UnitCount">
           <Name>Raven</Name>
@@ -3139,12 +4564,16 @@
           <Research>Infernal Pre-Igniter</Research>
         </Target>
         <Target category="Research">
-          <Name>Transformation Servos</Name>
-          <Research>Transformation Servos</Research>
-        </Target>
-        <Target category="Research">
           <Name>Drilling Claws</Name>
           <Research>Drilling Claws</Research>
+        </Target>
+        <Target category="Research">
+          <Name>Targeting Optics</Name>
+          <Research>Targeting Optics</Research>
+        </Target>
+        <Target category="Research">
+          <Name>Surface to Air Targeting</Name>
+          <Research>Surface to Air Targeting</Research>
         </Target>
         <Target category="Research">
           <Name>Vehicle &amp; Ship Weapons 1</Name>
@@ -3171,8 +4600,8 @@
           <Research>Vehicle &amp; Ship Plating 3</Research>
         </Target>
         <Target category="Research">
-          <Name>Durable Materials</Name>
-          <Research>Durable Materials</Research>
+          <Name>Explosive Shrapnel Shells</Name>
+          <Research>Explosive Shrapnel Shells</Research>
         </Target>
         <Target category="Research">
           <Name>Corvid Reactor</Name>
@@ -3185,6 +4614,14 @@
         <Target category="Research">
           <Name>Cloaking Field</Name>
           <Research>Cloaking Field</Research>
+        </Target>
+        <Target category="Research">
+          <Name>Hyperflight Rotors</Name>
+          <Research>Hyperflight Rotors</Research>
+        </Target>
+        <Target category="Research">
+          <Name>Medivac Ignite Afterburners</Name>
+          <Research>Medivac Ignite Afterburners</Research>
         </Target>
         <Target category="Research">
           <Name>Behemoth Reactor</Name>
@@ -3215,7 +4652,7 @@
           <Name>Hatchery</Name>
           <IsBase>True</IsBase>
           <GameStartCount>1</GameStartCount>
-          <ProvidedSupply>2</ProvidedSupply>
+          <ProvidedSupply>6</ProvidedSupply>
           <GameStartLarvaeCount>3</GameStartLarvaeCount>
           <InitialLarvaeCount>1</InitialLarvaeCount>
           <MaxLarvaeSpawningCount>3</MaxLarvaeSpawningCount>
@@ -3225,7 +4662,7 @@
         <Building>
           <Name>Lair</Name>
           <IsBase>True</IsBase>
-          <ProvidedSupply>2</ProvidedSupply>
+          <ProvidedSupply>6</ProvidedSupply>
           <MaxLarvaeSpawningCount>3</MaxLarvaeSpawningCount>
           <MaxLarvaeCount>19</MaxLarvaeCount>
           <LarvaeSpawnTime>15.0</LarvaeSpawnTime>
@@ -3233,7 +4670,7 @@
         <Building>
           <Name>Hive</Name>
           <IsBase>True</IsBase>
-          <ProvidedSupply>2</ProvidedSupply>
+          <ProvidedSupply>6</ProvidedSupply>
           <MaxLarvaeSpawningCount>3</MaxLarvaeSpawningCount>
           <MaxLarvaeCount>19</MaxLarvaeCount>
           <LarvaeSpawnTime>15.0</LarvaeSpawnTime>
@@ -3253,6 +4690,9 @@
         </Building>
         <Building>
           <Name>Hydralisk Den</Name>
+        </Building>
+        <Building>
+          <Name>Lurker Den</Name>
         </Building>
         <Building>
           <Name>Spire</Name>
@@ -3287,7 +4727,7 @@
         <Unit>
           <Name>Drone</Name>
           <IsWorker>True</IsWorker>
-          <GameStartCount>6</GameStartCount>
+          <GameStartCount>12</GameStartCount>
           <SupplyCost>1</SupplyCost>
         </Unit>
         <Unit>
@@ -3315,6 +4755,10 @@
           <SupplyCost>2</SupplyCost>
         </Unit>
         <Unit>
+          <Name>Ravager</Name>
+          <SupplyCost>3</SupplyCost>
+        </Unit>
+        <Unit>
           <Name>Overseer</Name>
           <ProvidedSupply>8</ProvidedSupply>
           <MaxEnergy>200</MaxEnergy>
@@ -3327,6 +4771,10 @@
         <Unit>
           <Name>Hydralisk</Name>
           <SupplyCost>2</SupplyCost>
+        </Unit>
+        <Unit>
+          <Name>Lurker</Name>
+          <SupplyCost>3</SupplyCost>
         </Unit>
         <Unit>
           <Name>Mutalisk</Name>
@@ -3352,7 +4800,7 @@
         </Unit>
         <Unit>
           <Name>Swarm Host</Name>
-          <SupplyCost>3</SupplyCost>
+          <SupplyCost>4</SupplyCost>
         </Unit>
         <Unit>
           <Name>Infested Terran</Name>
@@ -3430,12 +4878,6 @@
         </Research>
         <Research>
           <Name>Pathogen Glands</Name>
-        </Research>
-        <Research>
-          <Name>Enduring Locusts</Name>
-        </Research>
-        <Research>
-          <Name>Grooved Spines</Name>
         </Research>
         <Research>
           <Name>Muscular Augments</Name>
@@ -3550,6 +4992,15 @@
           <BuildingComplete time="40">Hydralisk Den</BuildingComplete>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
+        </Command>
+        <Command category="BuildBuilding">
+          <Name>Build Lurker Den</Name>
+          <BuildingRequirement>Hydralisk Den</BuildingRequirement>
+          <ConsumeWorker>True</ConsumeWorker>
+          <WorkerTravelTime>5.0</WorkerTravelTime>
+          <BuildingComplete time="55">Lurker Den</BuildingComplete>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
         </Command>
         <Command category="BuildBuilding">
           <Name>Build Spire</Name>
@@ -3784,6 +5235,14 @@
           <GasCost>25</GasCost>
         </Command>
         <Command category="UnitAbility">
+          <Name>Morph Ravager</Name>
+          <BuildingRequirement>Roach Warren</BuildingRequirement>
+          <SourceUnit>Roach</SourceUnit>
+          <MorphSourceUnit time="20">Ravager</MorphSourceUnit>
+          <MineralCost>25</MineralCost>
+          <GasCost>75</GasCost>
+        </Command>
+        <Command category="UnitAbility">
           <Name>Morph Overseer</Name>
           <BuildingRequirement>Lair</BuildingRequirement>
           <SourceUnit>Overlord</SourceUnit>
@@ -3795,6 +5254,14 @@
           <Name>Spawn Changeling</Name>
           <SourceUnit energy="50">Overseer</SourceUnit>
           <UnitComplete time="1">Changeling</UnitComplete>
+        </Command>
+        <Command category="UnitAbility">
+          <Name>Morph Lurker</Name>
+          <BuildingRequirement>Lurker Den</BuildingRequirement>
+          <SourceUnit>Hydralisk</SourceUnit>
+          <MorphSourceUnit time="20">Lurker</MorphSourceUnit>
+          <MineralCost>50</MineralCost>
+          <GasCost>100</GasCost>
         </Command>
         <Command category="UnitAbility">
           <Name>Spawn Infested Terran</Name>
@@ -3811,33 +5278,36 @@
         </Command>
         <Command category="UnitAbility">
           <Name>Queen Spawn Larvae On Hatchery</Name>
+          <IsAutoCastAbility>True</IsAutoCastAbility>
           <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <BuildingRequirement>Hatchery</BuildingRequirement>
           <SourceUnit energy="25">Queen</SourceUnit>
           <TargetBuilding>Hatchery</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Spawning Bonus Larvae</RequiresTargetBuildingStatusAbsent>
           <AppliesTargetBuildingStatus duration="40">Spawning Bonus Larvae</AppliesTargetBuildingStatus>
-          <SpawnTargetBuildingBonusLarvae time="40">4</SpawnTargetBuildingBonusLarvae>
+          <SpawnTargetBuildingBonusLarvae time="40">3</SpawnTargetBuildingBonusLarvae>
         </Command>
         <Command category="UnitAbility">
           <Name>Queen Spawn Larvae On Lair</Name>
+          <IsAutoCastAbility>True</IsAutoCastAbility>
           <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <BuildingRequirement>Lair</BuildingRequirement>
           <SourceUnit energy="25">Queen</SourceUnit>
           <TargetBuilding>Lair</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Spawning Bonus Larvae</RequiresTargetBuildingStatusAbsent>
           <AppliesTargetBuildingStatus duration="40">Spawning Bonus Larvae</AppliesTargetBuildingStatus>
-          <SpawnTargetBuildingBonusLarvae time="40">4</SpawnTargetBuildingBonusLarvae>
+          <SpawnTargetBuildingBonusLarvae time="40">3</SpawnTargetBuildingBonusLarvae>
         </Command>
         <Command category="UnitAbility">
           <Name>Queen Spawn Larvae On Hive</Name>
+          <IsAutoCastAbility>True</IsAutoCastAbility>
           <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <BuildingRequirement>Hive</BuildingRequirement>
           <SourceUnit energy="25">Queen</SourceUnit>
           <TargetBuilding>Hive</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Spawning Bonus Larvae</RequiresTargetBuildingStatusAbsent>
           <AppliesTargetBuildingStatus duration="40">Spawning Bonus Larvae</AppliesTargetBuildingStatus>
-          <SpawnTargetBuildingBonusLarvae time="40">4</SpawnTargetBuildingBonusLarvae>
+          <SpawnTargetBuildingBonusLarvae time="40">3</SpawnTargetBuildingBonusLarvae>
         </Command>
         <Command category="UnitAbility">
           <Name>Queen Spawn Creep Tumor</Name>
@@ -4115,26 +5585,6 @@
           <GasCost>150</GasCost>
         </Command>
         <Command category="Research">
-          <Name>Research Enduring Locusts</Name>
-          <BuildingRequirement>Infestation Pit</BuildingRequirement>
-          <SourceBuilding>Infestation Pit</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="120">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="120" occupiesSourceBuilding="True">Enduring Locusts</ResearchComplete>
-          <MineralCost>200</MineralCost>
-          <GasCost>200</GasCost>
-        </Command>
-        <Command category="Research">
-          <Name>Research Grooved Spines</Name>
-          <BuildingRequirement>Hydralisk Den</BuildingRequirement>
-          <SourceBuilding>Hydralisk Den</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="80">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="80" occupiesSourceBuilding="True">Grooved Spines</ResearchComplete>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
-        </Command>
-        <Command category="Research">
           <Name>Research Muscular Augments</Name>
           <BuildingRequirement>Hydralisk Den</BuildingRequirement>
           <SourceBuilding>Hydralisk Den</SourceBuilding>
@@ -4315,6 +5765,7 @@
         </Command>
         <Command category="Multi">
           <Name>Queen Spawn Larvae</Name>
+          <IsAutoCastAbility>True</IsAutoCastAbility>
           <SubCommand>Queen Spawn Larvae On Hatchery</SubCommand>
           <SubCommand>Queen Spawn Larvae On Lair</SubCommand>
           <SubCommand>Queen Spawn Larvae On Hive</SubCommand>
@@ -4352,6 +5803,10 @@
         <Target category="BuildingCount">
           <Name>Hydralisk Den</Name>
           <AddBuildingCount>Hydralisk Den</AddBuildingCount>
+        </Target>
+        <Target category="BuildingCount">
+          <Name>Lurker Den</Name>
+          <AddBuildingCount>Lurker Den</AddBuildingCount>
         </Target>
         <Target category="BuildingCount">
           <Name>Spire</Name>
@@ -4419,6 +5874,10 @@
           <AddUnitCount>Roach</AddUnitCount>
         </Target>
         <Target category="UnitCount">
+          <Name>Ravager</Name>
+          <AddUnitCount>Ravager</AddUnitCount>
+        </Target>
+        <Target category="UnitCount">
           <Name>Overseer</Name>
           <AddUnitCount>Overseer</AddUnitCount>
         </Target>
@@ -4429,6 +5888,10 @@
         <Target category="UnitCount">
           <Name>Hydralisk</Name>
           <AddUnitCount>Hydralisk</AddUnitCount>
+        </Target>
+        <Target category="UnitCount">
+          <Name>Lurker</Name>
+          <AddUnitCount>Lurker</AddUnitCount>
         </Target>
         <Target category="UnitCount">
           <Name>Mutalisk</Name>
@@ -4465,25 +5928,21 @@
 
         <Target category="UnitAbility">
           <Name>Changelings Available</Name>
-          <SourceUnit>Overseer</SourceUnit>
-          <EnergyRequired>50</EnergyRequired>
+          <SourceUnit energy="50">Overseer</SourceUnit>
         </Target>
         <Target category="UnitAbility">
           <Name>Contaminates Available</Name>
-          <SourceUnit>Overseer</SourceUnit>
-          <EnergyRequired>125</EnergyRequired>
+          <SourceUnit energy="125">Overseer</SourceUnit>
         </Target>
         <Target category="UnitAbility">
           <Name>Fungal Growths Available</Name>
-          <SourceUnit>Infestor</SourceUnit>
-          <EnergyRequired>75</EnergyRequired>
+          <SourceUnit energy="75">Infestor</SourceUnit>
         </Target>
         <Target category="UnitAbility">
           <Name>Infested Terrans Available</Name>
-          <SourceUnit>Infestor</SourceUnit>
-          <EnergyRequired>25</EnergyRequired>
+          <SourceUnit energy="25">Infestor</SourceUnit>
         </Target>
-        
+
         <Target category="Research">
           <Name>Burrow</Name>
           <Research>Burrow</Research>
@@ -4559,14 +6018,6 @@
         <Target category="Research">
           <Name>Pathogen Glands</Name>
           <Research>Pathogen Glands</Research>
-        </Target>
-        <Target category="Research">
-          <Name>Enduring Locusts</Name>
-          <Research>Enduring Locusts</Research>
-        </Target>
-        <Target category="Research">
-          <Name>Grooved Spines</Name>
-          <Research>Grooved Spines</Research>
         </Target>
         <Target category="Research">
           <Name>Muscular Augments</Name>

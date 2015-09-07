@@ -43,23 +43,32 @@ CSC2State::CSC2State(ESC2Race race, const CSC2RaceData &raceData)
 	, m_supplyCap(0)
 	, m_supplyCapUnderConstruction(0)
 {
-	for(size_t i=0; i < m_raceData.m_buildings.size(); i++)
+	m_buildingUnderConstruction.capacity(m_raceData.m_buildings.size());
+	m_buildingMorphing.capacity(m_raceData.m_buildings.size());
+	m_buildings.capacity(m_raceData.m_buildings.size());
+	for (size_t i = 0; i < m_raceData.m_buildings.size(); i++)
 	{
 		m_buildingUnderConstruction.push_back(0);
 		m_buildingMorphing.push_back(0);
 		m_buildings.push_back(new CBuildingStateList(*m_raceData.m_buildings[i]));
 	}
-	for(size_t i=0; i < m_raceData.m_units.size(); i++)
+	m_unitUnderConstruction.capacity(m_raceData.m_units.size());
+	m_units.capacity(m_raceData.m_units.size());
+	for (size_t i = 0; i < m_raceData.m_units.size(); i++)
 	{
 		m_unitUnderConstruction.push_back(0);
 		m_units.push_back(new CUnitStateList(*m_raceData.m_units[i]));
 	}
-	for(size_t i=0; i < m_raceData.m_research.size(); i++)
+	m_researchCompleted.capacity(m_raceData.m_research.size());
+	m_researchUnderConstruction.capacity(m_raceData.m_research.size());
+	for (size_t i = 0; i < m_raceData.m_research.size(); i++)
 	{
 		m_researchCompleted.push_back(0);
 		m_researchUnderConstruction.push_back(0);
 	}
 
+	m_allBuildings.capacity(20); // Capacity for 20 buildings to start with
+	m_allUnits.capacity(50); // Capacity for 50 buildings to start with
 	m_allBuildings.push_back(NULL); // Index 0 is reserved
 	m_allUnits.push_back(NULL); // Index 0 is reserved
 }
@@ -230,6 +239,7 @@ void CSC2State::SetInitialState(CPriorityQueue<CSC2Event> &events)
 			for(size_t j=0; j < building->GetGameStartCount(); j++)
 			{
 				SBuildingState *buildingState = new SBuildingState();
+				buildingState->productionBoost = building->GetGameStartProductionBoost();
 				buildingState->buildingID = m_allBuildings.size();
 				buildingState->buildingTypeID = i;
 				buildingState->larvaeCount = building->GetGameStartLarvaeCount();
@@ -242,17 +252,23 @@ void CSC2State::SetInitialState(CPriorityQueue<CSC2Event> &events)
 						events.add(CSC2Event(m_time + building->GetLarvaeSpawnTime(), CSC2Event::eBuildingSpawnLarvae, true, buildingState->buildingID, 0, 1));
 				}
 				buildingState->status = (building->GetInitialStatus() | building->GetGameStartStatus());
-				if(building->GetInitialStatusDuration() > 0.0)
-					events.add(CSC2Event(m_time + building->GetInitialStatusDuration(), CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, building->GetInitialStatus()));
-				if(building->GetGameStartStatusDuration() > 0.0)
-					events.add(CSC2Event(m_time + building->GetGameStartStatusDuration(), CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, building->GetGameStartStatus()));
+				for (size_t k = 0; k < building->GetGameStartStatusList().size(); k++)
+				{
+					if (building->GetGameStartStatusDurations()[k] > 0.0)
+						events.add(CSC2Event(m_time + building->GetGameStartStatusDurations()[k], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building->GetGameStartStatusList()[k]));
+				}
+				for (size_t k = 0; k < building->GetInitialStatusList().size(); k++)
+				{
+					if (building->GetInitialStatusDurations()[k] > 0.0)
+						events.add(CSC2Event(m_time + building->GetInitialStatusDurations()[k], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building->GetInitialStatusList()[k]));
+				}
 				m_allBuildings.push_back(buildingState);
 				if(buildingStateList.m_building.GetEnergyRechargeRate() > 0)
 					buildingState->maxEnergyTime = m_time + (building->GetMaxEnergy() - building->GetStartingEnergy()) / building->GetEnergyRechargeRate();
 				buildingStateList.m_buildingList.push_back(buildingState);
 			}
 
-			if(building->IsBase())
+			if (building->IsBase())
 				m_baseCount += building->GetGameStartCount();
 			if(building->IsGeyserBuilding())
 				m_geyserCount += building->IsGeyserBuilding();
@@ -346,6 +362,7 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 			CBuildingStateList &buildingStateList = *m_buildings[buildingTypeID];
 			const CSC2Building &building = buildingStateList.m_building;
 			SBuildingState *buildingState = new SBuildingState();
+			buildingState->productionBoost = building.GetInitialProductionBoost();
 			buildingState->buildingTypeID = buildingTypeID;
 			buildingState->buildingID = m_allBuildings.size();
 			buildingState->larvaeCount = building.GetInitialLarvaeCount();
@@ -358,8 +375,11 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 					events.add(CSC2Event(m_time + building.GetLarvaeSpawnTime(), CSC2Event::eBuildingSpawnLarvae, true, buildingState->buildingID, 0, 1));
 			}
 			buildingState->status = building.GetInitialStatus() | entry.m_event.m_data.m_data;
-			if(building.GetInitialStatusDuration() > 0.0)
-				events.add(CSC2Event(m_time + building.GetInitialStatusDuration(), CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, building.GetInitialStatus()));
+			for (size_t i = 0; i < building.GetInitialStatusList().size(); i++)
+			{
+				if (building.GetInitialStatusDurations()[i] > 0.0)
+					events.add(CSC2Event(m_time + building.GetInitialStatusDurations()[i], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building.GetInitialStatusList()[i]));
+			}
 			m_allBuildings.push_back(buildingState);
 			if(building.GetEnergyRechargeRate() > 0.0)
 				buildingState->maxEnergyTime = m_time + (building.GetMaxEnergy() - building.GetStartingEnergy()) / building.GetEnergyRechargeRate();
@@ -460,7 +480,14 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 		{
 			SBuildingState *buildingState = m_allBuildings[entry.m_event.m_data.m_sourceID];
 			buildingState->status |= (unsigned short)entry.m_event.m_data.m_data;
-			if(0 != (entry.m_event.m_data.m_data & m_raceData.m_chronoBoostStatusFlags))
+			double productionBoostFactor = 1.0;
+			unsigned short statusFlags = entry.m_event.m_data.m_data;
+			for (size_t i = 0; statusFlags != 0; i++, statusFlags >>= 1)
+			{
+				if (statusFlags & 0x1)
+					productionBoostFactor *= m_raceData.m_buildingStatuses[i]->GetProductionBoostFactor();
+			}
+			if (1.0 != productionBoostFactor)
 			{
 				CVector<CSC2Event> eventsModified;
 				bool eventModified = true;
@@ -474,7 +501,7 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 						{
 							eventModified = true;
 							CSC2Event event = events.pop(eventIndex);
-							event.m_time = m_time + (event.m_time - m_time) / CHRONOBOOST_MULTIPLIER;
+							event.m_time = m_time + (event.m_time - m_time) / productionBoostFactor;
 							eventsModified.push_back(event);
 							break;
 						}
@@ -490,7 +517,14 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 		{
 			SBuildingState *buildingState = m_allBuildings[entry.m_event.m_data.m_sourceID];
 			buildingState->status &= (~(unsigned short)entry.m_event.m_data.m_data);
-			if(0 != (entry.m_event.m_data.m_data & m_raceData.m_chronoBoostStatusFlags))
+			double productionBoostFactor = 1.0;
+			unsigned short statusFlags = entry.m_event.m_data.m_data;
+			for (size_t i = 0; statusFlags != 0; i++, statusFlags >>= 1)
+			{
+				if (statusFlags & 0x1)
+					productionBoostFactor *= m_raceData.m_buildingStatuses[i]->GetProductionBoostFactor();
+			}
+			if (1.0 != productionBoostFactor)
 			{
 				CVector<CSC2Event> eventsModified;
 				bool eventModified = true;
@@ -504,7 +538,7 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 						{
 							eventModified = true;
 							CSC2Event event = events.pop(eventIndex);
-							event.m_time = m_time + (event.m_time - m_time) * CHRONOBOOST_MULTIPLIER;
+							event.m_time = m_time + (event.m_time - m_time) * productionBoostFactor;
 							eventsModified.push_back(event);
 							break;
 						}

@@ -52,6 +52,7 @@ public:
 
 	const wxString &GetName() const { return m_name; }
 	bool IsAvailableToGeneticAlgorithm() const { return m_isAvailableToGeneticAlgorithm; }
+	bool IsAutoCastAbility() const { return m_isAutoCastAbility; }
 
 	const CSC2Command *GetPrerequisitCommand(const CSC2State &state
 		, EGasMicro gasMicro
@@ -67,6 +68,7 @@ protected:
 	const CSC2RaceData &m_raceData;
 	wxString m_name;
 	bool m_isAvailableToGeneticAlgorithm;
+	bool m_isAutoCastAbility;
 };
 
 class CSC2WaitCommand : public CSC2Command
@@ -293,6 +295,8 @@ protected:
 	const CSC2Building *m_sourceBuilding;
 	std::vector<wxString> m_requireSourceBuildingStatusAbsentNames;
 	SC2BuildingStatusFlags m_requireSourceBuildingStatusAbsent;
+	std::vector<wxString> m_requireSourceBuildingStatusNames;
+	SC2BuildingStatusFlags m_requireSourceBuildingStatus;
 
 	wxString m_targetBuildingName;
 	size_t m_targetBuildingTypeID;
@@ -305,17 +309,21 @@ protected:
 	double m_gasCost;
 	double m_energyCost;
 
+	std::vector<wxString> m_removeSourceBuildingStatusNames;
+	CVector<size_t> m_removeSourceBuildingStatusIDs;
+	SC2BuildingStatusFlags m_removeSourceBuildingStatus;
 	std::vector<wxString> m_applySourceBuildingStatusNames;
 	CVector<size_t> m_applySourceBuildingStatusIDs;
 	CVector<SC2BuildingStatusFlags> m_applySourceBuildingStatus;
 	CVector<double> m_applySourceBuildingStatusDelay;
 	CVector<double> m_applySourceBuildingStatusDuration;
+	double m_sourceProductionBoost;
 
 	std::vector<wxString> m_applyTargetBuildingStatusNames;
 	size_t m_applyTargetBuildingStatusID;
 	SC2BuildingStatusFlags m_applyTargetBuildingStatus;
 	double m_applyTargetBuildingStatusDuration;
-	bool m_appliesChronoBoostToTarget;
+	double m_targetProductionBoost;
 
 	wxString m_morphSourceBuildingName;
 	size_t m_morphSourceBuildingTypeID;
@@ -555,7 +563,7 @@ protected:
 	size_t m_applyTargetBuildingStatusID;
 	SC2BuildingStatusFlags m_applyTargetBuildingStatus;
 	double m_applyTargetBuildingStatusDuration;
-	bool m_appliesChronoBoostToTarget;
+	double m_targetProductionBoost;
 };
 
 class CSC2ResearchCommand : public CSC2XMLCommand

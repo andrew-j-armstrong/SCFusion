@@ -4,20 +4,18 @@
 
 #include "../Core/Vector.h"
 
-class CSC2Research
+class CSC2BuildingStatus
 {
 public:
-	CSC2Research();
-	~CSC2Research() {}
+	CSC2BuildingStatus();
+	~CSC2BuildingStatus() {}
 
 	bool LoadXML(const wxXmlNode *xmlRace);
 
 	const wxString &GetName() const { return m_name; }
-
-	bool ResolveIDs(const std::vector<wxString> &researchNames);
+	double GetProductionBoostFactor() const { return m_productionBoostFactor; }
 
 protected:
 	wxString m_name;
-	std::vector<wxString> m_deprecateResearch;
-	CVector<size_t> m_deprecateResearchIDs;
+	double m_productionBoostFactor;
 };

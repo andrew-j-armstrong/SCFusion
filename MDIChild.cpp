@@ -336,25 +336,25 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_engine->AddTargetProperties(m_pgTarget, m_setDoubleProperties, m_setTimeProperties, m_setSizeTMinMaxProperties, m_setBoolMinMaxProperties, m_setBoolProperties);
 
 	// Village list
-    wxListItem itemCol;
-    itemCol.SetImage(-1);
+	wxListItem itemCol;
+	itemCol.SetImage(-1);
 	itemCol.SetAlign(wxLIST_FORMAT_CENTRE);
 	itemCol.SetWidth(100);
 
 	itemCol.SetText(wxT("Name"));
-    m_listVillages->InsertColumn(0, itemCol);
+	m_listVillages->InsertColumn(0, itemCol);
 	itemCol.SetText(wxT("Population"));
-    m_listVillages->InsertColumn(1, itemCol);
+	m_listVillages->InsertColumn(1, itemCol);
 	itemCol.SetText(wxT("Evolution"));
-    m_listVillages->InsertColumn(2, itemCol);
+	m_listVillages->InsertColumn(2, itemCol);
 	itemCol.SetText(wxT("Stagnation"));
-    m_listVillages->InsertColumn(3, itemCol);
+	m_listVillages->InsertColumn(3, itemCol);
 	itemCol.SetText(wxT("Game Count"));
-    m_listVillages->InsertColumn(4, itemCol);
+	m_listVillages->InsertColumn(4, itemCol);
 	itemCol.SetText(wxT("Game Rate"));
-    m_listVillages->InsertColumn(5, itemCol);
+	m_listVillages->InsertColumn(5, itemCol);
 	itemCol.SetText(wxT("Best Fitness"));
-    m_listVillages->InsertColumn(6, itemCol);
+	m_listVillages->InsertColumn(6, itemCol);
 
 	m_listVillages->InsertItem(0, wxT("Overall"));
 	m_listVillages->SetItem(0, 1, wxT("2000"));
@@ -834,10 +834,10 @@ void MyChild::Start(wxCommandEvent & WXUNUSED(event))
 
 /*
 bool mapData[5][5] = {{false,  true, false, false, false},
-                      {false,  true, false,  true, false},
-                      {false,  true, false,  true, false},
-                      {false, false, false,  true, false},
-                      {false,  true, false,  true, false}};
+					  {false,  true, false,  true, false},
+					  {false,  true, false,  true, false},
+					  {false, false, false,  true, false},
+					  {false,  true, false,  true, false}};
 
 struct SMap
 {
@@ -1619,7 +1619,7 @@ void MyChild::PrintBestGame()
 		{
 			// Approximation
 			int scrollableLines = m_txtOutput->GetNumberOfLines() - (bottomRow - topRow);
-			m_txtOutput->ScrollLines(min((scrollableLines * lastScrollPos) / (lastScrollRange - clientHeight - 1), scrollableLines));
+			m_txtOutput->ScrollLines(mymin((scrollableLines * lastScrollPos) / (lastScrollRange - clientHeight - 1), scrollableLines));
 		}
 		m_txtOutput->Thaw();
 	}
@@ -1879,7 +1879,7 @@ void MyChild::OnActivate(wxActivateEvent& event)
 
 void MyChild::OnMove(wxMoveEvent& event)
 {
-    event.Skip();
+	event.Skip();
 }
 
 void MyChild::OnSize(wxSizeEvent& event)
