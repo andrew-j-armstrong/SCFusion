@@ -42,8 +42,8 @@ size_t CGameCalcs::GasWorkerLimit2Far(size_t baseCount, size_t geyserBuildingCou
 
 double CGameCalcs::CalculateMineralIncomeRate(size_t baseCount, size_t workerCount)
 {
-	static double sumIncome[] = {0.0, 4*45/60.0, (4*45+4*39)/60.0, (8*45+4*39)/60.0, (8*45+8*39)/60.0, (8*45+8*39+4*34)/60.0, (8*45+8*39+4*34+4*12)/60.0}; // Sum of income rates
-	static double incomeRate[] = {45/60.0, 39/60.0, 45/60.0, 39/60.0, 34/60.0, 12/60.0, 0}; // Income rates
+	static double sumIncome[] = {0.0, 225/60.0, 455/60.0, 680/60.0, 910/60.0, 1030/60.0, 1075/60.0}; // Sum of income rates
+	static double incomeRate[] = {56/60.0, 57/60.0, 56/60.0, 57/60.0, 30/60.0, 11/60.0, 0.0}; // Income rates
 
 	size_t patchCount = 4 * baseCount; // Yes, I know it's 8 per base, this is per type of patch (near/far) & how many workers on that patch (1,2,3), in the order that they'd get used
 	if(workerCount > 24*baseCount)
@@ -58,7 +58,8 @@ double CGameCalcs::CalculateMineralIncomeRate(size_t baseCount, size_t workerCou
 
 double CGameCalcs::CalculateGasIncomeRate2Near(size_t baseCount, size_t geyserBuildingCount, size_t workerCount)
 {
-	static double closeGeyserSumIncome[] = {0.0, 38/60.0, 76/60.0, 114/60.0}; // Sum of income rates
+	static double closeGeyserSumIncome[] = {0.0, 56/60.0, 112/60.0, 158/60.0}; // Sum of income rates
+	static double incomeRate[] = {56/60.0, 56/60.0, 46/60.0, 0.0}; // Income rates
 
 	if (geyserBuildingCount == 0)
 		return 0;
@@ -69,13 +70,14 @@ double CGameCalcs::CalculateGasIncomeRate2Near(size_t baseCount, size_t geyserBu
 	if(workerCount > 3*geyserBuildingCount)
 		workerCount = 3*geyserBuildingCount;
 
-	return (114/60.0) * (workerCount/3) + closeGeyserSumIncome[workerCount%3];
+	size_t incomeRateIndex = workerCount / geyserBuildingCount;
+	return geyserBuildingCount* closeGeyserSumIncome[incomeRateIndex] + (workerCount % geyserBuildingCount)*incomeRate[incomeRateIndex];
 }
 
 double CGameCalcs::CalculateGasIncomeRate1Near1Far(size_t baseCount, size_t geyserBuildingCount, size_t workerCount)
 {
-	static double closeGeyserSumIncome[] = {0.0, 38/60.0, 76/60.0, 114/60.0}; // Sum of income rates
-	static double farGeyserSumIncome[] = {0.0, 33/60.0, 67/60.0, 101/60.0, 114/60.0}; // Sum of income rates
+	static double closeGeyserSumIncome[] = {0.0, 56/60.0, 112/60.0, 158/60.0}; // Sum of income rates
+	static double farGeyserSumIncome[] = {0.0, 12/60.0, 23/60.0, 34/60.0, 45/60.0}; // Sum of income rates
 
 	if (geyserBuildingCount == 0)
 		return 0;
@@ -99,7 +101,7 @@ double CGameCalcs::CalculateGasIncomeRate1Near1Far(size_t baseCount, size_t geys
 
 double CGameCalcs::CalculateGasIncomeRate2Far(size_t baseCount, size_t geyserBuildingCount, size_t workerCount)
 {
-	static double farGeyserSumIncome[] = {0.0, 33/60.0, 67/60.0, 101/60.0, 114/60.0}; // Sum of income rates
+	static double farGeyserSumIncome[] = {0.0, 12/60.0, 23/60.0, 34/60.0, 45/60.0}; // Sum of income rates
 
 	if (geyserBuildingCount == 0)
 		return 0;
