@@ -487,6 +487,7 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 				if (statusFlags & 0x1)
 					productionBoostFactor *= m_raceData.m_buildingStatuses[i]->GetProductionBoostFactor();
 			}
+			buildingState->productionBoost *= productionBoostFactor;
 			if (1.0 != productionBoostFactor)
 			{
 				CVector<CSC2Event> eventsModified;
@@ -524,6 +525,7 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 				if (statusFlags & 0x1)
 					productionBoostFactor *= m_raceData.m_buildingStatuses[i]->GetProductionBoostFactor();
 			}
+			buildingState->productionBoost /= productionBoostFactor;
 			if (1.0 != productionBoostFactor)
 			{
 				CVector<CSC2Event> eventsModified;
