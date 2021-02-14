@@ -224,7 +224,7 @@ bool CSC2MoveWorkersCommand::HasPrerequisits(const CSC2State &state) const
 	if(m_moveToGas)
 	{
 		if(state.m_workersOnMinerals + state.m_workersMovingToMinerals < m_moveWorkerCount
-			|| state.m_workersOnGas + state.m_workersMovingToGas + m_moveWorkerCount > CGameCalcs::GasWorkerLimit1Near1Far(state.m_baseCount + state.m_basesUnderConstruction, state.m_geyserCount + state.m_geysersUnderConstruction))
+			|| state.m_workersOnGas + state.m_workersMovingToGas + m_moveWorkerCount > CGameCalcs::GasWorkerLimit2Near(state.m_baseCount + state.m_basesUnderConstruction, state.m_geyserCount + state.m_geysersUnderConstruction))
 			return false;
 	}
 	else
@@ -244,7 +244,7 @@ bool CSC2MoveWorkersCommand::HasRequirements(const CSC2State &state) const
 	if(m_moveToGas)
 	{
 		if(state.m_workersOnMinerals < m_moveWorkerCount
-			|| state.m_workersOnGas + m_moveWorkerCount > CGameCalcs::GasWorkerLimit1Near1Far(state.m_baseCount, state.m_geyserCount))
+			|| state.m_workersOnGas + m_moveWorkerCount > CGameCalcs::GasWorkerLimit2Near(state.m_baseCount, state.m_geyserCount))
 			return false;
 	}
 	else
