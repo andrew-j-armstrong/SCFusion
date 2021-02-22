@@ -1,0 +1,4 @@
+Download wxWidgets Windows binaries from https://www.wxwidgets.org/downloads/
+- Header files
+- Development files
+- Release DLLs
