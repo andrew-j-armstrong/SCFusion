@@ -1,0 +1,36 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.res
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Debug files
+*.lastbuildstate
+*.embed.manifest
+*.embed.manifest.res
+*.intermediate.manifest
+*.vcxprojResolveAssemblyReference.cache
+SCFusion_manifest.rc
+
+# Build log files
+*.tlog
+SCFusion_vc10.log
+
+# Solution cache files
+*.opensdf
+*.sdf
+*.suo
+ipch/*
