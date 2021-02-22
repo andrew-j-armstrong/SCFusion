@@ -23,6 +23,12 @@
     <Filter Include="Versions">
       <UniqueIdentifier>{6c9c003b-6821-49c0-9d42-0749878ce363}</UniqueIdentifier>
     </Filter>
+    <Filter Include="wxWidgets">
+      <UniqueIdentifier>{930a85a9-e159-47d2-bef0-1453456a503a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinSparkle">
+      <UniqueIdentifier>{0af19e10-4727-4022-97b7-31a686a2de07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\FastRand.cpp">
@@ -401,6 +407,33 @@
     <None Include="SampleSaveFile.xml" />
     <None Include="Versions\HotS_2_1_10.xml">
       <Filter>Versions</Filter>
+    </None>
+    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_core_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </None>
+    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_propgrid_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </None>
+    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </None>
+    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_xml_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </None>
+    <None Include="..\WinSparkle\Release\WinSparkle.dll">
+      <Filter>WinSparkle</Filter>
+    </None>
+    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </None>
+    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_xml_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </None>
+    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_core_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </None>
+    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_propgrid_vc14x.dll">
+      <Filter>wxWidgets</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
