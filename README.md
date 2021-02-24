@@ -1,4 +1,4 @@
-SCFusion
-========
+Super Fusion
+============
 
-SC Fusion
+Build order optimizer for StarCraft II

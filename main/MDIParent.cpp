@@ -11,7 +11,7 @@
 
 #include "MDIChild.h"
 
-#include "bitmaps/SC2FusionF32.xpm"
+#include "bitmaps/SF32.xpm"
 #include "bitmaps/new.xpm"
 #include "bitmaps/open.xpm"
 #include "bitmaps/save.xpm"
@@ -57,10 +57,10 @@ END_EVENT_TABLE()
 
 // Define my frame constructor
 MyFrame::MyFrame()
-: wxMDIParentFrame(NULL, wxID_ANY, "CarbonTwelve's Starcraft Fusion", wxDefaultPosition, wxSize(1000, 750), wxDEFAULT_FRAME_STYLE|wxMAXIMIZE)
+: wxMDIParentFrame(NULL, wxID_ANY, "Super Fusion", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxMAXIMIZE)
 , m_version(NULL)
 {
-	wxIcon icon(SC2FusionF32Icon);
+	wxIcon icon(SF32Icon);
 	SetIcon(icon);
 
 	// Make a menubar
@@ -188,9 +188,11 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 {
-	(void)wxMessageBox("Starcraft Fusion\n"
-		"Author: CarbonTwelve 2011-2014"
-		, "About Starcraft Fusion");
+	(void)wxMessageBox("Super Fusion\n"
+		"v2.0.0\n"
+		"Author: Andrew J. Armstrong\n"
+		"Maintainer: Mihai Raducanu"
+		, "About Super Fusion");
 }
 
 void MyFrame::OnOpen(wxCommandEvent& WXUNUSED(event))

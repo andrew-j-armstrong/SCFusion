@@ -38,26 +38,6 @@
 #define wxID_OUTPUT						(wxID_HIGHEST + 11)
 #define wxID_COMPLETIONLIKELIHOOD		(wxID_HIGHEST + 12)
 
-#define INITIAL_MESSAGE				"Welcome to SCFusion!\n" \
-									"\n" \
-									"To get started, just enter values at the left for the units you want a build order for and\n" \
-									"press start at the top.  The algorithm will begin finding the best builds to get you what\n" \
-									"you want in the fastest time possible.\n" \
-									"\n" \
-									"If you'd like to help out the project I have set up the ability to donate through PayPal:\n" \
-									"http://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8FW7A9LJSK858\n" \
-									"\n" \
-									"Donations are always appreciated and they go a long way to help allocate the time that\n" \
-									"supporting this project requires.\n" \
-									"\n" \
-									"Bugs can be submitted either to the TeamLiquid forum or the GoogleCode Issues page:\n" \
-									"TeamLiquid forum: http://www.teamliquid.net/forum/viewmessage.php?topic_id=168348\n" \
-									"GoogleCode Issues page: http://code.google.com/p/scbuildorder/issues/list\n" \
-									"\n" \
-									"Thanks again!\n" \
-									"\n" \
-									"- Carbon\n"
-
 unsigned MyChild::ms_numChildren = 0;
 
 BEGIN_EVENT_TABLE(MyChild, wxMDIChildFrame)
@@ -97,7 +77,7 @@ BEGIN_EVENT_TABLE(MyChild::EventHandler, wxEvtHandler)
 END_EVENT_TABLE()
 
 MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * const *xpmIcon, wxString fileName /* = wxEmptyString */)
-	: wxMDIChildFrame(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxMAXIMIZE|wxTAB_TRAVERSAL)
+	: wxMDIChildFrame(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE)
 	, m_fileName(fileName)
 	, m_timer(NULL)
 	, m_engine(engine)
@@ -159,7 +139,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	wxBoxSizer *bSizer9 = new wxBoxSizer(wxVERTICAL);
 
 	m_notebookTargets = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_LEFT);
-	m_notebookTargets->SetMinSize(wxSize(260,-1));
+	m_notebookTargets->SetMinSize(wxSize(300,-1));
 
 	m_panelTarget = new wxPanel(m_notebookTargets, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer *bSizer5 = new wxBoxSizer(wxVERTICAL);
@@ -303,8 +283,6 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_txtOutput->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString));
 	//m_txtOutput->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT));
 	bSizer10->Add(m_txtOutput, 1, wxEXPAND|wxALL, CONTROL_BORDER);
-
-	m_txtOutput->AppendText(INITIAL_MESSAGE);
 
 	m_pgResult = new wxPropertyGrid(this, -1, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED | wxPG_LIMITED_EDITING);
 	m_pgResult->SetMinSize(wxSize(230,-1));

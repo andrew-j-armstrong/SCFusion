@@ -25,6 +25,12 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_D82A07155DF74CC4AB5B1F50F36271DE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -132,6 +138,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D82A07155DF74CC4AB5B1F50F36271DE"
+            {
+            "SourcePath" = "8:sf.ico"
+            "TargetName" = "8:sf.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_08DC322BC7D5464BB07202276D26DE04"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -198,9 +224,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:SCFusion"
+        "ProductName" = "8:Super Fusion"
         "ProductCode" = "8:{979A121B-2678-4AA9-9B7A-6551890E09E3}"
-        "PackageCode" = "8:{BA0EFD77-2561-46D0-B588-5C8DEAB3907B}"
+        "PackageCode" = "8:{ECD5E3B9-A551-4BA2-8C01-EEB5277804BE}"
         "UpgradeCode" = "8:{3857D21E-A4B2-480C-91D7-19BDE341F3D3}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -208,16 +234,16 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:2.0.0"
-        "Manufacturer" = "8:SCFusion"
+        "Manufacturer" = "8:Super Fusion"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:SCFusion"
+        "Title" = "8:Super Fusion"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:SCFusion"
+        "ARPCONTACT" = "8:Andrew J. Armstrong"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_D82A07155DF74CC4AB5B1F50F36271DE"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -322,7 +348,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_30348B74019244EFB1728CE481E64957"
             {
-            "Name" = "8:SCFusion"
+            "Name" = "8:Super Fusion"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -331,7 +357,7 @@
             "Target" = "8:_0208FDB57EDC4E48AC82A51FF6B3CC5A"
             "Folder" = "8:_ACE7FF6437D04E11A9A40C6D001D6D6B"
             "WorkingFolder" = "8:_08DC322BC7D5464BB07202276D26DE04"
-            "Icon" = "8:"
+            "Icon" = "8:_D82A07155DF74CC4AB5B1F50F36271DE"
             "Feature" = "8:"
             }
         }
@@ -735,7 +761,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0208FDB57EDC4E48AC82A51FF6B3CC5A"
             {
-            "SourcePath" = "8:..\\main\\vc_mswud\\SCFusion.exe"
+            "SourcePath" = "8:..\\main\\vc_mswu\\Fusion.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_08DC322BC7D5464BB07202276D26DE04"

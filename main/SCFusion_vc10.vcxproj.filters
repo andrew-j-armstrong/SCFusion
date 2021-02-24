@@ -376,7 +376,6 @@
     <None Include="bitmaps\SC2Fusion.xpm">
       <Filter>bitmaps</Filter>
     </None>
-    <None Include="icon1.ico" />
     <None Include="bitmaps\SC2FusionF32.xpm">
       <Filter>bitmaps</Filter>
     </None>
@@ -434,6 +433,12 @@
     </None>
     <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_propgrid_vc14x.dll">
       <Filter>wxWidgets</Filter>
+    </None>
+    <None Include="bitmaps\SF16.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
+    <None Include="bitmaps\SF32.xpm">
+      <Filter>bitmaps</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
