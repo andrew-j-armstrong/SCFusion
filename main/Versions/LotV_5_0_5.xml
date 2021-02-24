@@ -424,6 +424,7 @@
         
         <Command category="BuildingAbility">
           <Name>Convert Gateway To Warp Gate</Name>
+          <IsAutoCastAbility>True</IsAutoCastAbility>
           <BuildingRequirement>Pylon</BuildingRequirement>
           <BuildingRequirement>Gateway</BuildingRequirement>
           <ResearchRequirement>Warp Gate Transformation</ResearchRequirement>
@@ -441,7 +442,7 @@
           <TargetBuilding>Nexus</TargetBuilding>
           <CanTargetSelf>True</CanTargetSelf>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Gateway</Name>
@@ -450,7 +451,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Gateway</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Warp Gate</Name>
@@ -458,7 +459,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Warp Gate</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Cybernetics Core</Name>
@@ -466,7 +467,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Cybernetics Core</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Forge</Name>
@@ -474,7 +475,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Forge</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Twilight Council</Name>
@@ -482,7 +483,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Twilight Council</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Templar Archives</Name>
@@ -490,7 +491,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Templar Archives</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Robotics Facility</Name>
@@ -498,7 +499,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Robotics Facility</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Robotics Bay</Name>
@@ -506,7 +507,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Robotics Bay</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Stargate</Name>
@@ -514,7 +515,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Stargate</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
         <Command category="BuildingAbility">
           <Name>Apply Chrono Boost To Fleet Beacon</Name>
@@ -522,7 +523,7 @@
           <SourceBuilding energy="50">Nexus</SourceBuilding>
           <TargetBuilding>Fleet Beacon</TargetBuilding>
           <RequiresTargetBuildingStatusAbsent>Chrono Boost</RequiresTargetBuildingStatusAbsent>
-          <AppliesTargetBuildingStatus duration="14">Chrono Boost</AppliesTargetBuildingStatus>
+          <AppliesTargetBuildingStatus duration="20">Chrono Boost</AppliesTargetBuildingStatus>
         </Command>
 
         <!-- Build Units -->
@@ -799,6 +800,16 @@
           <UnitComplete time="43" occupiesSourceBuilding="True">Tempest</UnitComplete>
           <MineralCost>250</MineralCost>
           <GasCost>175</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Mothership</Name>
+          <BuildingRequirement>Fleet Beacon</BuildingRequirement>
+          <SourceBuilding>Nexus</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="114">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="114" occupiesSourceBuilding="True">Mothership</UnitComplete>
+          <MineralCost>400</MineralCost>
+          <GasCost>400</GasCost>
         </Command>
 
         <!-- Unit Abilities -->
