@@ -20,6 +20,7 @@ private:
 
 	void OnSize(wxSizeEvent& event);
 	void OnAbout(wxCommandEvent& event);
+	void OnReportIssue(wxCommandEvent& event);
 	void OnNewWindow(wxCommandEvent& event);
 	void OnNewProtoss(wxCommandEvent& event);
 	void OnNewTerran(wxCommandEvent& event);

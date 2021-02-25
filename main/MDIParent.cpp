@@ -32,9 +32,11 @@
 #define wxID_CHECKFORUPDATES		(wxID_HIGHEST + 4)
 #define wxID_TOOLBAR_GAME			(wxID_HIGHEST + 7)
 #define wxID_TOOLBAR_VERSION		(wxID_HIGHEST + 8)
+#define wxID_REPORT_ISSUE		    (wxID_HIGHEST + 9)
 
 BEGIN_EVENT_TABLE(MyFrame, wxMDIParentFrame)
 	EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
+	EVT_MENU(wxID_REPORT_ISSUE, MyFrame::OnReportIssue)
 	EVT_MENU(wxID_NEW_PROTOSS, MyFrame::OnNewProtoss)
 	EVT_MENU(wxID_NEW_TERRAN, MyFrame::OnNewTerran)
 	EVT_MENU(wxID_NEW_ZERG, MyFrame::OnNewZerg)
@@ -148,6 +150,7 @@ wxMenuBar *MyFrame::CreateMainMenubar()
 
 	wxMenu *menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT, "&About\tF1");
+	menuHelp->Append(wxID_REPORT_ISSUE, "&Report an Issue");
 	menuHelp->Append(wxID_CHECKFORUPDATES, "Check for &Updates");
 
 	wxMenuBar *mbar = new wxMenuBar;
@@ -192,6 +195,11 @@ void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 		"Author: Andrew J. Armstrong\n"
 		"Maintainer: Mihai Raducanu"
 		, "About Super Fusion");
+}
+
+void MyFrame::OnReportIssue(wxCommandEvent& WXUNUSED(event))
+{
+	(void)wxLaunchDefaultBrowser("https://github.com/andrew-j-armstrong/SCFusion/issues");
 }
 
 void MyFrame::OnOpen(wxCommandEvent& WXUNUSED(event))
