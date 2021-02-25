@@ -280,7 +280,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
 	m_txtOutput = new wxTextCtrl(this, wxID_OUTPUT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxHSCROLL|wxTE_RICH2|wxTE_AUTO_URL);
-	m_txtOutput->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), 76, 90, 90, false, wxEmptyString));
+	m_txtOutput->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 	//m_txtOutput->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT));
 	bSizer10->Add(m_txtOutput, 1, wxEXPAND|wxALL, CONTROL_BORDER);
 
