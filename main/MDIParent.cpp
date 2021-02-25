@@ -124,7 +124,6 @@ MyFrame::MyFrame()
 	// connect it only now, after creating m_textWindow
 	Connect(wxEVT_SIZE, wxSizeEventHandler(MyFrame::OnSize));
 
-	Maximize(); // wxMAXIMIZE doesn't work for the first frame.  See wxWidgets ticket #11763
 }
 
 MyFrame::~MyFrame()

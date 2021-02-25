@@ -375,6 +375,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	UpdateScoutingCheckboxes();
 	UpdateOutputFormat();
 	UpdateTitle();
+	Maximize();
 }
 
 MyChild::~MyChild()
