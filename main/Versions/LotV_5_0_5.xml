@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Data>
   <XMLFileVersion>1.1</XMLFileVersion>
-  <GameShortDescription>SC2 LotV</GameShortDescription>
+  <GameShortDescription>StarCraft</GameShortDescription>
   <GameLongDescription>Starcraft II: Legacy of the Void</GameLongDescription>
   <MinVersion>5.0.5</MinVersion>
   <Races>

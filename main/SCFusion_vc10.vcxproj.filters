@@ -397,16 +397,8 @@
     <None Include="bitmaps\Zerg.xpm">
       <Filter>bitmaps</Filter>
     </None>
-    <None Include="Versions\WoL_1_4_3_BU.xml">
-      <Filter>Versions</Filter>
-    </None>
     <None Include="ToDoList.txt" />
-    <None Include="SCFusionVersionRSS.xml" />
-    <None Include="Release Procedure.txt" />
     <None Include="SampleSaveFile.xml" />
-    <None Include="Versions\HotS_2_1_10.xml">
-      <Filter>Versions</Filter>
-    </None>
     <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_core_vc14x.dll">
       <Filter>wxWidgets</Filter>
     </None>
@@ -445,7 +437,7 @@
     <ResourceCompile Include="SCFusion.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Versions\LotV_2_5_1_BU_20150903.xml">
+    <Xml Include="Versions\LotV_5_0_5.xml">
       <Filter>Versions</Filter>
     </Xml>
   </ItemGroup>

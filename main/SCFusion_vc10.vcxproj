@@ -328,26 +328,16 @@
     <None Include="bitmaps\SF32.xpm" />
     <None Include="bitmaps\Terran.xpm" />
     <None Include="bitmaps\Zerg.xpm" />
-    <None Include="Release Procedure.txt" />
     <None Include="SampleSaveFile.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="SCFusionVersionRSS.xml">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="ToDoList.txt" />
-    <None Include="Versions\HotS_2_1_10.xml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Versions\WoL_1_4_3_BU.xml">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SCFusion.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Versions\LotV_2_5_1_BU_20150903.xml" />
+    <Xml Include="Versions\LotV_5_0_5.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
