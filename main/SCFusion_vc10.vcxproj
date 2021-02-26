@@ -337,7 +337,7 @@
     <ResourceCompile Include="SCFusion.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Versions\LotV_5_0_5.xml" />
+    <Xml Include="Versions\StarCraft.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

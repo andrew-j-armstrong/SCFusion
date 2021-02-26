@@ -21,7 +21,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9850ACB8108C4D108D032DDEF58A7503"
+        "MsmKey" = "8:_67321E3187DA4BFCB1C76EBF6F0E5048"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -118,10 +118,10 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9850ACB8108C4D108D032DDEF58A7503"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_67321E3187DA4BFCB1C76EBF6F0E5048"
             {
-            "SourcePath" = "8:..\\main\\Versions\\LotV_5_0_5.xml"
-            "TargetName" = "8:LotV_5_0_5.xml"
+            "SourcePath" = "8:..\\main\\Versions\\StarCraft.xml"
+            "TargetName" = "8:StarCraft.xml"
             "Tag" = "8:"
             "Folder" = "8:_5923EC9C1808462DAD54ADD5F6515573"
             "Condition" = "8:"

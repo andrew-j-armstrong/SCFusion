@@ -437,7 +437,7 @@
     <ResourceCompile Include="SCFusion.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Versions\LotV_5_0_5.xml">
+    <Xml Include="Versions\StarCraft.xml">
       <Filter>Versions</Filter>
     </Xml>
   </ItemGroup>

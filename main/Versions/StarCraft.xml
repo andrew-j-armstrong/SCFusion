@@ -3,7 +3,7 @@
   <XMLFileVersion>1.1</XMLFileVersion>
   <GameShortDescription>StarCraft</GameShortDescription>
   <GameLongDescription>Starcraft II: Legacy of the Void</GameLongDescription>
-  <MinVersion>5.0.5</MinVersion>
+  <MinVersion>5.0.6</MinVersion>
   <Races>
     <Race>
       <Name>Protoss</Name>
