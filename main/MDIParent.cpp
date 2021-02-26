@@ -126,6 +126,7 @@ MyFrame::MyFrame()
 	// connect it only now, after creating m_textWindow
 	Connect(wxEVT_SIZE, wxSizeEventHandler(MyFrame::OnSize));
 
+	Maximize();
 }
 
 MyFrame::~MyFrame()
