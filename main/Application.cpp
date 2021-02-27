@@ -32,7 +32,7 @@ bool MyApp::OnInit()
 	// Initialize WinSparkle as soon as the app itself is initialized, right
 	// before entering the event loop:
 #ifndef _DEBUG
-	win_sparkle_set_appcast_url("https://www.superfusion.org/downloads/appcast.xml");
+	win_sparkle_set_appcast_url("https://andrew-j-armstrong.github.io/SCFusion/releases/appcast.xml");
 	win_sparkle_init();
 #endif
 
