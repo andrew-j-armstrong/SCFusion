@@ -11,7 +11,7 @@
 
 #include "MDIChild.h"
 
-#include "bitmaps/SC2FusionF32.xpm"
+#include "bitmaps/SF32.xpm"
 #include "bitmaps/new.xpm"
 #include "bitmaps/open.xpm"
 #include "bitmaps/save.xpm"
@@ -32,9 +32,11 @@
 #define wxID_CHECKFORUPDATES		(wxID_HIGHEST + 4)
 #define wxID_TOOLBAR_GAME			(wxID_HIGHEST + 7)
 #define wxID_TOOLBAR_VERSION		(wxID_HIGHEST + 8)
+#define wxID_REPORT_ISSUE		    (wxID_HIGHEST + 9)
 
 BEGIN_EVENT_TABLE(MyFrame, wxMDIParentFrame)
 	EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
+	EVT_MENU(wxID_REPORT_ISSUE, MyFrame::OnReportIssue)
 	EVT_MENU(wxID_NEW_PROTOSS, MyFrame::OnNewProtoss)
 	EVT_MENU(wxID_NEW_TERRAN, MyFrame::OnNewTerran)
 	EVT_MENU(wxID_NEW_ZERG, MyFrame::OnNewZerg)
@@ -57,10 +59,10 @@ END_EVENT_TABLE()
 
 // Define my frame constructor
 MyFrame::MyFrame()
-: wxMDIParentFrame(NULL, wxID_ANY, "CarbonTwelve's Starcraft Fusion", wxDefaultPosition, wxSize(1000, 750), wxDEFAULT_FRAME_STYLE|wxMAXIMIZE)
+: wxMDIParentFrame(NULL, wxID_ANY, "Super Fusion", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxMAXIMIZE)
 , m_version(NULL)
 {
-	wxIcon icon(SC2FusionF32Icon);
+	wxIcon icon(SF32Icon);
 	SetIcon(icon);
 
 	// Make a menubar
@@ -124,7 +126,7 @@ MyFrame::MyFrame()
 	// connect it only now, after creating m_textWindow
 	Connect(wxEVT_SIZE, wxSizeEventHandler(MyFrame::OnSize));
 
-	Maximize(); // wxMAXIMIZE doesn't work for the first frame.  See wxWidgets ticket #11763
+	Maximize();
 }
 
 MyFrame::~MyFrame()
@@ -149,6 +151,7 @@ wxMenuBar *MyFrame::CreateMainMenubar()
 
 	wxMenu *menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT, "&About\tF1");
+	menuHelp->Append(wxID_REPORT_ISSUE, "&Report an Issue");
 	menuHelp->Append(wxID_CHECKFORUPDATES, "Check for &Updates");
 
 	wxMenuBar *mbar = new wxMenuBar;
@@ -188,9 +191,16 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 {
-	(void)wxMessageBox("Starcraft Fusion\n"
-		"Author: CarbonTwelve 2011-2014"
-		, "About Starcraft Fusion");
+	(void)wxMessageBox("Super Fusion\n"
+		"v2.0.0\n"
+		"Author: Andrew J. Armstrong\n"
+		"Maintainer: Mihai Raducanu"
+		, "About Super Fusion");
+}
+
+void MyFrame::OnReportIssue(wxCommandEvent& WXUNUSED(event))
+{
+	(void)wxLaunchDefaultBrowser("https://github.com/andrew-j-armstrong/SCFusion/issues");
 }
 
 void MyFrame::OnOpen(wxCommandEvent& WXUNUSED(event))
