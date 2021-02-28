@@ -15,12 +15,12 @@ public:
 
     void OnDraw(wxDC& dc);
 
-    void SetVisualItems(vector<vector<VisualItem*>> visualItems);
+    void SetVisualItems(vector<vector<VisualItem>> visualItems);
 
     DECLARE_EVENT_TABLE()
 
 protected:
-    vector<vector<VisualItem*>> m_visual_items;
+    vector<vector<VisualItem>> m_visual_items;
     int m_width;
     int m_height;
 };

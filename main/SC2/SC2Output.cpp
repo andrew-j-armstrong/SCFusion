@@ -362,11 +362,11 @@ void CSC2OutputVisual::ProcessCommand(const CSC2Command* command, const CSC2Wayp
 	//m_output.Append(L"\n");
 }
 
-void CSC2OutputVisual::AddVisualItem(size_t buildingId, VisualItem* item)
+void CSC2OutputVisual::AddVisualItem(size_t buildingId, VisualItem item)
 {
 	for (size_t i = m_visual_items.size(); i <= buildingId; i++)
 	{
-		vector<VisualItem*> row;
+		vector<VisualItem> row;
 		m_visual_items.push_back(row);
 	}
 	m_visual_items[buildingId].push_back(item);
@@ -380,13 +380,13 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 	switch (event.m_event.m_data.m_eventCategory)
 	{
 	case CSC2Event::eBuildingComplete:
-		AddVisualItem(state.m_allBuildings.size(), new VisualItem(state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
+		AddVisualItem(state.m_allBuildings.size(), VisualItem(state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
 		break;
 	case CSC2Event::eUnitComplete:
 		if (event.m_event.m_data.m_sourceIsBuilding) {
 			AddVisualItem(
 				event.m_event.m_data.m_sourceID,
-				new VisualItem(
+				VisualItem(
 					state.m_raceData.m_units[event.m_event.m_data.m_targetID]->GetName(),
 					startTime,
 					endTime,
@@ -398,14 +398,14 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 		break;
 	case CSC2Event::eResearchComplete:
 		output = wxString::Format(L"(%s completed)", state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName());
-		AddVisualItem(event.m_event.m_data.m_sourceID, new VisualItem(state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
+		AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
 		break;
 	case CSC2Event::eBuildingConsume:
 		output = wxString::Format(L"(%s consumed)", state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName());
 		break;
 	case CSC2Event::eBuildingMorph:
 		output = wxString::Format(L"(%s completed)", state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName());
-		AddVisualItem(event.m_event.m_data.m_sourceID, new VisualItem(state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
+		AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
 		break;
 	/*case CSC2Event::eUnitMorph:
 		output = wxString::Format(L"(%s completed)", state.m_raceData.m_units[event.m_event.m_data.m_targetID]->GetName());
@@ -417,7 +417,7 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 		while (status > 0)
 		{
 			if ((status & 1) && state.m_raceData.m_buildingStatuses[statusIndex]->IsVisual())
-				AddVisualItem(event.m_event.m_data.m_sourceID, new VisualItem(state.m_raceData.m_buildingStatuses[statusIndex]->GetName(), startTime, endTime, true));
+				AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_buildingStatuses[statusIndex]->GetName(), startTime, endTime, true));
 
 			status >>= 1;
 			statusIndex++;

@@ -1637,16 +1637,16 @@ void MyChild::PrintBestGame()
 	}
 }
 
-bool compareStartTime(vector<VisualItem*> a, vector<VisualItem*> b)
+bool compareStartTime(vector<VisualItem> a, vector<VisualItem> b)
 {
 	if (a.size() == 0) return false;
 	if (b.size() == 0) return true;
-	return a.front()->startTime < b.front()->startTime;
+	return a.front().startTime < b.front().startTime;
 }
 
 void MyChild::DrawBestGame()
 {
-	vector<vector<VisualItem*>> visualItems;
+	vector<vector<VisualItem>> visualItems;
 	m_engine->DrawBestGame(visualItems, m_pgResult);
 	sort(visualItems.begin(), visualItems.end(), compareStartTime);
 	m_visualOutput->SetVisualItems(visualItems);

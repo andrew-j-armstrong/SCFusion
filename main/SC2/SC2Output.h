@@ -119,13 +119,13 @@ public:
 	}
 
 	void GetOutput(wxString& output) const override { output = m_output; }
-	void GetVisualItems(vector<vector<VisualItem*>>& visualItems) const { visualItems = m_visual_items; }
+	void GetVisualItems(vector<vector<VisualItem>>& visualItems) const { visualItems = m_visual_items; }
 
-	void AddVisualItem(size_t buildingId, VisualItem* item);
+	void AddVisualItem(size_t buildingId, VisualItem item);
 
 protected:
 	wxString m_output;
-	vector<vector<VisualItem*>> m_visual_items;
+	vector<vector<VisualItem>> m_visual_items;
 };
 
 /*

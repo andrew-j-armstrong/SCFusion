@@ -576,7 +576,7 @@ void CSC2Engine::PrintBestGame(wxString& output, wxPropertyGrid* pgResults) cons
 	delete state;
 }
 
-void CSC2Engine::DrawBestGame(vector<vector<VisualItem*>>& visualItems, wxPropertyGrid* pgResults) const
+void CSC2Engine::DrawBestGame(vector<vector<VisualItem>>& visualItems, wxPropertyGrid* pgResults) const
 {
 	if (!m_fitnessCalc || !m_visual_output)
 		return;

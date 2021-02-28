@@ -10,14 +10,14 @@ VisualPanel::VisualPanel(wxFrame* parent, wxWindowID id) :
     SetScrollbars(10, 10, 2000, 2000, 0, 0);
 }
 
-void VisualPanel::SetVisualItems(vector<vector<VisualItem*>> visualItems)
+void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
 {
     m_visual_items = visualItems;
     m_height = m_visual_items.size() * 30 + 50;
     int maxEndTime = 0;
     for (size_t i = 0; i < m_visual_items.size(); i++)
     {
-        if (m_visual_items[i].size() && m_visual_items[i].back()->endTime > maxEndTime) maxEndTime = m_visual_items[i].back()->endTime;
+        if (m_visual_items[i].size() && m_visual_items[i].back().endTime > maxEndTime) maxEndTime = m_visual_items[i].back().endTime;
     }
     m_width = maxEndTime * 5 + 50;
 
@@ -58,42 +58,42 @@ void VisualPanel::OnDraw(wxDC& dc)
         bool doubleQueueUpper = false;
         for (auto item : m_visual_items[i])
         {
-            if (item->isStatus)
+            if (item.isStatus)
             {
                 dc.SetBrush(wxColor(127, 255, 191));
                 dc.DrawRectangle(
-                    item->startTime * pixelsPerSecond,
+                    item.startTime * pixelsPerSecond,
                     i * rowHeight + topMargin + defaultItemHeight,
-                    (item->endTime - item->startTime) * pixelsPerSecond - 1,
+                    (item.endTime - item.startTime) * pixelsPerSecond - 1,
                     statusHeight - 1
                 );
                 dc.SetBrush(wxColor(127, 191, 255));
             }
             else
             {
-                if (item->isDoubleQueue)
+                if (item.isDoubleQueue)
                 {
                     doubleQueueUpper = !doubleQueueUpper;
                     dc.DrawRectangle(
-                        item->startTime * pixelsPerSecond,
+                        item.startTime * pixelsPerSecond,
                         i * rowHeight + topMargin + (doubleQueueUpper ? 0 : doubleQueueHeight) + doubleQueueMarginCorrection,
-                        (item->endTime - item->startTime) * pixelsPerSecond - 1,
+                        (item.endTime - item.startTime) * pixelsPerSecond - 1,
                         doubleQueueHeight - 1
                     );
                     dc.DrawText(
-                        item->name,
-                        item->startTime * pixelsPerSecond + labelIndent,
+                        item.name,
+                        item.startTime * pixelsPerSecond + labelIndent,
                         i * rowHeight + topMargin + (doubleQueueUpper ? 0 : doubleQueueHeight) + doubleQueueMarginCorrection - 1);
                 }
                 else
                 {
                     dc.DrawRectangle(
-                        item->startTime * pixelsPerSecond,
+                        item.startTime * pixelsPerSecond,
                         i * rowHeight + topMargin,
-                        (item->endTime - item->startTime) * pixelsPerSecond - 1,
+                        (item.endTime - item.startTime) * pixelsPerSecond - 1,
                         defaultItemHeight - 1
                     );
-                    dc.DrawText(item->name, item->startTime * pixelsPerSecond + labelIndent, i * rowHeight + topMargin + labelTopMargin);
+                    dc.DrawText(item.name, item.startTime * pixelsPerSecond + labelIndent, i * rowHeight + topMargin + labelTopMargin);
                 }
             }
         }

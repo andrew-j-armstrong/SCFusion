@@ -2,8 +2,6 @@
 
 #include <wx/wx.h>
 
-
-// TODO: make this a struct
 VisualItem::VisualItem(wxString name, int startTime, int endTime, bool isStatus, bool isDoubleQueue)
 {
 	this->startTime = startTime;

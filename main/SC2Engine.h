@@ -87,7 +87,7 @@ public:
 
 	void UpdateBestGame();
 	void PrintBestGame(wxString &output, wxPropertyGrid *pgResults) const;
-	void DrawBestGame(vector<vector<VisualItem*>> &visualItems, wxPropertyGrid* pgResults) const;
+	void DrawBestGame(vector<vector<VisualItem>> &visualItems, wxPropertyGrid* pgResults) const;
 
 	static int GetPropertyIndex(const wxString &name);
 	static int PropertySortFunction(wxPropertyGrid* propGrid, wxPGProperty* p1, wxPGProperty* p2);
