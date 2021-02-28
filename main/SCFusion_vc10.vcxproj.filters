@@ -148,6 +148,12 @@
     <ClCompile Include="SC2\SC2BuildingStatus.cpp">
       <Filter>SC2</Filter>
     </ClCompile>
+    <ClCompile Include="VisualPanel.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualItem.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\FastRand.h">
@@ -340,6 +346,12 @@
     </ClInclude>
     <ClInclude Include="SC2\SC2BuildingStatus.h">
       <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualPanel.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualItem.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

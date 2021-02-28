@@ -588,7 +588,7 @@ bool CSC2BuildBuildingCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<C
 		}
 	}
 
-	events.add(CSC2Event(state.m_time + m_buildBuildingCompletionTime, CSC2Event::eBuildingComplete, false, 0, m_buildBuildingTypeID, m_buildBuildingInitialStatus));
+	events.add(CSC2Event(state.m_time + m_buildBuildingCompletionTime, CSC2Event::eBuildingComplete, false, 0, m_buildBuildingTypeID, m_buildBuildingInitialStatus, state.m_time));
 	state.m_buildingUnderConstructionFlags |= ((SC2BuildingFlags)1 << m_buildBuildingTypeID);
 	state.m_buildingUnderConstruction[m_buildBuildingTypeID]++;
 	state.m_supplyCapUnderConstruction += m_buildBuilding->GetProvidedSupply();
@@ -1417,7 +1417,7 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 		state.m_supplyCapUnderConstruction += m_morphSourceBuilding->GetProvidedSupply() - m_sourceBuilding->GetProvidedSupply();
 		if(m_morphSourceBuilding->IsGeyserBuilding() && !m_sourceBuilding->IsGeyserBuilding())
 			state.m_geysersUnderConstruction++;
-		events.add(CSC2Event(state.m_time + m_morphSourceBuildingTime, CSC2Event::eBuildingMorph, true, sourceBuilding->buildingID, m_morphSourceBuildingTypeID));
+		events.add(CSC2Event(state.m_time + m_morphSourceBuildingTime, CSC2Event::eBuildingMorph, true, sourceBuilding->buildingID, m_morphSourceBuildingTypeID, 0, state.m_time));
 	}
 	if(m_morphTargetBuilding)
 	{
@@ -1429,7 +1429,7 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 			state.m_basesUnderConstruction++;
 		if(m_morphTargetBuilding->IsGeyserBuilding() && !m_targetBuilding->IsGeyserBuilding())
 			state.m_geysersUnderConstruction++;
-		events.add(CSC2Event(state.m_time + m_morphTargetBuildingTime, CSC2Event::eBuildingMorph, true, targetBuilding->buildingID, m_morphTargetBuildingTypeID));
+		events.add(CSC2Event(state.m_time + m_morphTargetBuildingTime, CSC2Event::eBuildingMorph, true, targetBuilding->buildingID, m_morphTargetBuildingTypeID, 0, state.m_time));
 	}
 	else if(m_consumeTargetBuilding)
 	{
@@ -1443,7 +1443,7 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 	}
 	if(m_buildBuilding)
 	{
-		events.add(CSC2Event(state.m_time + m_buildBuildingTime, CSC2Event::eBuildingComplete, false, 0, m_buildBuildingTypeID));
+		events.add(CSC2Event(state.m_time + m_buildBuildingTime, CSC2Event::eBuildingComplete, false, 0, m_buildBuildingTypeID, 0, state.m_time));
 		state.m_buildingUnderConstructionFlags |= ((SC2BuildingFlags)1 << m_buildBuildingTypeID);
 		state.m_buildingUnderConstruction[m_buildBuildingTypeID]++;
 		state.m_supplyCapUnderConstruction += m_buildBuilding->GetProvidedSupply();
@@ -1452,7 +1452,7 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 	}
 	if(m_buildUnit)
 	{
-		events.add(CSC2Event(state.m_time + m_buildUnitTime, CSC2Event::eUnitComplete, false, 0, m_buildUnitTypeID));
+		events.add(CSC2Event(state.m_time + m_buildUnitTime, CSC2Event::eUnitComplete, true, sourceBuilding->buildingID, m_buildUnitTypeID, 0, state.m_time));
 		state.m_unitUnderConstructionFlags |= ((SC2UnitFlags)1 << m_buildUnitTypeID);
 		state.m_unitUnderConstruction[m_buildUnitTypeID]++;
 		state.m_supplyCapUnderConstruction += m_buildUnit->GetProvidedSupply();
@@ -1495,13 +1495,13 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDelay[i], CSC2Event::eBuildingStatusApply, true, sourceBuilding->buildingID, 0, m_applySourceBuildingStatus[i]));
 		
 		if(0.0 < m_applySourceBuildingStatusDuration[i])
-			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration[i], CSC2Event::eBuildingStatusLapse, true, sourceBuilding->buildingID, 0, m_applySourceBuildingStatus[i]));
+			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration[i], CSC2Event::eBuildingStatusLapse, true, sourceBuilding->buildingID, 0, m_applySourceBuildingStatus[i], state.m_time));
 	}
 	if (m_applyTargetBuildingStatus)
 	{
 		targetBuilding->status |= m_applyTargetBuildingStatus;
 		if (0.0 < m_applyTargetBuildingStatusDuration)
-			events.add(CSC2Event(state.m_time + m_applyTargetBuildingStatusDuration, CSC2Event::eBuildingStatusLapse, true, targetBuilding->buildingID, 0, m_applyTargetBuildingStatus));
+			events.add(CSC2Event(state.m_time + m_applyTargetBuildingStatusDuration, CSC2Event::eBuildingStatusLapse, true, targetBuilding->buildingID, 0, m_applyTargetBuildingStatus, state.m_time));
 	}
 	if (m_spawnBase)
 	{
@@ -2083,7 +2083,7 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 		if(0.0 < m_applySourceBuildingStatusDuration)
 		{
 			sourceBuildingState->status |= m_applySourceBuildingStatus;
-			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / sourceBuildingState->productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuildingState->buildingID, 0, m_applySourceBuildingStatus));
+			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / sourceBuildingState->productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuildingState->buildingID, 0, m_applySourceBuildingStatus, state.m_time));
 		}
 
 		if(m_consumesLarva)
@@ -2112,7 +2112,7 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 		if(0.0 < m_applySourceBuildingStatusDuration)
 		{
 			sourceBuildingState->status |= m_applySourceBuildingStatus;
-			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / sourceBuildingState->productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuildingState->buildingID, 0, m_applySourceBuildingStatus));
+			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / sourceBuildingState->productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuildingState->buildingID, 0, m_applySourceBuildingStatus, state.m_time));
 		}
 
 		if(m_consumesLarva)
@@ -2124,7 +2124,15 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 		}
 	}
 
-	events.add(CSC2Event(state.m_time + m_buildUnitCompletionTime / (m_unitOccupiesBuilding ? sourceBuildingState->productionBoost : 1.0), CSC2Event::eUnitComplete, m_unitOccupiesBuilding, m_unitOccupiesBuilding ? sourceBuildingState->buildingID : 0, m_buildUnitTypeID, m_buildUnitCount));
+	events.add(CSC2Event(
+		state.m_time + m_buildUnitCompletionTime / (m_unitOccupiesBuilding ? sourceBuildingState->productionBoost : 1.0),
+		CSC2Event::eUnitComplete,
+		true,
+		sourceBuildingState->buildingID,
+		m_buildUnitTypeID,
+		m_buildUnitCount,
+		state.m_time
+	));
 	state.m_unitUnderConstructionFlags |= ((SC2UnitFlags)1 << m_buildUnitTypeID);
 	state.m_unitUnderConstruction[m_buildUnitTypeID] += m_buildUnitCount;
 	state.m_supplyCapUnderConstruction += m_buildUnit->GetProvidedSupply() * m_buildUnitCount;
@@ -2843,14 +2851,14 @@ bool CSC2UnitAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC
 	{
 		targetBuilding->status |= m_applyTargetBuildingStatus;
 		if(0.0 < m_applyTargetBuildingStatusDuration)
-			events.add(CSC2Event(state.m_time + m_applyTargetBuildingStatusDuration, CSC2Event::eBuildingStatusLapse, true, targetBuilding->buildingID, 0, m_applyTargetBuildingStatus));
+			events.add(CSC2Event(state.m_time + m_applyTargetBuildingStatusDuration, CSC2Event::eBuildingStatusLapse, true, targetBuilding->buildingID, 0, m_applyTargetBuildingStatus, state.m_time));
 	}
 	if(m_spawnTargetBuildingBonusLarvaeCount > 0)
 		events.add(CSC2Event(state.m_time + m_spawnTargetBuildingBonusLarvaeTime, CSC2Event::eBuildingSpawnBonusLarvae, true, targetBuilding->buildingID, 0, m_spawnTargetBuildingBonusLarvaeCount));
 
 	if(m_buildBuilding)
 	{
-		events.add(CSC2Event(state.m_time + m_buildBuildingCompletionTime, CSC2Event::eBuildingComplete, false, 0, m_buildBuildingTypeID, 0));
+		events.add(CSC2Event(state.m_time + m_buildBuildingCompletionTime, CSC2Event::eBuildingComplete, false, 0, m_buildBuildingTypeID, 0, state.m_time));
 		state.m_buildingUnderConstructionFlags |= ((SC2BuildingFlags)1 << m_buildBuildingTypeID);
 		state.m_buildingUnderConstruction[m_buildBuildingTypeID]++;
 		state.m_supplyCapUnderConstruction += m_buildBuilding->GetProvidedSupply();
@@ -2860,7 +2868,7 @@ bool CSC2UnitAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC
 
 	if(m_buildUnit)
 	{
-		events.add(CSC2Event(state.m_time + m_buildUnitCompletionTime, CSC2Event::eUnitComplete, false, 0, m_buildUnitTypeID));
+		events.add(CSC2Event(state.m_time + m_buildUnitCompletionTime, CSC2Event::eUnitComplete, false, 0, m_buildUnitTypeID, 0, state.m_time));
 		state.m_unitUnderConstructionFlags |= ((SC2UnitFlags)1 << m_buildUnitTypeID);
 		state.m_unitUnderConstruction[m_buildUnitTypeID]++;
 		state.m_supplyCapUnderConstruction += m_buildUnit->GetProvidedSupply();
@@ -3218,11 +3226,11 @@ bool CSC2ResearchCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2Ev
 		if(0.0 < m_applySourceBuildingStatusDuration)
 		{
 			sourceBuilding->status |= m_applySourceBuildingStatus;
-			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuilding->buildingID, 0, m_applySourceBuildingStatus));
+			events.add(CSC2Event(state.m_time + m_applySourceBuildingStatusDuration / productionBoost, CSC2Event::eBuildingStatusLapse, true, sourceBuilding->buildingID, 0, m_applySourceBuildingStatus, state.m_time));
 		}
 	}
 
-	events.add(CSC2Event(state.m_time + m_completionTime / productionBoost, CSC2Event::eResearchComplete, NULL != sourceBuilding, sourceBuilding ? sourceBuilding->buildingID : 0, m_completeResearchID));
+	events.add(CSC2Event(state.m_time + m_completionTime / productionBoost, CSC2Event::eResearchComplete, NULL != sourceBuilding, sourceBuilding ? sourceBuilding->buildingID : 0, m_completeResearchID, 0, state.m_time));
 	state.m_researchUnderConstruction[m_completeResearchID] = true;
 	state.m_researchUnderConstructionFlags |= ((SC2ResearchFlags)1 << m_completeResearchID);
 

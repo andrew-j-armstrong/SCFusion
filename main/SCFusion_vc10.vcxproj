@@ -199,6 +199,8 @@
     <ClCompile Include="SC2\SC2Unit.cpp" />
     <ClCompile Include="SC2\SC2Version.cpp" />
     <ClCompile Include="SC2\TargetMinMax.cpp" />
+    <ClCompile Include="VisualItem.cpp" />
+    <ClCompile Include="VisualPanel.cpp" />
     <ClCompile Include="TimeTextCtrl.cpp" />
     <ClCompile Include="TimeValidator.cpp" />
   </ItemGroup>
@@ -239,6 +241,7 @@
     <ClInclude Include="GA\GAStringFitnessCalc.h" />
     <ClInclude Include="GA\GAValueArrayChromosome.h" />
     <ClInclude Include="GA\GAVillage.h" />
+    <ClInclude Include="VisualItem.h" />
     <ClInclude Include="MDIChild.h" />
     <ClInclude Include="MDIParent.h" />
     <ClInclude Include="RaceChoiceDlg.h" />
@@ -268,6 +271,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimeTextCtrl.h" />
     <ClInclude Include="TimeValidator.h" />
+    <ClInclude Include="VisualPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\WinSparkle\Release\WinSparkle.dll">

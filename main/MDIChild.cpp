@@ -6,6 +6,7 @@
 
 #include "MDIChild.h"
 #include "MDIParent.h"
+#include "VisualPanel.h"
 #include "Core/HashFunction.h"
 #include "AStar/ASEngine.h"
 #include "AStar/ASBuildStateNode.h"
@@ -95,6 +96,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_staticText1(NULL)
 	, m_choiceOutput(NULL)
 	, m_txtOutput(NULL)
+	, m_visualOutput(NULL)
 	, m_txtMaxTime(NULL)
 	, m_choiceInitialBuildOrder(NULL)
 	, m_txtInitialBuildOrder(NULL)
@@ -271,6 +273,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	arrOutputChoices.Add(wxT("Simple"));
 	arrOutputChoices.Add(wxT("Detailed"));
 	arrOutputChoices.Add(wxT("Full"));
+	arrOutputChoices.Add(wxT("Visual"));
 	m_choiceOutput = new wxChoice(this, wxID_OUTPUTFORMAT, wxDefaultPosition, wxDefaultSize, arrOutputChoices, 0);
 	m_choiceOutput->SetSelection(1);
 	bSizer8->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
@@ -283,6 +286,10 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_txtOutput->SetFont(wxFont(wxNORMAL_FONT->GetPointSize(), wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 	//m_txtOutput->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT));
 	bSizer10->Add(m_txtOutput, 1, wxEXPAND|wxALL, CONTROL_BORDER);
+
+	m_visualOutput = new VisualPanel(this, wxID_ANY);
+	bSizer10->Add(m_visualOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
+	m_visualOutput->Hide();
 
 	m_pgResult = new wxPropertyGrid(this, -1, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED | wxPG_LIMITED_EDITING);
 	m_pgResult->SetMinSize(wxSize(230,-1));
@@ -473,10 +480,25 @@ void MyChild::UpdateOutputFormat()
 		case 3:
 			m_engine->SetOutput(new CSC2OutputFull());
 			break;
+		case 4:
+			m_engine->SetOutput(new CSC2OutputVisual());
+			break;
 		}
+
+		if (m_choiceOutput->GetCurrentSelection() == 4)
+		{
+			m_visualOutput->Show();
+			m_txtOutput->Hide();
+		}
+		else
+		{
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
+		}
+		this->Layout();
 	}
 
-	PrintBestGame();
+	RefreshOutput();
 }
 
 void MyChild::UpdateInitialBuildOrder(wxCommandEvent &event)
@@ -1567,7 +1589,18 @@ void MyChild::OnTimer(wxTimerEvent& event)
 
 	m_engine->UpdateBestGame();
 
-	PrintBestGame();
+	RefreshOutput();
+}
+
+void MyChild::RefreshOutput()
+{
+	if (m_choiceOutput->GetCurrentSelection() == 4) {
+		DrawBestGame();
+	}
+	else
+	{
+		PrintBestGame();
+	}
 }
 
 void MyChild::PrintBestGame()
@@ -1602,6 +1635,22 @@ void MyChild::PrintBestGame()
 		}
 		m_txtOutput->Thaw();
 	}
+}
+
+bool compareStartTime(vector<VisualItem*> a, vector<VisualItem*> b)
+{
+	if (a.size() == 0) return false;
+	if (b.size() == 0) return true;
+	return a.front()->startTime < b.front()->startTime;
+}
+
+void MyChild::DrawBestGame()
+{
+	vector<vector<VisualItem*>> visualItems;
+	m_engine->DrawBestGame(visualItems, m_pgResult);
+	sort(visualItems.begin(), visualItems.end(), compareStartTime);
+	m_visualOutput->SetVisualItems(visualItems);
+	m_visualOutput->Refresh();
 }
 
 void MyChild::OnSave(wxCommandEvent& WXUNUSED(event))
@@ -2058,7 +2107,7 @@ bool MyChild::LoadSettingsFromXML(wxXmlNode *node)
 
 	m_engine->InitialiseFitnessCalc(m_pgWaypoints, m_pgTarget, scout, m_scoutingWorkerTime, m_scoutingWorkerEndTime);
 
-	PrintBestGame();
+	RefreshOutput();
 
 	return true;
 }
@@ -2272,7 +2321,7 @@ bool MyChild::LoadWaypointsFromXML(wxXmlNode *node)
 
 	m_engine->InitialiseFitnessCalc(m_pgWaypoints, m_pgTarget, scout, m_scoutingWorkerTime, m_scoutingWorkerEndTime);
 
-	PrintBestGame();
+	RefreshOutput();
 
 	return true;
 }
@@ -2296,7 +2345,7 @@ bool MyChild::LoadBuildOrderFromXML(wxXmlNode *node)
 
 	m_engine->SetSeed(seed);
 
-	PrintBestGame();
+	RefreshOutput();
 
 	return true;
 }

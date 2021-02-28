@@ -4,6 +4,7 @@
 #include "SC2Waypoint.h"
 #include "SC2State.h"
 #include "SC2Event.h"
+#include "VisualItem.h"
 
 class CSC2Output
 {
@@ -89,16 +90,42 @@ public:
 	CSC2OutputFull() {}
 	~CSC2OutputFull() {}
 
-	void ProcessCommand(const CSC2Command *command, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessEvent(const CSC2Event &event, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state) override;
+	void ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+	void ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state) override;
 
 	void Reset() { m_output.clear(); }
 
-	void GetOutput(wxString &output) const override { output = m_output; }
+	void GetOutput(wxString& output) const override { output = m_output; }
 
 protected:
 	wxString m_output;
+};
+
+class CSC2OutputVisual : public CSC2Output
+{
+public:
+	CSC2OutputVisual() {}
+	~CSC2OutputVisual() {}
+
+	void ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+	void ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+
+	void Reset()
+	{
+		m_output.clear();
+		m_visual_items.clear();
+	}
+
+	void GetOutput(wxString& output) const override { output = m_output; }
+	void GetVisualItems(vector<vector<VisualItem*>>& visualItems) const { visualItems = m_visual_items; }
+
+	void AddVisualItem(size_t buildingId, VisualItem* item);
+
+protected:
+	wxString m_output;
+	vector<vector<VisualItem*>> m_visual_items;
 };
 
 /*
