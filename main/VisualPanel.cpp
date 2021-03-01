@@ -10,6 +10,16 @@ VisualPanel::VisualPanel(wxFrame* parent, wxWindowID id) :
     SetScrollbars(10, 10, 200, 200, 0, 0);
 }
 
+const int PIXELS_PER_SECOND = 5;
+const int LABEL_OFFSET_LEFT = 3;
+const int LABEL_OFFSET_TOP = 2;
+const int OFFSET_TOP = 30;
+const int ROW_HEIGHT = 30;
+const int ITEM_HEIGHT = 20;
+const int STATUS_HEIGHT = 5;
+const int DOUBLE_QUEUE_ITEM_HEIGHT = ROW_HEIGHT / 2;
+const int doubleQueueMarginCorrection = (ITEM_HEIGHT - ROW_HEIGHT) / 2;
+
 bool compareStartTime(VisualItem a, VisualItem b)
 {
     return a.startTime < b.startTime;
@@ -74,13 +84,13 @@ void VisualPanel::OnDraw(wxDC& dc)
 {
     // Draw grid
     dc.SetPen(wxPen(wxColor(230, 230, 230), 1));
-    dc.SetTextForeground(wxColor(127, 127, 127));
-    for (int i = 1; i <= m_width / 75; i++)
+    dc.SetTextForeground(wxColor(153, 153, 153));
+    for (int i = 1; i <= m_width / 15 / PIXELS_PER_SECOND; i++)
     {
-        dc.DrawLine(wxPoint(i * 75, 20), wxPoint(i * 75, m_height - 20));
-        if (i % 4 == 0) dc.DrawLine(wxPoint(i * 75 - 1, 20), wxPoint(i * 75 - 1, m_height - 20));
-        dc.DrawText(wxString::Format(L"%02d:%02d", i / 4, i % 4 * 15), i * 75 - 13, 3);
-        dc.DrawText(wxString::Format(L"%02d:%02d", i / 4, i % 4 * 15), i * 75 - 13, m_height - 17);
+        dc.DrawLine(wxPoint(i * 15 * PIXELS_PER_SECOND, 20), wxPoint(i * 15 * PIXELS_PER_SECOND, m_height - 20));
+        if (i % 4 == 0) dc.DrawLine(wxPoint(i * 15 * PIXELS_PER_SECOND - 1, 20), wxPoint(i * 15 * PIXELS_PER_SECOND - 1, m_height - 20));
+        dc.DrawText(wxString::Format(L"%02d:%02d", i / 4, i % 4 * 15), i * 15 * PIXELS_PER_SECOND - 13, 3);
+        dc.DrawText(wxString::Format(L"%02d:%02d", i / 4, i % 4 * 15), i * 15 * PIXELS_PER_SECOND - 13, m_height - 17);
     }
 
     // Draw items
@@ -88,32 +98,23 @@ void VisualPanel::OnDraw(wxDC& dc)
     dc.SetPen(*wxTRANSPARENT_PEN);
     dc.SetTextForeground(wxColor(0, 0, 0));
 
-    const int pixelsPerSecond = 5;
-    const int labelIndent = 3;
-    const int labelTopMargin = 2;
-    const int topMargin = 30;
-    const int rowHeight = 30;
-    const int defaultItemHeight = 20;
-    const int statusHeight = 5;
-    const int doubleQueueHeight = rowHeight / 2;
-    const int doubleQueueMarginCorrection = -5;
-
     for (size_t i = 0; i < m_stray_visual_items.size(); i++)
     {
         for (auto item : m_stray_visual_items[i])
         {
             dc.DrawRectangle(
-                item.startTime * pixelsPerSecond,
-                i * rowHeight + topMargin,
-                (item.endTime - item.startTime) * pixelsPerSecond - 1,
-                defaultItemHeight - 1
+                item.startTime * PIXELS_PER_SECOND,
+                i * ROW_HEIGHT + OFFSET_TOP,
+                (item.endTime - item.startTime) * PIXELS_PER_SECOND - 1,
+                ITEM_HEIGHT - 1
             );
-            dc.DrawText(item.name, item.startTime * pixelsPerSecond + labelIndent, i * rowHeight + topMargin + labelTopMargin);
+            dc.DrawText(item.name, item.startTime * PIXELS_PER_SECOND + LABEL_OFFSET_LEFT, i * ROW_HEIGHT + OFFSET_TOP + LABEL_OFFSET_TOP);
         }
     }
 
     for (size_t i = 0; i < m_visual_items.size(); i++)
     {
+        size_t offset = i + m_stray_visual_items.size() - 1;
         bool doubleQueueUpper = false;
         for (auto item : m_visual_items[i])
         {
@@ -121,10 +122,10 @@ void VisualPanel::OnDraw(wxDC& dc)
             {
                 dc.SetBrush(wxColor(127, 255, 191));
                 dc.DrawRectangle(
-                    item.startTime * pixelsPerSecond,
-                    (i + m_stray_visual_items.size()) * rowHeight + topMargin + defaultItemHeight,
-                    (item.endTime - item.startTime) * pixelsPerSecond - 1,
-                    statusHeight - 1
+                    item.startTime * PIXELS_PER_SECOND,
+                    offset * ROW_HEIGHT + OFFSET_TOP + ITEM_HEIGHT,
+                    (item.endTime - item.startTime) * PIXELS_PER_SECOND - 1,
+                    STATUS_HEIGHT - 1
                 );
                 dc.SetBrush(wxColor(127, 191, 255));
             }
@@ -134,25 +135,25 @@ void VisualPanel::OnDraw(wxDC& dc)
                 {
                     doubleQueueUpper = !doubleQueueUpper;
                     dc.DrawRectangle(
-                        item.startTime * pixelsPerSecond,
-                        (i + m_stray_visual_items.size()) * rowHeight + topMargin + (doubleQueueUpper ? 0 : doubleQueueHeight) + doubleQueueMarginCorrection,
-                        (item.endTime - item.startTime) * pixelsPerSecond - 1,
-                        doubleQueueHeight - 1
+                        item.startTime * PIXELS_PER_SECOND,
+                        offset * ROW_HEIGHT + OFFSET_TOP + (doubleQueueUpper ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection,
+                        (item.endTime - item.startTime) * PIXELS_PER_SECOND - 1,
+                        DOUBLE_QUEUE_ITEM_HEIGHT - 1
                     );
                     dc.DrawText(
                         item.name,
-                        item.startTime * pixelsPerSecond + labelIndent,
-                        (i + m_stray_visual_items.size()) * rowHeight + topMargin + (doubleQueueUpper ? 0 : doubleQueueHeight) + doubleQueueMarginCorrection - 1);
+                        item.startTime * PIXELS_PER_SECOND + LABEL_OFFSET_LEFT,
+                        offset * ROW_HEIGHT + OFFSET_TOP + (doubleQueueUpper ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection - 1);
                 }
                 else
                 {
                     dc.DrawRectangle(
-                        item.startTime * pixelsPerSecond,
-                        (i + m_stray_visual_items.size()) * rowHeight + topMargin,
-                        (item.endTime - item.startTime) * pixelsPerSecond - 1,
-                        defaultItemHeight - 1
+                        item.startTime * PIXELS_PER_SECOND,
+                        offset * ROW_HEIGHT + OFFSET_TOP,
+                        (item.endTime - item.startTime) * PIXELS_PER_SECOND - 1,
+                        ITEM_HEIGHT - 1
                     );
-                    dc.DrawText(item.name, item.startTime * pixelsPerSecond + labelIndent, (i + m_stray_visual_items.size()) * rowHeight + topMargin + labelTopMargin);
+                    dc.DrawText(item.name, item.startTime * PIXELS_PER_SECOND + LABEL_OFFSET_LEFT, offset * ROW_HEIGHT + OFFSET_TOP + LABEL_OFFSET_TOP);
                 }
             }
         }
