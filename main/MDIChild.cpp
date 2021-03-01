@@ -1648,7 +1648,7 @@ void MyChild::DrawBestGame()
 {
 	vector<vector<VisualItem>> visualItems;
 	m_engine->DrawBestGame(visualItems, m_pgResult);
-	sort(visualItems.begin(), visualItems.end(), compareStartTime);
+	sort(visualItems.begin() + 1, visualItems.end(), compareStartTime);
 	m_visualOutput->SetVisualItems(visualItems);
 	m_visualOutput->Refresh();
 }

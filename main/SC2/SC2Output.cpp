@@ -383,7 +383,8 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 		AddVisualItem(state.m_allBuildings.size(), VisualItem(state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
 		break;
 	case CSC2Event::eUnitComplete:
-		if (event.m_event.m_data.m_sourceIsBuilding) {
+		if (event.m_event.m_data.m_sourceIsBuilding)
+		{
 			AddVisualItem(
 				event.m_event.m_data.m_sourceID,
 				VisualItem(
@@ -392,6 +393,17 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 					endTime,
 					false,
 					state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->IsDoubleQueue()
+				)
+			);
+		}
+		else
+		{
+			AddVisualItem(
+				0,
+				VisualItem(
+					state.m_raceData.m_units[event.m_event.m_data.m_targetID]->GetName(),
+					startTime,
+					endTime
 				)
 			);
 		}

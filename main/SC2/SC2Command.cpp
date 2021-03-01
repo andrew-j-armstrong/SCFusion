@@ -1452,7 +1452,7 @@ bool CSC2BuildingAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue
 	}
 	if(m_buildUnit)
 	{
-		events.add(CSC2Event(state.m_time + m_buildUnitTime, CSC2Event::eUnitComplete, true, sourceBuilding->buildingID, m_buildUnitTypeID, 0, state.m_time));
+		events.add(CSC2Event(state.m_time + m_buildUnitTime, CSC2Event::eUnitComplete, false, sourceBuilding->buildingID, m_buildUnitTypeID, 0, state.m_time));
 		state.m_unitUnderConstructionFlags |= ((SC2UnitFlags)1 << m_buildUnitTypeID);
 		state.m_unitUnderConstruction[m_buildUnitTypeID]++;
 		state.m_supplyCapUnderConstruction += m_buildUnit->GetProvidedSupply();
@@ -2127,7 +2127,7 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 	events.add(CSC2Event(
 		state.m_time + m_buildUnitCompletionTime / (m_unitOccupiesBuilding ? sourceBuildingState->productionBoost : 1.0),
 		CSC2Event::eUnitComplete,
-		true,
+		m_unitOccupiesBuilding,
 		sourceBuildingState->buildingID,
 		m_buildUnitTypeID,
 		m_buildUnitCount,
