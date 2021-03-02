@@ -409,19 +409,21 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 		}
 		break;
 	case CSC2Event::eResearchComplete:
-		output = wxString::Format(L"(%s completed)", state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName());
 		AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
 		break;
-	case CSC2Event::eBuildingConsume:
-		output = wxString::Format(L"(%s consumed)", state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName());
-		break;
 	case CSC2Event::eBuildingMorph:
-		output = wxString::Format(L"(%s completed)", state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName());
 		AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
 		break;
-	/*case CSC2Event::eUnitMorph:
-		output = wxString::Format(L"(%s completed)", state.m_raceData.m_units[event.m_event.m_data.m_targetID]->GetName());
-		break;*/
+	case CSC2Event::eUnitMorph:
+		AddVisualItem(
+			0,
+			VisualItem(
+				state.m_raceData.m_units[event.m_event.m_data.m_targetID]->GetName(),
+				startTime,
+				endTime
+			)
+		);
+		break;
 	case CSC2Event::eBuildingStatusLapse:
 	{
 		size_t status = event.m_event.m_data.m_data;
@@ -436,21 +438,15 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 		}
 	}
 	break;
-	case CSC2Event::eBuildingSpawnLarvae:
+	/*case CSC2Event::eBuildingSpawnLarvae:
 		output = wxString::Format(L"(Larva spawned)");
 		break;
 	case CSC2Event::eBuildingSpawnBonusLarvae:
 		output = wxString::Format(L"(%d bonus larvae spawned)", event.m_event.m_data.m_data);
-		break;
+		break;*/
 	default:
 		return;
 	}
-
-	//m_output += wxString::Format(wxT("%2d:%05.2f: "), (int)(state.m_time / 60) - 60 * (int)(state.m_time / 3600), state.m_time - 60 * (int)(state.m_time / 60));
-	//state.PrintSummary(m_output);
-	//m_output.Append(wxT(" - "));
-	m_output.Append(output);
-	m_output += wxString::Format(wxT("\n"));
 }
 
 void CSC2OutputVisual::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state)

@@ -2739,7 +2739,7 @@ bool CSC2UnitAbilityCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC
 		state.m_unitUnderConstructionFlags |= ((SC2UnitFlags)1 << m_morphSourceUnitTypeID);
 		state.m_unitUnderConstruction[m_morphSourceUnitTypeID]++;
 		state.m_supplyCapUnderConstruction += m_morphSourceUnit->GetProvidedSupply() - m_sourceUnit->GetProvidedSupply();
-		events.add(CSC2Event(state.m_time + m_morphSourceUnitTime, CSC2Event::eUnitMorph, false, sourceUnit->unitID, m_morphSourceUnitTypeID));
+		events.add(CSC2Event(state.m_time + m_morphSourceUnitTime, CSC2Event::eUnitMorph, false, sourceUnit->unitID, m_morphSourceUnitTypeID, 0, state.m_time));
 
 		if(m_sourceUnit->IsWorker())
 		{
