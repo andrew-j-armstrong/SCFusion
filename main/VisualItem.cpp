@@ -2,7 +2,7 @@
 
 #include <wx/wx.h>
 
-VisualItem::VisualItem(wxString name, int startTime, int endTime, bool isStatus, bool isDoubleQueue)
+VisualItem::VisualItem(wxString name, double startTime, double endTime, bool isStatus, bool isDoubleQueue)
 {
 	this->startTime = startTime;
 	this->endTime = endTime;

@@ -375,8 +375,8 @@ void CSC2OutputVisual::AddVisualItem(size_t buildingId, VisualItem item)
 void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
 	wxString output;
-	int startTime = event.m_event.m_data.m_startTime;
-	int endTime = event.m_time;
+	const double startTime = event.m_event.m_data.m_startTime;
+	const double endTime = event.m_time;
 	switch (event.m_event.m_data.m_eventCategory)
 	{
 	case CSC2Event::eBuildingComplete:
