@@ -44,7 +44,7 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
             size_t n = 0;
             while (!fitted && n < m_stray_visual_items.size())
             {
-                if (m_stray_visual_items[n].back().endTime > strayRow[i].startTime)
+                if (m_stray_visual_items[n].back().endTime > strayRow[i].startTime || m_stray_visual_items[n].back().startTime + 10 > strayRow[i].startTime)
                 {
                     n++;
                 }
