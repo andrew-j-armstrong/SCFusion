@@ -414,7 +414,7 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 		);
 		break;
 	case CSC2Event::eResearchComplete:
-		AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime));
+		AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime, VisualItem::tResearch));
 		break;
 	case CSC2Event::eBuildingMorph:
 		building = state.m_raceData.m_buildings[event.m_event.m_data.m_targetID];

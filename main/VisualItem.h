@@ -15,7 +15,8 @@ public:
         tStatus,
         tMilitary,
         tMilitaryUnit,
-        tWorker
+        tWorker,
+        tResearch
     };
 
     VisualItem(wxString name, double startTime, double endTime, VisualItemType itemType = tDefault, bool isDoubleQueue = false);

@@ -90,6 +90,7 @@ wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType)
     const wxColor MILITARY = wxColor(255, 153, 153);
     const wxColor MILITARY_UNIT = wxColor(255, 204, 204);
     const wxColor WORKER = wxColor(204, 229, 255);
+    const wxColor RESEARCH = wxColor(229, 204, 255);
     
     switch (itemType)
     {
@@ -107,6 +108,8 @@ wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType)
         return MILITARY_UNIT;
     case VisualItem::tWorker:
         return WORKER;
+    case VisualItem::tResearch:
+        return RESEARCH;
     default:
         return DEFAULT;
     }
