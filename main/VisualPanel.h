@@ -17,6 +17,8 @@ public:
 
     void SetVisualItems(vector<vector<VisualItem>> visualItems);
 
+    wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType);
+
     DECLARE_EVENT_TABLE()
 
 protected:

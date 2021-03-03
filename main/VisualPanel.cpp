@@ -80,6 +80,39 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
     SetScrollbars(10, 10, (int)m_width/10, (int)m_height/10, scrolled.x, scrolled.y);
 }
 
+wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType)
+{
+    const wxColor DEFAULT = wxColor(204, 204, 204);
+    const wxColor BASE = wxColor(153, 204, 255);
+    const wxColor GAS = wxColor(153, 204, 153);
+    const wxColor SUPPLY = wxColor(255, 204, 153);
+    const wxColor STATUS = wxColor(153, 255, 255);
+    const wxColor MILITARY = wxColor(255, 153, 153);
+    const wxColor MILITARY_UNIT = wxColor(255, 204, 204);
+    const wxColor WORKER = wxColor(204, 229, 255);
+    
+    switch (itemType)
+    {
+    case VisualItem::tBase:
+        return BASE;
+    case VisualItem::tGas:
+        return GAS;
+    case VisualItem::tSupply:
+        return SUPPLY;
+    case VisualItem::tStatus:
+        return STATUS;
+    case VisualItem::tMilitary:
+        return MILITARY;
+    case VisualItem::tMilitaryUnit:
+        return MILITARY_UNIT;
+    case VisualItem::tWorker:
+        return WORKER;
+    default:
+        return DEFAULT;
+    }
+
+}
+
 void VisualPanel::OnDraw(wxDC& dc)
 {
     // Draw grid
@@ -102,6 +135,7 @@ void VisualPanel::OnDraw(wxDC& dc)
     {
         for (auto item : m_stray_visual_items[i])
         {
+            dc.SetBrush(GetBrushColorByType(item.itemType));
             dc.DrawRectangle(
                 item.startTime * PIXELS_PER_SECOND,
                 i * ROW_HEIGHT + OFFSET_TOP,
@@ -118,16 +152,15 @@ void VisualPanel::OnDraw(wxDC& dc)
         bool doubleQueueUpper = false;
         for (auto item : m_visual_items[i])
         {
-            if (item.isStatus)
+            dc.SetBrush(GetBrushColorByType(item.itemType));
+            if (item.itemType == VisualItem::tStatus)
             {
-                dc.SetBrush(wxColor(127, 255, 191));
                 dc.DrawRectangle(
                     item.startTime * PIXELS_PER_SECOND,
                     offset * ROW_HEIGHT + OFFSET_TOP + ITEM_HEIGHT,
                     (item.endTime - item.startTime) * PIXELS_PER_SECOND - 1,
                     STATUS_HEIGHT - 1
                 );
-                dc.SetBrush(wxColor(127, 191, 255));
             }
             else
             {

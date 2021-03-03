@@ -6,11 +6,23 @@ class VisualItem
 {
 
 public:
-    VisualItem(wxString name, double startTime, double endTime, bool isStatus = false, bool isDoubleQueue = false);
+    enum VisualItemType
+    {
+        tDefault,
+        tBase,
+        tSupply,
+        tGas,
+        tStatus,
+        tMilitary,
+        tMilitaryUnit,
+        tWorker
+    };
+
+    VisualItem(wxString name, double startTime, double endTime, VisualItemType itemType = tDefault, bool isDoubleQueue = false);
 
     wxString name;
     double startTime;
     double endTime;
-    bool isStatus;
+    VisualItemType itemType;
     bool isDoubleQueue;
 };
