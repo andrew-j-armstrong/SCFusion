@@ -493,14 +493,12 @@ void MyChild::UpdateOutputFormat()
 			m_engine->SetOutput(new CSC2OutputVisual());
 			m_visualOutput->SetPlainOutput();
 			m_visualOutput->Show();
-			m_visualOutput->Refresh();
 			m_txtOutput->Hide();
 			break;
 		case 5:
 			m_engine->SetOutput(new CSC2OutputVisual());
 			m_visualOutput->SetColorfulOutput();
 			m_visualOutput->Show();
-			m_visualOutput->Refresh();
 			m_txtOutput->Hide();
 			break;
 		}
@@ -1608,7 +1606,7 @@ void MyChild::OnTimer(wxTimerEvent& event)
 
 void MyChild::RefreshOutput()
 {
-	if (m_choiceOutput->GetCurrentSelection() == 4) {
+	if (m_choiceOutput->GetCurrentSelection() == 4 || m_choiceOutput->GetCurrentSelection() == 5) {
 		DrawBestGame();
 	}
 	else
