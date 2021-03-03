@@ -9,6 +9,7 @@ VisualPanel::VisualPanel(wxFrame* parent, wxWindowID id) :
 {
     SetBackgroundColour(wxColour(255, 255, 255));
     SetScrollbars(10, 10, 200, 200, 0, 0);
+    SetDoubleBuffered(true);
 }
 
 const int PIXELS_PER_SECOND = 5;
@@ -26,7 +27,7 @@ const std::map<VisualItem::VisualItemType, wxColor> COLORFUL = {
    {VisualItem::tBase, wxColor(153, 204, 255)},
    {VisualItem::tGas, wxColor(153, 204, 153)},
    {VisualItem::tSupply, wxColor(255, 204, 153)},
-   {VisualItem::tStatus, wxColor(153, 255, 255)},
+   {VisualItem::tStatus, wxColor(153, 255, 204)},
    {VisualItem::tMilitary, wxColor(255, 153, 153)},
    {VisualItem::tMilitaryUnit, wxColor(255, 204, 204)},
    {VisualItem::tWorker, wxColor(204, 229, 255)},
@@ -38,7 +39,7 @@ const std::map<VisualItem::VisualItemType, wxColor> PLAIN = {
    {VisualItem::tBase, wxColor(153, 204, 255)},
    {VisualItem::tGas, wxColor(153, 204, 255)},
    {VisualItem::tSupply, wxColor(153, 204, 255)},
-   {VisualItem::tStatus, wxColor(153, 255, 255)},
+   {VisualItem::tStatus, wxColor(153, 204, 255)},
    {VisualItem::tMilitary, wxColor(153, 204, 255)},
    {VisualItem::tMilitaryUnit, wxColor(204, 229, 255)},
    {VisualItem::tWorker, wxColor(204, 229, 255)},
