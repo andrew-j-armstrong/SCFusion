@@ -382,6 +382,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	UpdateOutputFormat();
 	UpdateTitle();
 	Maximize();
+	m_btnStart->SetFocus();
 }
 
 MyChild::~MyChild()
