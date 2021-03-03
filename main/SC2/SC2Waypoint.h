@@ -12,7 +12,7 @@
 class CSC2Waypoint
 {
 public:
-	CSC2Waypoint(const CSC2RaceInfo &raceInfo);
+	CSC2Waypoint(const CSC2RaceInfo &raceInfo, bool finalTarget = false);
 	~CSC2Waypoint() {}
 
 	void SetDefaults();
@@ -34,7 +34,10 @@ public:
 	void DoPreCalculation();
 	void BuildAlphabet(CVector<const CSC2Command *> &alphabet, EGasMicro gasMicro) const;
 
+	bool IsFinalTarget() const;
+
 	const CSC2RaceInfo &m_raceInfo;
+	const bool m_final_target;
 
 	// State
 	CDoubleMinMax m_targetTime;

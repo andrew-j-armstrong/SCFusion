@@ -833,7 +833,7 @@ bool CSC2Engine::InitialiseFitnessCalc(const CVector<wxPropertyGrid *> &pgWaypoi
 		hasTarget = true;
 	}
 
-	CSC2Waypoint waypointTarget(*m_raceInfo);
+	CSC2Waypoint waypointTarget(*m_raceInfo, true);
 	if(BuildWaypoint(pgTarget, waypointTarget))
 	{
 		waypointTarget.m_targetTime.max = DBL_MAX;

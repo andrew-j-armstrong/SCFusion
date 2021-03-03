@@ -24,6 +24,7 @@
 #include "SC2/SC2Race.h"
 
 #define CONTROL_BORDER 3
+#define WAYPOINT_GRID_SPLIT_POSITION 210
 
 #define wxID_TIMER						(wxID_HIGHEST + 1)
 #define wxID_MAXTIME					(wxID_HIGHEST + 2)
@@ -140,10 +141,10 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 
 	wxBoxSizer* btnSizer = new wxBoxSizer(wxHORIZONTAL);
 
-	m_btnAddWaypoint = new wxButton(this, wxID_ADD, "Add Waypoint");
+	m_btnAddWaypoint = new wxButton(this, wxID_ADD, "Add Milestone");
 	btnSizer->Add(m_btnAddWaypoint, 0, wxALL, CONTROL_BORDER);
 
-	m_btnRemoveWaypoint = new wxButton(this, wxID_REMOVE, "Remove Waypoint");
+	m_btnRemoveWaypoint = new wxButton(this, wxID_REMOVE, "Remove Milestone");
 	btnSizer->Add(m_btnRemoveWaypoint, 0, wxALL, CONTROL_BORDER);
 	m_btnRemoveWaypoint->Disable();
 
@@ -349,7 +350,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_listVillages->InsertItem(6, wxT("Village 5"));
 	m_listVillages->SetItem(6, 1, wxT("200"));
 
-	m_pgTarget->SetSplitterPosition(210);
+	m_pgTarget->SetSplitterPosition(WAYPOINT_GRID_SPLIT_POSITION);
 
 	m_pgResult->SetSplitterPosition(148);
 
@@ -685,20 +686,20 @@ void MyChild::AddWaypoint()
 	wxPanel *panel = new wxPanel(m_notebookTargets, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
 	wxBoxSizer *bSizer = new wxBoxSizer(wxVERTICAL);
 
-	wxPropertyGrid *prop = new wxPropertyGrid(panel, -1, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED);
-	bSizer->Add(prop, 1, wxALL|wxEXPAND, CONTROL_BORDER);
+	wxPropertyGrid *prop = new wxPropertyGrid(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED);
+	bSizer->Add(prop, 1, wxALL|wxEXPAND, 0);
 
 	panel->SetSizer(bSizer);
 	panel->Layout();
 	bSizer->Fit(panel);
-	m_notebookTargets->InsertPage(m_panelWaypoints.size(), panel, wxString::Format("Waypoint %d", m_panelWaypoints.size() + 1), true);
+	m_notebookTargets->InsertPage(m_panelWaypoints.size(), panel, wxString::Format("Milestone %d", m_panelWaypoints.size() + 1), true);
 
 	m_engine->AddWaypoint(prop, m_panelWaypoints.size() + 1, m_setDoubleProperties, m_setTimeProperties, m_setSizeTMinMaxProperties, m_setBoolMinMaxProperties, m_setBoolProperties);
 
 	m_panelWaypoints.push_back(panel);
 	m_pgWaypoints.push_back(prop);
 
-	prop->SetSplitterPosition(138);
+	prop->SetSplitterPosition(WAYPOINT_GRID_SPLIT_POSITION);
 
 	UpdateRemoveButton();
 }
@@ -712,6 +713,11 @@ void MyChild::RemoveWaypoint(wxCommandEvent & WXUNUSED(event))
 		m_pgWaypoints.erase(index);
 		m_notebookTargets->DeletePage(index);
 		UpdateRemoveButton();
+	}
+
+	for (size_t i = 0; i < m_panelWaypoints.size(); i++)
+	{
+		m_notebookTargets->SetPageText(i, wxString::Format("Milestone %d", i + 1));
 	}
 }
 

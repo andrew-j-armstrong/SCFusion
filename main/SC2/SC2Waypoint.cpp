@@ -3,10 +3,11 @@
 
 #include "../Core/Hashtable.h"
 
-CSC2Waypoint::CSC2Waypoint(const CSC2RaceInfo &raceInfo)
+CSC2Waypoint::CSC2Waypoint(const CSC2RaceInfo &raceInfo, bool finalTarget)
 : m_minerals(0.0), m_gas(0.0)
 , m_mineralsMined(0.0), m_gasMined(0.0)
 , m_raceInfo(raceInfo)
+, m_final_target(finalTarget)
 , m_buildingMinRequirements(0), m_buildingMaxRequirements(0)
 , m_unitMinRequirements(0), m_unitMaxRequirements(0)
 , m_researchMinRequirements(0), m_researchMaxRequirements(0)
@@ -947,4 +948,9 @@ void CSC2Waypoint::AddStateDuration(CFitnessValue &fitness, const CSC2State &sta
 {
 	for(size_t i=0; i < m_stateDurationRequirements.size(); i++)
 		fitness.m_requirementsValue -= m_stateDurationRequirements[i]->GetStateDurationPenalty(state, time);
+}
+
+bool CSC2Waypoint::IsFinalTarget() const
+{
+	return m_final_target;
 }
