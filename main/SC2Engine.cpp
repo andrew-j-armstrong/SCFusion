@@ -440,7 +440,7 @@ int CSC2Engine::PropertySortFunction(wxPropertyGrid* propGrid, wxPGProperty* p1,
 
 int CSC2Engine::AddWaypoint(wxPropertyGrid *pgWaypoint, int waypointIndex, CPropertiesSet &setDoubleProperties, CPropertiesSet &setTimeProperties, CPropertiesSet &setSizeTMinMaxProperties, CPropertiesSet &setBoolMinMaxProperties, CPropertiesSet &setBoolProperties)
 {
-	AddProperties(pgWaypoint, waypointIndex * 300.0, setDoubleProperties, setTimeProperties, setSizeTMinMaxProperties, setBoolMinMaxProperties, setBoolProperties, true);
+	AddProperties(pgWaypoint, waypointIndex * 180.0, setDoubleProperties, setTimeProperties, setSizeTMinMaxProperties, setBoolMinMaxProperties, setBoolProperties, true);
 	return waypointIndex;
 }
 
