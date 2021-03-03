@@ -16,6 +16,8 @@ public:
     void OnDraw(wxDC& dc);
 
     void SetVisualItems(vector<vector<VisualItem>> visualItems);
+    void SetColorfulOutput();
+    void SetPlainOutput();
 
     wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType);
 
@@ -26,6 +28,7 @@ protected:
     vector<vector<VisualItem>> m_stray_visual_items;
     int m_width;
     int m_height;
+    bool m_colorful = false;
 };
 
 #endif // _VISUALPANEL_H_

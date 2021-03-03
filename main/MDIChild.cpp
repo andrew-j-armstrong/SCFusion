@@ -262,7 +262,8 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	arrOutputChoices.Add(wxT("Simple"));
 	arrOutputChoices.Add(wxT("Detailed"));
 	arrOutputChoices.Add(wxT("Full"));
-	arrOutputChoices.Add(wxT("Visual"));
+	arrOutputChoices.Add(wxT("Plain Gantt"));
+	arrOutputChoices.Add(wxT("Colorful Gantt"));
 	m_choiceOutput = new wxChoice(this, wxID_OUTPUTFORMAT, wxDefaultPosition, wxDefaultSize, arrOutputChoices, 0);
 	m_choiceOutput->SetSelection(1);
 	bSizer41->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
@@ -470,30 +471,37 @@ void MyChild::UpdateOutputFormat()
 		{
 		case 0:
 			m_engine->SetOutput(new CSC2OutputMinimal());
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
 			break;
 		case 1:
 			m_engine->SetOutput(new CSC2OutputSimple());
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
 			break;
 		case 2:
 			m_engine->SetOutput(new CSC2OutputDetailed());
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
 			break;
 		case 3:
 			m_engine->SetOutput(new CSC2OutputFull());
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
 			break;
 		case 4:
 			m_engine->SetOutput(new CSC2OutputVisual());
-			break;
-		}
-
-		if (m_choiceOutput->GetCurrentSelection() == 4)
-		{
+			m_visualOutput->SetPlainOutput();
 			m_visualOutput->Show();
+			m_visualOutput->Refresh();
 			m_txtOutput->Hide();
-		}
-		else
-		{
-			m_visualOutput->Hide();
-			m_txtOutput->Show();
+		case 5:
+			m_engine->SetOutput(new CSC2OutputVisual());
+			m_visualOutput->SetColorfulOutput();
+			m_visualOutput->Show();
+			m_visualOutput->Refresh();
+			m_txtOutput->Hide();
+			break;
 		}
 		this->Layout();
 	}

@@ -1,4 +1,5 @@
 #include "VisualPanel.h"
+#include <map>
 
 BEGIN_EVENT_TABLE(VisualPanel, wxScrolledWindow)
 END_EVENT_TABLE()
@@ -19,6 +20,30 @@ const int ITEM_HEIGHT = 20;
 const int STATUS_HEIGHT = 5;
 const int DOUBLE_QUEUE_ITEM_HEIGHT = ROW_HEIGHT / 2;
 const int doubleQueueMarginCorrection = (ITEM_HEIGHT - ROW_HEIGHT) / 2;
+
+const std::map<VisualItem::VisualItemType, wxColor> COLORFUL = {
+   {VisualItem::tDefault, wxColor(204, 204, 204)},
+   {VisualItem::tBase, wxColor(153, 204, 255)},
+   {VisualItem::tGas, wxColor(153, 204, 153)},
+   {VisualItem::tSupply, wxColor(255, 204, 153)},
+   {VisualItem::tStatus, wxColor(153, 255, 255)},
+   {VisualItem::tMilitary, wxColor(255, 153, 153)},
+   {VisualItem::tMilitaryUnit, wxColor(255, 204, 204)},
+   {VisualItem::tWorker, wxColor(204, 229, 255)},
+   {VisualItem::tResearch, wxColor(229, 204, 255)},
+};
+
+const std::map<VisualItem::VisualItemType, wxColor> PLAIN = {
+   {VisualItem::tDefault, wxColor(204, 229, 255)},
+   {VisualItem::tBase, wxColor(153, 204, 255)},
+   {VisualItem::tGas, wxColor(153, 204, 255)},
+   {VisualItem::tSupply, wxColor(153, 204, 255)},
+   {VisualItem::tStatus, wxColor(153, 255, 255)},
+   {VisualItem::tMilitary, wxColor(153, 204, 255)},
+   {VisualItem::tMilitaryUnit, wxColor(204, 229, 255)},
+   {VisualItem::tWorker, wxColor(204, 229, 255)},
+   {VisualItem::tResearch, wxColor(204, 229, 255)},
+};
 
 bool compareStartTime(VisualItem a, VisualItem b)
 {
@@ -82,38 +107,7 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
 
 wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType)
 {
-    const wxColor DEFAULT = wxColor(204, 204, 204);
-    const wxColor BASE = wxColor(153, 204, 255);
-    const wxColor GAS = wxColor(153, 204, 153);
-    const wxColor SUPPLY = wxColor(255, 204, 153);
-    const wxColor STATUS = wxColor(153, 255, 255);
-    const wxColor MILITARY = wxColor(255, 153, 153);
-    const wxColor MILITARY_UNIT = wxColor(255, 204, 204);
-    const wxColor WORKER = wxColor(204, 229, 255);
-    const wxColor RESEARCH = wxColor(229, 204, 255);
-    
-    switch (itemType)
-    {
-    case VisualItem::tBase:
-        return BASE;
-    case VisualItem::tGas:
-        return GAS;
-    case VisualItem::tSupply:
-        return SUPPLY;
-    case VisualItem::tStatus:
-        return STATUS;
-    case VisualItem::tMilitary:
-        return MILITARY;
-    case VisualItem::tMilitaryUnit:
-        return MILITARY_UNIT;
-    case VisualItem::tWorker:
-        return WORKER;
-    case VisualItem::tResearch:
-        return RESEARCH;
-    default:
-        return DEFAULT;
-    }
-
+    return m_colorful ? COLORFUL.at(itemType) : PLAIN.at(itemType);
 }
 
 void VisualPanel::OnDraw(wxDC& dc)
@@ -194,4 +188,14 @@ void VisualPanel::OnDraw(wxDC& dc)
             }
         }
     }
+}
+
+void VisualPanel::SetColorfulOutput()
+{
+    m_colorful = true;
+}
+
+void VisualPanel::SetPlainOutput()
+{
+    m_colorful = false;
 }
