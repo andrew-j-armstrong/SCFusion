@@ -252,22 +252,9 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_btnStart = new wxButton(this, wxID_APPLY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer41->Add(m_btnStart, 0, wxALL, CONTROL_BORDER);
 
-	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
-
-	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY|wxTE_RIGHT);
-	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
-
-	bSizer4->Add(bSizer41, 0, wxEXPAND, 0);
-
-	m_listVillages = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 160), wxLC_REPORT|wxLC_SINGLE_SEL);
-	bSizer4->Add(m_listVillages, 0, wxALL|wxEXPAND, CONTROL_BORDER);
-
-	wxBoxSizer *bSizer8 = new wxBoxSizer(wxHORIZONTAL);
-
 	m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("Output Format:"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText1->Wrap(-1);
-	bSizer8->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
+	bSizer41->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
 	wxArrayString arrOutputChoices;
 	arrOutputChoices.Add(wxT("Minimal"));
@@ -277,9 +264,15 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	arrOutputChoices.Add(wxT("Visual"));
 	m_choiceOutput = new wxChoice(this, wxID_OUTPUTFORMAT, wxDefaultPosition, wxDefaultSize, arrOutputChoices, 0);
 	m_choiceOutput->SetSelection(1);
-	bSizer8->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
+	bSizer41->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
 
-	bSizer4->Add(bSizer8, 0, wxEXPAND, 0);
+	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
+
+	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY|wxTE_RIGHT);
+	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
+
+	bSizer4->Add(bSizer41, 0, wxEXPAND, 0);
 
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
@@ -297,6 +290,9 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	bSizer10->Add(m_pgResult, 0, wxEXPAND|wxALL, CONTROL_BORDER);
 
 	bSizer4->Add(bSizer10, 1, wxALL|wxEXPAND, 0);
+
+	m_listVillages = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 170), wxLC_REPORT | wxLC_SINGLE_SEL);
+	bSizer4->Add(m_listVillages, 0, wxALL | wxEXPAND, CONTROL_BORDER);
 
 #if wxUSE_TOOLBAR
 	wxToolBar *toolBar = ((MyFrame *)GetParent())->GetToolBar();

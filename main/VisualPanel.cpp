@@ -4,7 +4,7 @@ BEGIN_EVENT_TABLE(VisualPanel, wxScrolledWindow)
 END_EVENT_TABLE()
 
 VisualPanel::VisualPanel(wxFrame* parent, wxWindowID id) :
-    wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE)
+    wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME)
 {
     SetBackgroundColour(wxColour(255, 255, 255));
     SetScrollbars(10, 10, 200, 200, 0, 0);
