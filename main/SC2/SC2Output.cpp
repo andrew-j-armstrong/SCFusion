@@ -427,7 +427,7 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 		break;
 	case CSC2Event::eUnitMorph:
 		unit = state.m_raceData.m_units[event.m_event.m_data.m_targetID];
-		itemType = VisualItem::tMilitary;
+		itemType = VisualItem::tMilitaryUnit;
 		if (unit->IsWorker()) itemType = VisualItem::tWorker;
 
 		AddVisualItem(0, VisualItem(unit->GetName(), startTime, endTime, itemType));

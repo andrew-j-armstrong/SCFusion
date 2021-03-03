@@ -495,6 +495,7 @@ void MyChild::UpdateOutputFormat()
 			m_visualOutput->Show();
 			m_visualOutput->Refresh();
 			m_txtOutput->Hide();
+			break;
 		case 5:
 			m_engine->SetOutput(new CSC2OutputVisual());
 			m_visualOutput->SetColorfulOutput();
