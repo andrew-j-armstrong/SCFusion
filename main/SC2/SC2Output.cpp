@@ -93,7 +93,8 @@ void CSC2OutputMinimal::ProcessWaypointComplete(bool succeeded, size_t waypointI
 		m_lastCommandCount = 0;
 	}
 
-	m_output += wxString::Format(L"\nWaypoint %d %s:\n", waypointIndex + 1, succeeded ? L"satisfied" : L"failed");
+	if (waypoint.IsFinalTarget()) m_output += wxString::Format(L"\nTarget %s:\n", succeeded ? L"reached" : L"failed");
+	else m_output += wxString::Format(L"\nMilestone %d %s:\n", waypointIndex + 1, succeeded ? L"reached" : L"failed");
 	m_output += wxString::Format(L"%2d:%05.2f: ", (int)(state.m_time/60) - 60*(int)(state.m_time/3600), state.m_time - 60*(int)(state.m_time/60));
 	state.PrintDetails(m_output);
 	m_output += '\n';
@@ -178,7 +179,8 @@ void CSC2OutputSimple::ProcessWaypointComplete(bool succeeded, size_t waypointIn
 		m_lastCommandWaitDuration = 0.0;
 	}
 
-	m_output += wxString::Format(L"\nWaypoint %d %s:\n", waypointIndex + 1, succeeded ? L"satisfied" : L"failed");
+	if (waypoint.IsFinalTarget()) m_output += wxString::Format(L"\nTarget %s:\n", succeeded ? L"reached" : L"failed");
+	else m_output += wxString::Format(L"\nMilestone %d %s:\n", waypointIndex + 1, succeeded ? L"reached" : L"failed");
 	m_output += wxString::Format(L"%2d:%05.2f: ", (int)(state.m_time/60) - 60*(int)(state.m_time/3600), state.m_time - 60*(int)(state.m_time/60));
 	state.PrintDetails(m_output);
 	m_output += '\n';
@@ -244,7 +246,8 @@ void CSC2OutputDetailed::ProcessEvent(const CSC2Event &event, const CSC2Waypoint
 
 void CSC2OutputDetailed::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state)
 {
-	m_output += wxString::Format(L"\nWaypoint %d %s:\n", waypointIndex + 1, succeeded ? L"satisfied" : L"failed");
+	if (waypoint.IsFinalTarget()) m_output += wxString::Format(L"\nTarget %s:\n", succeeded ? L"reached" : L"failed");
+	else m_output += wxString::Format(L"\nMilestone %d %s:\n", waypointIndex + 1, succeeded ? L"reached" : L"failed");
 	m_output += wxString::Format(L"%2d:%05.2f: ", (int)(state.m_time/60) - 60*(int)(state.m_time/3600), state.m_time - 60*(int)(state.m_time/60));
 	state.PrintDetails(m_output);
 	m_output += '\n';
@@ -347,7 +350,8 @@ void CSC2OutputFull::ProcessEvent(const CSC2Event &event, const CSC2Waypoint &wa
 
 void CSC2OutputFull::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state)
 {
-	m_output += wxString::Format(L"\nWaypoint %d %s:\n", waypointIndex + 1, succeeded ? L"satisfied" : L"failed");
+	if (waypoint.IsFinalTarget()) m_output += wxString::Format(L"\nTarget %s:\n", succeeded ? L"reached" : L"failed");
+	else m_output += wxString::Format(L"\nMilestone %d %s:\n", waypointIndex + 1, succeeded ? L"reached" : L"failed");
 	m_output += wxString::Format(L"%2d:%05.2f: ", (int)(state.m_time/60) - 60*(int)(state.m_time/3600), state.m_time - 60*(int)(state.m_time/60));
 	state.PrintDetails(m_output);
 	m_output += '\n';
