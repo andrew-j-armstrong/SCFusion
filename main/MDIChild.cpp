@@ -150,6 +150,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	btnSizer->Add(m_btnRemoveWaypoint, 0, wxALL, CONTROL_BORDER);
 	m_btnRemoveWaypoint->Disable();
 
+	bSizer9->AddSpacer(6);
 	bSizer9->Add(btnSizer, 0, wxALL|wxALIGN_RIGHT, 0);
 
 	m_notebookTargets = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_LEFT);
@@ -275,6 +276,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY|wxTE_RIGHT);
 	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
 
+	bSizer4->AddSpacer(6);
 	bSizer4->Add(bSizer41, 0, wxEXPAND, 0);
 
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
