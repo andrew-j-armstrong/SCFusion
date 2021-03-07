@@ -51,6 +51,7 @@ bool compareStartTime(VisualItem a, VisualItem b)
     return a.startTime < b.startTime;
 }
 
+// store data needed for redraws
 void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
 {
     int maxEndTime = 0;
@@ -100,7 +101,7 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
     {
         if (m_visual_items[i].size() && m_visual_items[i].back().endTime > maxEndTime) maxEndTime = m_visual_items[i].back().endTime;
     }
-    m_width = maxEndTime * 5 + 50;
+    m_width = maxEndTime * PIXELS_PER_SECOND + 50;
 
     wxPoint scrolled = GetViewStart();
     SetScrollbars(10, 10, (int)m_width/10, (int)m_height/10, scrolled.x, scrolled.y);
@@ -129,6 +130,7 @@ void VisualPanel::OnDraw(wxDC& dc)
     dc.SetPen(*wxTRANSPARENT_PEN);
     dc.SetTextForeground(wxColor(0, 0, 0));
 
+    // Draw stray items first
     for (size_t i = 0; i < m_stray_visual_items.size(); i++)
     {
         for (auto item : m_stray_visual_items[i])
@@ -144,6 +146,7 @@ void VisualPanel::OnDraw(wxDC& dc)
         }
     }
 
+    // Draw items from buildings
     for (size_t i = 0; i < m_visual_items.size(); i++)
     {
         size_t offset = i + m_stray_visual_items.size() - 1;
