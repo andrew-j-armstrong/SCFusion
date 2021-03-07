@@ -25,7 +25,7 @@ const int doubleQueueMarginCorrection = (ITEM_HEIGHT - ROW_HEIGHT) / 2;
 const std::map<VisualItem::VisualItemType, wxColor> COLORFUL = {
    {VisualItem::tDefault, wxColor(204, 204, 204)},
    {VisualItem::tBase, wxColor(153, 204, 255)},
-   {VisualItem::tGas, wxColor(102, 204, 102)},
+   {VisualItem::tGas, wxColor(153, 204, 153)},
    {VisualItem::tSupply, wxColor(255, 204, 153)},
    {VisualItem::tStatus, wxColor(102, 229, 204)},
    {VisualItem::tMilitary, wxColor(255, 153, 153)},
