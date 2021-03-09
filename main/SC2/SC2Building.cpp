@@ -25,6 +25,7 @@ CSC2Building::CSC2Building()
 	, m_gameStartStatusList()
 	, m_gameStartStatusDurations()
 	, m_gameStartProductionBoost(1.0)
+	, m_doubleQueue(false)
 {
 }
 
@@ -119,6 +120,10 @@ bool CSC2Building::LoadXML(const wxXmlNode *xmlBuilding)
 			child->GetAttribute(wxT("time"), wxT("0.0")).ToCDouble(&gameStartStatusDuration);
 			m_gameStartStatusDurations.push_back(gameStartStatusDuration);
 			m_gameStartStatusNames.push_back(content);
+		}
+		else if (child->GetName() == wxT("DoubleQueue"))
+		{
+			m_doubleQueue = content == "True";
 		}
 		else
 		{

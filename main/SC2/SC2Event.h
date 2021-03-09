@@ -37,8 +37,9 @@ public:
 		{
 		}
 
-		SEvent(size_t eventCategory, bool sourceIsBuilding, size_t sourceID, size_t targetID, size_t data)
+		SEvent(double startTime, size_t eventCategory, bool sourceIsBuilding, size_t sourceID, size_t targetID, size_t data)
 		{
+			m_data.m_startTime = startTime;
 			m_data.m_eventCategory = eventCategory;
 			m_data.m_sourceIsBuilding = sourceIsBuilding;
 			m_data.m_sourceID = sourceID;
@@ -53,6 +54,7 @@ public:
 
 		struct SData
 		{
+		double m_startTime;
 		size_t m_eventCategory : 5;
 		bool m_sourceIsBuilding : 1;
 		size_t m_sourceID : 10;
@@ -61,7 +63,7 @@ public:
 		} m_data;
 	};
 
-	CSC2Event(double time, size_t eventCategory, bool sourceIsBuilding = false, size_t sourceID = 0, size_t targetID = 0, size_t data = 0) : m_time(time), m_event(eventCategory, sourceIsBuilding, sourceID, targetID, data) {}
+	CSC2Event(double time, size_t eventCategory, bool sourceIsBuilding = false, size_t sourceID = 0, size_t targetID = 0, size_t data = 0, double startTime = 0) : m_time(time), m_event(startTime, eventCategory, sourceIsBuilding, sourceID, targetID, data) {}
 
 #elif SC2EVENT_UNIONBITFIELD
 	union SEvent

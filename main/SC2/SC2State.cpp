@@ -255,12 +255,12 @@ void CSC2State::SetInitialState(CPriorityQueue<CSC2Event> &events)
 				for (size_t k = 0; k < building->GetGameStartStatusList().size(); k++)
 				{
 					if (building->GetGameStartStatusDurations()[k] > 0.0)
-						events.add(CSC2Event(m_time + building->GetGameStartStatusDurations()[k], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building->GetGameStartStatusList()[k]));
+						events.add(CSC2Event(m_time + building->GetGameStartStatusDurations()[k], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building->GetGameStartStatusList()[k], m_time));
 				}
 				for (size_t k = 0; k < building->GetInitialStatusList().size(); k++)
 				{
 					if (building->GetInitialStatusDurations()[k] > 0.0)
-						events.add(CSC2Event(m_time + building->GetInitialStatusDurations()[k], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building->GetInitialStatusList()[k]));
+						events.add(CSC2Event(m_time + building->GetInitialStatusDurations()[k], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building->GetInitialStatusList()[k], m_time));
 				}
 				m_allBuildings.push_back(buildingState);
 				if(buildingStateList.m_building.GetEnergyRechargeRate() > 0)
@@ -378,7 +378,7 @@ void CSC2State::ProcessEvent(CPriorityQueue<CSC2Event> &events)
 			for (size_t i = 0; i < building.GetInitialStatusList().size(); i++)
 			{
 				if (building.GetInitialStatusDurations()[i] > 0.0)
-					events.add(CSC2Event(m_time + building.GetInitialStatusDurations()[i], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building.GetInitialStatusList()[i]));
+					events.add(CSC2Event(m_time + building.GetInitialStatusDurations()[i], CSC2Event::eBuildingStatusLapse, true, buildingState->buildingID, 0, 1 << building.GetInitialStatusList()[i], m_time));
 			}
 			m_allBuildings.push_back(buildingState);
 			if(building.GetEnergyRechargeRate() > 0.0)

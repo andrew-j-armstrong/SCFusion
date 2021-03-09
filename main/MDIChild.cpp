@@ -6,6 +6,7 @@
 
 #include "MDIChild.h"
 #include "MDIParent.h"
+#include "VisualPanel.h"
 #include "Core/HashFunction.h"
 #include "AStar/ASEngine.h"
 #include "AStar/ASBuildStateNode.h"
@@ -96,6 +97,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_staticText1(NULL)
 	, m_choiceOutput(NULL)
 	, m_txtOutput(NULL)
+	, m_visualOutput(NULL)
 	, m_txtMaxTime(NULL)
 	, m_choiceInitialBuildOrder(NULL)
 	, m_txtInitialBuildOrder(NULL)
@@ -148,6 +150,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	btnSizer->Add(m_btnRemoveWaypoint, 0, wxALL, CONTROL_BORDER);
 	m_btnRemoveWaypoint->Disable();
 
+	bSizer9->AddSpacer(6);
 	bSizer9->Add(btnSizer, 0, wxALL|wxALIGN_RIGHT, 0);
 
 	m_notebookTargets = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_LEFT);
@@ -250,33 +253,31 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_btnStart = new wxButton(this, wxID_APPLY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer41->Add(m_btnStart, 0, wxALL, CONTROL_BORDER);
 
-	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
-
-	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY|wxTE_RIGHT);
-	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
-
-	bSizer4->Add(bSizer41, 0, wxEXPAND, 0);
-
-	m_listVillages = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 160), wxLC_REPORT|wxLC_SINGLE_SEL);
-	bSizer4->Add(m_listVillages, 0, wxALL|wxEXPAND, CONTROL_BORDER);
-
-	wxBoxSizer *bSizer8 = new wxBoxSizer(wxHORIZONTAL);
-
+	bSizer41->AddSpacer(20);
 	m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("Output Format:"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText1->Wrap(-1);
-	bSizer8->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
+	bSizer41->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
 	wxArrayString arrOutputChoices;
 	arrOutputChoices.Add(wxT("Minimal"));
 	arrOutputChoices.Add(wxT("Simple"));
 	arrOutputChoices.Add(wxT("Detailed"));
 	arrOutputChoices.Add(wxT("Full"));
+	arrOutputChoices.Add(wxT("Plain Gantt"));
+	arrOutputChoices.Add(wxT("Colorful Gantt"));
 	m_choiceOutput = new wxChoice(this, wxID_OUTPUTFORMAT, wxDefaultPosition, wxDefaultSize, arrOutputChoices, 0);
 	m_choiceOutput->SetSelection(1);
-	bSizer8->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
+	bSizer41->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
 
-	bSizer4->Add(bSizer8, 0, wxEXPAND, 0);
+	bSizer41->AddSpacer(20);
+	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
+
+	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY|wxTE_RIGHT);
+	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
+
+	bSizer4->AddSpacer(6);
+	bSizer4->Add(bSizer41, 0, wxEXPAND, 0);
 
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
@@ -285,11 +286,18 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	//m_txtOutput->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT));
 	bSizer10->Add(m_txtOutput, 1, wxEXPAND|wxALL, CONTROL_BORDER);
 
+	m_visualOutput = new VisualPanel(this, wxID_ANY);
+	bSizer10->Add(m_visualOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
+	m_visualOutput->Hide();
+
 	m_pgResult = new wxPropertyGrid(this, -1, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED | wxPG_LIMITED_EDITING);
 	m_pgResult->SetMinSize(wxSize(230,-1));
 	bSizer10->Add(m_pgResult, 0, wxEXPAND|wxALL, CONTROL_BORDER);
 
 	bSizer4->Add(bSizer10, 1, wxALL|wxEXPAND, 0);
+
+	m_listVillages = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 170), wxLC_REPORT | wxLC_SINGLE_SEL);
+	bSizer4->Add(m_listVillages, 0, wxALL | wxEXPAND, CONTROL_BORDER);
 
 #if wxUSE_TOOLBAR
 	wxToolBar *toolBar = ((MyFrame *)GetParent())->GetToolBar();
@@ -377,6 +385,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	UpdateOutputFormat();
 	UpdateTitle();
 	Maximize();
+	m_btnStart->SetFocus();
 }
 
 MyChild::~MyChild()
@@ -464,20 +473,41 @@ void MyChild::UpdateOutputFormat()
 		{
 		case 0:
 			m_engine->SetOutput(new CSC2OutputMinimal());
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
 			break;
 		case 1:
 			m_engine->SetOutput(new CSC2OutputSimple());
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
 			break;
 		case 2:
 			m_engine->SetOutput(new CSC2OutputDetailed());
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
 			break;
 		case 3:
 			m_engine->SetOutput(new CSC2OutputFull());
+			m_visualOutput->Hide();
+			m_txtOutput->Show();
+			break;
+		case 4:
+			m_engine->SetOutput(new CSC2OutputVisual());
+			m_visualOutput->SetPlainOutput();
+			m_visualOutput->Show();
+			m_txtOutput->Hide();
+			break;
+		case 5:
+			m_engine->SetOutput(new CSC2OutputVisual());
+			m_visualOutput->SetColorfulOutput();
+			m_visualOutput->Show();
+			m_txtOutput->Hide();
 			break;
 		}
+		this->Layout();
 	}
 
-	PrintBestGame();
+	RefreshOutput();
 }
 
 void MyChild::UpdateInitialBuildOrder(wxCommandEvent &event)
@@ -1573,7 +1603,18 @@ void MyChild::OnTimer(wxTimerEvent& event)
 
 	m_engine->UpdateBestGame();
 
-	PrintBestGame();
+	RefreshOutput();
+}
+
+void MyChild::RefreshOutput()
+{
+	if (m_choiceOutput->GetCurrentSelection() == 4 || m_choiceOutput->GetCurrentSelection() == 5) {
+		DrawBestGame();
+	}
+	else
+	{
+		PrintBestGame();
+	}
 }
 
 void MyChild::PrintBestGame()
@@ -1608,6 +1649,22 @@ void MyChild::PrintBestGame()
 		}
 		m_txtOutput->Thaw();
 	}
+}
+
+bool compareRowStartTime(vector<VisualItem> a, vector<VisualItem> b)
+{
+	if (a.size() == 0) return false;
+	if (b.size() == 0) return true;
+	return a.front().startTime < b.front().startTime;
+}
+
+void MyChild::DrawBestGame()
+{
+	vector<vector<VisualItem>> visualItems;
+	m_engine->DrawBestGame(visualItems, m_pgResult);
+	if (visualItems.size() > 3)	sort(visualItems.begin() + 2, visualItems.end(), compareRowStartTime);
+	m_visualOutput->SetVisualItems(visualItems);
+	m_visualOutput->Refresh();
 }
 
 void MyChild::OnSave(wxCommandEvent& WXUNUSED(event))
@@ -2064,7 +2121,7 @@ bool MyChild::LoadSettingsFromXML(wxXmlNode *node)
 
 	m_engine->InitialiseFitnessCalc(m_pgWaypoints, m_pgTarget, scout, m_scoutingWorkerTime, m_scoutingWorkerEndTime);
 
-	PrintBestGame();
+	RefreshOutput();
 
 	return true;
 }
@@ -2278,7 +2335,7 @@ bool MyChild::LoadWaypointsFromXML(wxXmlNode *node)
 
 	m_engine->InitialiseFitnessCalc(m_pgWaypoints, m_pgTarget, scout, m_scoutingWorkerTime, m_scoutingWorkerEndTime);
 
-	PrintBestGame();
+	RefreshOutput();
 
 	return true;
 }
@@ -2302,7 +2359,7 @@ bool MyChild::LoadBuildOrderFromXML(wxXmlNode *node)
 
 	m_engine->SetSeed(seed);
 
-	PrintBestGame();
+	RefreshOutput();
 
 	return true;
 }

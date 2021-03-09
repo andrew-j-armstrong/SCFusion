@@ -14,6 +14,7 @@
         <BuildingStatus>
           <Name>Chrono Boost</Name>
           <ProductionBoostFactor>1.5</ProductionBoostFactor>
+          <IsVisual>True</IsVisual>
         </BuildingStatus>
       </BuildingStatuses>
       <Buildings>
@@ -1529,6 +1530,7 @@
         </Building>
         <Building>
           <Name>Barracks With Reactor</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Barracks With Tech Lab</Name>
@@ -1575,6 +1577,7 @@
         </Building>
         <Building>
           <Name>Factory With Reactor</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Factory With Tech Lab</Name>
@@ -1590,6 +1593,7 @@
         </Building>
         <Building>
           <Name>Starport With Reactor</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Starport With Tech Lab</Name>
