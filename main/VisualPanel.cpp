@@ -35,15 +35,15 @@ const std::map<VisualItem::VisualItemType, wxColor> COLORFUL = {
 };
 
 const std::map<VisualItem::VisualItemType, wxColor> PLAIN = {
-   {VisualItem::tDefault, wxColor(204, 229, 255)},
+   {VisualItem::tDefault, wxColor(153, 204, 255)},
    {VisualItem::tBase, wxColor(153, 204, 255)},
    {VisualItem::tGas, wxColor(153, 204, 255)},
    {VisualItem::tSupply, wxColor(153, 204, 255)},
-   {VisualItem::tStatus, wxColor(204, 229, 255)},
+   {VisualItem::tStatus, wxColor(153, 204, 255)},
    {VisualItem::tMilitary, wxColor(153, 204, 255)},
-   {VisualItem::tMilitaryUnit, wxColor(204, 229, 255)},
-   {VisualItem::tWorker, wxColor(204, 229, 255)},
-   {VisualItem::tResearch, wxColor(204, 229, 255)},
+   {VisualItem::tMilitaryUnit, wxColor(153, 204, 255)},
+   {VisualItem::tWorker, wxColor(153, 204, 255)},
+   {VisualItem::tResearch, wxColor(153, 204, 255)},
 };
 
 bool compareStartTime(VisualItem a, VisualItem b)
