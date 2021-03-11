@@ -4,12 +4,13 @@
 CSC2BuildingStatus::CSC2BuildingStatus()
 	: m_name()
 	, m_productionBoostFactor(1.0)
+	, m_isVisual(false)
 {
 }
 
-bool CSC2BuildingStatus::LoadXML(const wxXmlNode *xmlResearch)
+bool CSC2BuildingStatus::LoadXML(const wxXmlNode *xmlStatus)
 {
-	for (wxXmlNode *child = xmlResearch->GetChildren(); child; child = child->GetNext())
+	for (wxXmlNode *child = xmlStatus->GetChildren(); child; child = child->GetNext())
 	{
 		if (wxXML_COMMENT_NODE == child->GetType())
 			continue;
@@ -23,9 +24,13 @@ bool CSC2BuildingStatus::LoadXML(const wxXmlNode *xmlResearch)
 		{
 			content.ToCDouble(&m_productionBoostFactor);
 		}
+		else if (child->GetName() == wxT("IsVisual"))
+		{
+			m_isVisual = content == "True";
+		}
 		else
 		{
-			wxFAIL_MSG(wxString::Format("Unexpected XML tag in <Research>: '%s'", child->GetName()));
+			wxFAIL_MSG(wxString::Format("Unexpected XML tag in <BuildingStatus>: '%s'", child->GetName()));
 			return false;
 		}
 	}

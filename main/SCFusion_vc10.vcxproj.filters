@@ -148,6 +148,12 @@
     <ClCompile Include="SC2\SC2BuildingStatus.cpp">
       <Filter>SC2</Filter>
     </ClCompile>
+    <ClCompile Include="VisualPanel.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualItem.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\FastRand.h">
@@ -341,6 +347,12 @@
     <ClInclude Include="SC2\SC2BuildingStatus.h">
       <Filter>SC2</Filter>
     </ClInclude>
+    <ClInclude Include="VisualPanel.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualItem.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="bitmaps\copy.xpm">
@@ -399,33 +411,6 @@
     </None>
     <None Include="ToDoList.txt" />
     <None Include="SampleSaveFile.xml" />
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_core_vc14x.dll">
-      <Filter>wxWidgets</Filter>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_propgrid_vc14x.dll">
-      <Filter>wxWidgets</Filter>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_vc14x.dll">
-      <Filter>wxWidgets</Filter>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_xml_vc14x.dll">
-      <Filter>wxWidgets</Filter>
-    </None>
-    <None Include="..\WinSparkle\Release\WinSparkle.dll">
-      <Filter>WinSparkle</Filter>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_vc14x.dll">
-      <Filter>wxWidgets</Filter>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_xml_vc14x.dll">
-      <Filter>wxWidgets</Filter>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_core_vc14x.dll">
-      <Filter>wxWidgets</Filter>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_propgrid_vc14x.dll">
-      <Filter>wxWidgets</Filter>
-    </None>
     <None Include="bitmaps\SF16.xpm">
       <Filter>bitmaps</Filter>
     </None>
@@ -440,5 +425,34 @@
     <Xml Include="Versions\StarCraft.xml">
       <Filter>Versions</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_xml_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_core_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_propgrid_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\WinSparkle\Release\WinSparkle.dll">
+      <Filter>WinSparkle</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_propgrid_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_core_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_xml_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_vc14x.dll">
+      <Filter>wxWidgets</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

@@ -199,6 +199,8 @@
     <ClCompile Include="SC2\SC2Unit.cpp" />
     <ClCompile Include="SC2\SC2Version.cpp" />
     <ClCompile Include="SC2\TargetMinMax.cpp" />
+    <ClCompile Include="VisualItem.cpp" />
+    <ClCompile Include="VisualPanel.cpp" />
     <ClCompile Include="TimeTextCtrl.cpp" />
     <ClCompile Include="TimeValidator.cpp" />
   </ItemGroup>
@@ -239,6 +241,7 @@
     <ClInclude Include="GA\GAStringFitnessCalc.h" />
     <ClInclude Include="GA\GAValueArrayChromosome.h" />
     <ClInclude Include="GA\GAVillage.h" />
+    <ClInclude Include="VisualItem.h" />
     <ClInclude Include="MDIChild.h" />
     <ClInclude Include="MDIParent.h" />
     <ClInclude Include="RaceChoiceDlg.h" />
@@ -268,46 +271,64 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimeTextCtrl.h" />
     <ClInclude Include="TimeValidator.h" />
+    <ClInclude Include="VisualPanel.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\WinSparkle\Release\WinSparkle.dll">
+    <CopyFileToFolders Include="..\WinSparkle\Release\WinSparkle.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_vc14x.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_vc14x.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_xml_vc14x.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxbase314ud_xml_vc14x.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_vc14x.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_vc14x.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_xml_vc14x.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxbase314u_xml_vc14x.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_core_vc14x.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_core_vc14x.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_propgrid_vc14x.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxmsw314ud_propgrid_vc14x.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_core_vc14x.dll">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_core_vc14x.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </None>
-    <None Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_propgrid_vc14x.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\wxWidgets\lib\vc14x_dll\wxmsw314u_propgrid_vc14x.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
-    </None>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
     <None Include="bitmaps\copy.xpm" />
     <None Include="bitmaps\cut.xpm" />
     <None Include="bitmaps\help.xpm" />

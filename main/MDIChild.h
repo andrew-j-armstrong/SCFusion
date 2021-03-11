@@ -11,6 +11,7 @@
 #include "GA/GAEngine.h"
 #include "SC2Engine.h"
 #include "TimeValidator.h"
+#include "VisualPanel.h"
 
 //template<typename TTarget, typename TState, typename TCommand, typename TEvent>
 class MyChild : public wxMDIChildFrame
@@ -76,6 +77,7 @@ private:
 	wxStaticText* m_staticText1;
 	wxChoice* m_choiceOutput;
 	wxTextCtrl* m_txtOutput;
+	VisualPanel* m_visualOutput;
 	wxTimer* m_timer;
 
 	wxTextCtrl *m_txtMaxTime;
@@ -110,7 +112,9 @@ private:
 	bool StartEngine(CSC2Engine::EScoutingWorker scout, int scoutTime, int scoutEndTime, double minimumCommandDuration);
 	void StopEngine();
 
+	void RefreshOutput();
 	void PrintBestGame();
+	void DrawBestGame();
 
 private:
 	void OnActivate(wxActivateEvent& event);

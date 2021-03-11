@@ -14,6 +14,7 @@
         <BuildingStatus>
           <Name>Chrono Boost</Name>
           <ProductionBoostFactor>1.5</ProductionBoostFactor>
+          <IsVisual>True</IsVisual>
         </BuildingStatus>
       </BuildingStatuses>
       <Buildings>
@@ -815,21 +816,30 @@
         <!-- Unit Abilities -->
         <Command category="UnitAbility">
           <Name>Build Archon From 2 High Templar</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <SourceUnit>High Templar</SourceUnit>
           <TargetUnit consume="True">High Templar</TargetUnit>
           <MorphSourceUnit time="8.57">Archon</MorphSourceUnit>
+		      <MineralCost>100</MineralCost>
+		      <GasCost>300</GasCost>
         </Command>
         <Command category="UnitAbility">
           <Name>Build Archon From 1 High Templar &amp; 1 Dark Templar</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <SourceUnit>High Templar</SourceUnit>
           <TargetUnit consume="True">Dark Templar</TargetUnit>
           <MorphSourceUnit time="8.57">Archon</MorphSourceUnit>
+          <MineralCost>175</MineralCost>
+		      <GasCost>275</GasCost>
         </Command>
         <Command category="UnitAbility">
           <Name>Build Archon From 2 Dark Templar</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
           <SourceUnit>Dark Templar</SourceUnit>
           <TargetUnit consume="True">Dark Templar</TargetUnit>
           <MorphSourceUnit time="8.57">Archon</MorphSourceUnit>
+          <MineralCost>250</MineralCost>
+		      <GasCost>250</GasCost>
         </Command>
 
         <!-- Research -->
@@ -1520,6 +1530,7 @@
         </Building>
         <Building>
           <Name>Barracks With Reactor</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Barracks With Tech Lab</Name>
@@ -1566,6 +1577,7 @@
         </Building>
         <Building>
           <Name>Factory With Reactor</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Factory With Tech Lab</Name>
@@ -1581,6 +1593,7 @@
         </Building>
         <Building>
           <Name>Starport With Reactor</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Starport With Tech Lab</Name>
