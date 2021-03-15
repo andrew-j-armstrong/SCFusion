@@ -274,7 +274,7 @@ bool CSC2TargetBuildingStatusDuration::LoadXML(const wxXmlNode *xmlTarget)
 		}
 		else
 		{
-			wxFAIL_MSG(wxString::Format("Unexpected 'BuildingStatus' target tag: '%s'", child->GetName()));
+			wxFAIL_MSG(wxString::Format("Unexpected 'BuildingStatusDuration' target tag: '%s'", child->GetName()));
 			return false;
 		}
 	}

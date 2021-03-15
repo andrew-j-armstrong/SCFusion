@@ -1781,6 +1781,7 @@ CSC2BuildUnitCommand::CSC2BuildUnitCommand(const CSC2RaceData &raceData)
 	, m_buildUnit(NULL)
 	, m_buildUnitCount(1)
 	, m_unitOccupiesBuilding(false)
+	, m_queueType(VisualItem::qSingle)
 {
 }
 
@@ -1850,6 +1851,13 @@ bool CSC2BuildUnitCommand::LoadXML(const wxXmlNode *xmlCommand)
 		{
 			child->GetAttribute(wxT("duration"), wxT("0.0")).ToCDouble(&m_applySourceBuildingStatusDuration);
 			m_applySourceBuildingStatusNames.push_back(content);
+		}
+		else if (child->GetName() == wxT("Queue"))
+		{
+			if (content == "Primary")
+				m_queueType = VisualItem::qDoublePrimary;
+			else if (content == "Secondary")
+				m_queueType = VisualItem::qDoubleSecondary;
 		}
 		else if (child->GetName() == wxT("MineralCost"))
 		{
@@ -2131,7 +2139,8 @@ bool CSC2BuildUnitCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2E
 		sourceBuildingState->buildingID,
 		m_buildUnitTypeID,
 		m_buildUnitCount,
-		state.m_time
+		state.m_time,
+		m_queueType
 	));
 	state.m_unitUnderConstructionFlags |= ((SC2UnitFlags)1 << m_buildUnitTypeID);
 	state.m_unitUnderConstruction[m_buildUnitTypeID] += m_buildUnitCount;
@@ -2946,6 +2955,7 @@ CSC2ResearchCommand::CSC2ResearchCommand(const CSC2RaceData &raceData)
 	, m_completeResearchName()
 	, m_completeResearchID(0)
 	, m_completeResearch(NULL)
+	, m_queueType(VisualItem::qSingle)
 {
 }
 
@@ -3002,6 +3012,13 @@ bool CSC2ResearchCommand::LoadXML(const wxXmlNode *xmlCommand)
 		{
 			child->GetAttribute(wxT("duration"), wxT("0.0")).ToCDouble(&m_applySourceBuildingStatusDuration);
 			m_applySourceBuildingStatusNames.push_back(content);
+		}
+		else if (child->GetName() == wxT("Queue"))
+		{
+			if (content == "Primary")
+				m_queueType = VisualItem::qDoublePrimary;
+			else if (content == "Secondary")
+				m_queueType = VisualItem::qDoubleSecondary;
 		}
 		else if (child->GetName() == wxT("MineralCost"))
 		{
@@ -3230,7 +3247,16 @@ bool CSC2ResearchCommand::ExecuteCommand(CSC2State &state, CPriorityQueue<CSC2Ev
 		}
 	}
 
-	events.add(CSC2Event(state.m_time + m_completionTime / productionBoost, CSC2Event::eResearchComplete, NULL != sourceBuilding, sourceBuilding ? sourceBuilding->buildingID : 0, m_completeResearchID, 0, state.m_time));
+	events.add(CSC2Event(
+		state.m_time + m_completionTime / productionBoost,
+		CSC2Event::eResearchComplete,
+		NULL != sourceBuilding,
+		sourceBuilding ? sourceBuilding->buildingID : 0,
+		m_completeResearchID,
+		0,
+		state.m_time,
+		m_queueType
+	));
 	state.m_researchUnderConstruction[m_completeResearchID] = true;
 	state.m_researchUnderConstructionFlags |= ((SC2ResearchFlags)1 << m_completeResearchID);
 

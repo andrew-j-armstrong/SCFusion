@@ -403,12 +403,21 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 				startTime,
 				endTime,
 				itemType,
-				event.m_event.m_data.m_sourceIsBuilding && state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->IsDoubleQueue()
+				event.m_event.m_data.m_queueType
 			)
 		);
 		break;
 	case CSC2Event::eResearchComplete:
-		AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName(), startTime, endTime, VisualItem::tResearch));
+		AddVisualItem(
+			event.m_event.m_data.m_sourceID,
+			VisualItem(
+				state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName(),
+				startTime,
+				endTime,
+				VisualItem::tResearch,
+				event.m_event.m_data.m_queueType
+			)
+		);
 		break;
 	case CSC2Event::eBuildingMorph:
 		building = state.m_raceData.m_buildings[event.m_event.m_data.m_targetID];

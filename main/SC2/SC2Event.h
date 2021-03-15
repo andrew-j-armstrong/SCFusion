@@ -3,6 +3,7 @@
 #define SC2EVENT_BITFIELDS
 
 #include "../Core/Vector.h"
+#include "VisualItem.h"
 
 class CSC2Event
 {
@@ -37,7 +38,7 @@ public:
 		{
 		}
 
-		SEvent(double startTime, size_t eventCategory, bool sourceIsBuilding, size_t sourceID, size_t targetID, size_t data)
+		SEvent(double startTime, size_t eventCategory, bool sourceIsBuilding, size_t sourceID, size_t targetID, size_t data, VisualItem::QueueType queueType)
 		{
 			m_data.m_startTime = startTime;
 			m_data.m_eventCategory = eventCategory;
@@ -45,6 +46,7 @@ public:
 			m_data.m_sourceID = sourceID;
 			m_data.m_targetID = targetID;
 			m_data.m_data = data;
+			m_data.m_queueType = queueType;
 		}
 
 		void operator=(const SEvent &event)
@@ -60,10 +62,11 @@ public:
 		size_t m_sourceID : 10;
 		size_t m_targetID : 10;
 		size_t m_data : 6;
+		VisualItem::QueueType m_queueType;
 		} m_data;
 	};
 
-	CSC2Event(double time, size_t eventCategory, bool sourceIsBuilding = false, size_t sourceID = 0, size_t targetID = 0, size_t data = 0, double startTime = 0) : m_time(time), m_event(startTime, eventCategory, sourceIsBuilding, sourceID, targetID, data) {}
+	CSC2Event(double time, size_t eventCategory, bool sourceIsBuilding = false, size_t sourceID = 0, size_t targetID = 0, size_t data = 0, double startTime = 0, VisualItem::QueueType queueType = VisualItem::qSingle) : m_time(time), m_event(startTime, eventCategory, sourceIsBuilding, sourceID, targetID, data, queueType) {}
 
 #elif SC2EVENT_UNIONBITFIELD
 	union SEvent
