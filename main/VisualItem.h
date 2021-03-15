@@ -19,11 +19,18 @@ public:
         tResearch
     };
 
-    VisualItem(wxString name, double startTime, double endTime, VisualItemType itemType = tDefault, bool isDoubleQueue = false);
+    enum QueueType
+    {
+        qSingle,
+        qDoublePrimary,
+        qDoubleSecondary
+    };
+
+    VisualItem(wxString name, double startTime, double endTime, VisualItemType itemType = tDefault, QueueType queueType = qSingle);
 
     wxString name;
     double startTime;
     double endTime;
     VisualItemType itemType;
-    bool isDoubleQueue;
+    QueueType queueType;
 };

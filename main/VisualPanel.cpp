@@ -150,7 +150,6 @@ void VisualPanel::OnDraw(wxDC& dc)
     for (size_t i = 0; i < m_visual_items.size(); i++)
     {
         size_t offset = i + m_stray_visual_items.size() - 1;
-        bool doubleQueueUpper = false;
         for (auto item : m_visual_items[i])
         {
             dc.SetBrush(GetBrushColorByType(item.itemType));
@@ -165,21 +164,7 @@ void VisualPanel::OnDraw(wxDC& dc)
             }
             else
             {
-                if (item.isDoubleQueue)
-                {
-                    doubleQueueUpper = !doubleQueueUpper;
-                    dc.DrawRectangle(
-                        item.startTime * PIXELS_PER_SECOND,
-                        offset * ROW_HEIGHT + OFFSET_TOP + (doubleQueueUpper ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection,
-                        (item.endTime - item.startTime) * PIXELS_PER_SECOND - 1,
-                        DOUBLE_QUEUE_ITEM_HEIGHT - 1
-                    );
-                    dc.DrawText(
-                        item.name,
-                        item.startTime * PIXELS_PER_SECOND + LABEL_OFFSET_LEFT,
-                        offset * ROW_HEIGHT + OFFSET_TOP + (doubleQueueUpper ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection - 1);
-                }
-                else
+                if (item.queueType == VisualItem::qSingle)
                 {
                     dc.DrawRectangle(
                         item.startTime * PIXELS_PER_SECOND,
@@ -188,6 +173,19 @@ void VisualPanel::OnDraw(wxDC& dc)
                         ITEM_HEIGHT - 1
                     );
                     dc.DrawText(item.name, item.startTime * PIXELS_PER_SECOND + LABEL_OFFSET_LEFT, offset * ROW_HEIGHT + OFFSET_TOP + LABEL_OFFSET_TOP);
+                }
+                else
+                {
+                    dc.DrawRectangle(
+                        item.startTime * PIXELS_PER_SECOND,
+                        offset * ROW_HEIGHT + OFFSET_TOP + (item.queueType == VisualItem::qDoublePrimary ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection,
+                        (item.endTime - item.startTime) * PIXELS_PER_SECOND - 1,
+                        DOUBLE_QUEUE_ITEM_HEIGHT - 1
+                    );
+                    dc.DrawText(
+                        item.name,
+                        item.startTime * PIXELS_PER_SECOND + LABEL_OFFSET_LEFT,
+                        offset * ROW_HEIGHT + OFFSET_TOP + (item.queueType == VisualItem::qDoublePrimary ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection - 1);
                 }
             }
         }

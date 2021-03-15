@@ -425,7 +425,6 @@
         
         <Command category="BuildingAbility">
           <Name>Convert Gateway To Warp Gate</Name>
-          <IsAutoCastAbility>True</IsAutoCastAbility>
           <BuildingRequirement>Pylon</BuildingRequirement>
           <BuildingRequirement>Gateway</BuildingRequirement>
           <ResearchRequirement>Warp Gate Transformation</ResearchRequirement>
@@ -1534,6 +1533,7 @@
         </Building>
         <Building>
           <Name>Barracks With Tech Lab</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Flying Barracks</Name>
@@ -1581,6 +1581,7 @@
         </Building>
         <Building>
           <Name>Factory With Tech Lab</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Flying Factory</Name>
@@ -1597,6 +1598,7 @@
         </Building>
         <Building>
           <Name>Starport With Tech Lab</Name>
+          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Flying Starport</Name>
@@ -2362,6 +2364,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="18">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="18" occupiesSourceBuilding="True">Marine</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>50</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2372,6 +2375,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="18">Addon Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="18" occupiesSourceBuilding="True">Marine</UnitComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>50</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2381,6 +2385,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="18">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="18" occupiesSourceBuilding="True">Marine</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>50</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2390,6 +2395,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Marauder</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>25</GasCost>
         </Command>
@@ -2411,6 +2417,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="32" occupiesSourceBuilding="True">Reaper</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
         </Command>
@@ -2422,6 +2429,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Addon Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="32" occupiesSourceBuilding="True">Reaper</UnitComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
         </Command>
@@ -2432,6 +2440,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="32" occupiesSourceBuilding="True">Reaper</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
         </Command>
@@ -2443,6 +2452,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="29">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="29" occupiesSourceBuilding="True">Ghost</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>125</GasCost>
         </Command>
@@ -2463,6 +2473,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Hellion</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2473,6 +2484,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Addon Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Hellion</UnitComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2482,6 +2494,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Hellion</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2503,6 +2516,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Hellbat</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2514,6 +2528,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Addon Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Hellbat</UnitComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2524,6 +2539,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Hellbat</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
         </Command>
         <Command category="BuildUnit">
@@ -2544,6 +2560,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Widow Mine</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>75</MineralCost>
           <GasCost>25</GasCost>
         </Command>
@@ -2555,6 +2572,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Addon Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Widow Mine</UnitComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>75</MineralCost>
           <GasCost>25</GasCost>
         </Command>
@@ -2565,6 +2583,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="21">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="21" occupiesSourceBuilding="True">Widow Mine</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>75</MineralCost>
           <GasCost>25</GasCost>
         </Command>
@@ -2575,6 +2594,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="32" occupiesSourceBuilding="True">Siege Tank</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>125</GasCost>
         </Command>
@@ -2585,6 +2605,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2596,6 +2617,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="43" occupiesSourceBuilding="True">Thor</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>300</MineralCost>
           <GasCost>200</GasCost>
         </Command>
@@ -2617,6 +2639,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="30">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="30" occupiesSourceBuilding="True">Viking</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>75</GasCost>
         </Command>
@@ -2628,6 +2651,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="30">Addon Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="30" occupiesSourceBuilding="True">Viking</UnitComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>75</GasCost>
         </Command>
@@ -2638,6 +2662,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="30">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="30" occupiesSourceBuilding="True">Viking</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>75</GasCost>
         </Command>
@@ -2659,6 +2684,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="30">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="30" occupiesSourceBuilding="True">Medivac</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2670,6 +2696,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="30">Addon Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="30" occupiesSourceBuilding="True">Medivac</UnitComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2680,6 +2707,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="30">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="30" occupiesSourceBuilding="True">Medivac</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2701,6 +2729,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -2712,6 +2741,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="43">Addon Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -2722,6 +2752,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -2732,6 +2763,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="43" occupiesSourceBuilding="True">Raven</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>200</GasCost>
         </Command>
@@ -2742,6 +2774,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="43" occupiesSourceBuilding="True">Banshee</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2753,6 +2786,7 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="64">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="64" occupiesSourceBuilding="True">Battlecruiser</UnitComplete>
+          <Queue>Primary</Queue>
           <MineralCost>400</MineralCost>
           <GasCost>300</GasCost>
         </Command>
@@ -2779,6 +2813,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="100">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="100" occupiesSourceBuilding="True">Stimpack</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2789,6 +2824,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="79">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="79" occupiesSourceBuilding="True">Combat Shield</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2799,6 +2835,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="43">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="43" occupyBuilding="Barracks With Tech Lab">Concussive Shells</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
         </Command>
@@ -2917,6 +2954,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="79">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="79" occupiesSourceBuilding="True">Infernal Pre-Igniter</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2928,6 +2966,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="79">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="79" occupiesSourceBuilding="True">Drilling Claws</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>75</MineralCost>
           <GasCost>75</GasCost>
         </Command>
@@ -2939,6 +2978,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="79">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="79" occupiesSourceBuilding="True">Smart Servos</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -2949,6 +2989,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="100">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="100" occupiesSourceBuilding="True">Mag-Field Accelerator</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -3055,6 +3096,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="79">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="79" occupiesSourceBuilding="True">Corvid Reactor</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -3065,6 +3107,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="79">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="79" occupiesSourceBuilding="True">Cloaking Field</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -3075,6 +3118,7 @@
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="121">Addon Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="121" occupiesSourceBuilding="True">Hyperflight Rotors</ResearchComplete>
+          <Queue>Secondary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
