@@ -5,14 +5,14 @@
         <description>Build order optimizer for StarCraft II</description>
         <language>en</language>
         <item>
-            <title>Super Fusion v2.1.0</title>
+            <title>Super Fusion v2.1.1</title>
             <sparkle:releaseNotesLink>
-                https://andrew-j-armstrong.github.io/SCFusion/releases/notes-v2.1.0.html
+                https://andrew-j-armstrong.github.io/SCFusion/releases/notes-v2.1.1.html
             </sparkle:releaseNotesLink>
-            <pubDate>Thu, 11 Mar 2021 20:00:00 +0200</pubDate>
-            <enclosure url="https://github.com/andrew-j-armstrong/SCFusion/releases/download/v2.1.0/super-fusion-v2.1.0.msi"
-                       sparkle:version="2.1.0"
-                       sparkle:shortVersionString="2.1.0"
+            <pubDate>Thu, 15 Mar 2021 20:00:00 +0200</pubDate>
+            <enclosure url="https://github.com/andrew-j-armstrong/SCFusion/releases/download/v2.1.1/super-fusion-v2.1.1.msi"
+                       sparkle:version="2.1.1"
+                       sparkle:shortVersionString="2.1.1"
                        length="0"
                        type="application/octet-stream" />
         </item>
