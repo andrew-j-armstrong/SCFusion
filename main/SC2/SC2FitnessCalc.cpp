@@ -562,5 +562,11 @@ CSC2State *CSC2FitnessCalc::PrintGame(CSC2Output &output, const CGASequenceChrom
 	CValidateCalcOutputResult result(output);
 	ValidateAndCalculateFitness(buildOrder, *state, events, result);
 
+	// Process remaining events after the target was reached
+	while (events.size() > 0)
+	{
+		output.ProcessEvent(events.pop(), *m_waypoints[0], *state);
+	}
+
 	return state;
 }

@@ -341,7 +341,7 @@ void CSC2OutputFull::ProcessEvent(const CSC2Event &event, const CSC2Waypoint &wa
 		return;
 	}
 
-	m_output += wxString::Format(wxT("%2d:%05.2f: "), (int)(state.m_time/60) - 60*(int)(state.m_time/3600), state.m_time - 60*(int)(state.m_time/60));
+	m_output += wxString::Format(wxT("%2d:%05.2f: "), (int)(event.m_time/60) - 60*(int)(event.m_time/3600), event.m_time - 60*(int)(event.m_time/60));
 	state.PrintSummary(m_output);
 	m_output.Append(wxT(" - "));
 	m_output.Append(output);
