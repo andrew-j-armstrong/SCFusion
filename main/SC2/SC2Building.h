@@ -35,7 +35,6 @@ public:
 	const CVector<size_t> &GetGameStartStatusList() const { return m_gameStartStatusList; }
 	const CVector<double> &GetGameStartStatusDurations() const { return m_gameStartStatusDurations; }
 	double GetGameStartProductionBoost() const { return m_gameStartProductionBoost; }
-	bool IsDoubleQueue() const { return m_doubleQueue; }
 
 	bool ResolveIDs(const CVector<CSC2BuildingStatus *> &buildingStatuses);
 
@@ -63,5 +62,4 @@ protected:
 	CVector<size_t> m_gameStartStatusList;
 	CVector<double> m_gameStartStatusDurations;
 	double m_gameStartProductionBoost;
-	bool m_doubleQueue;
 };
