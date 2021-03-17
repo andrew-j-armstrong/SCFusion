@@ -417,6 +417,9 @@
     <None Include="bitmaps\SF32.xpm">
       <Filter>bitmaps</Filter>
     </None>
+    <None Include="bitmaps\gantt.xpm">
+      <Filter>bitmaps</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SCFusion.rc" />

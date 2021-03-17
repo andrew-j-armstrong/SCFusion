@@ -39,6 +39,7 @@
 #define wxID_OUTPUTFORMAT				(wxID_HIGHEST + 10)
 #define wxID_OUTPUT						(wxID_HIGHEST + 11)
 #define wxID_COMPLETIONLIKELIHOOD		(wxID_HIGHEST + 12)
+#define wxID_EXPORT_SVG					(wxID_HIGHEST + 13)
 
 unsigned MyChild::ms_numChildren = 0;
 
@@ -52,6 +53,7 @@ BEGIN_EVENT_TABLE(MyChild, wxMDIChildFrame)
 
 	EVT_MENU(wxID_SAVE, MyChild::OnSave)
 	EVT_MENU(wxID_SAVEAS, MyChild::OnSaveAs)
+	EVT_MENU(wxID_EXPORT_SVG, MyChild::OnExportSVG)
 
 	EVT_SIZE(MyChild::OnSize)
 	EVT_MOVE(MyChild::OnMove)
@@ -116,8 +118,10 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 #if wxUSE_MENUS
 	wxMenuBar *mbar = MyFrame::CreateMainMenubar();
 	mbar->GetMenu(0)->Insert(4, wxID_SAVE, "&Save build order\tCtrl-S", "Save the build order");
-	mbar->GetMenu(0)->Insert(5, wxID_SAVEAS, "&Save build order as...\tCtrl-A", "Save the build order as...");
+	mbar->GetMenu(0)->Insert(5, wxID_SAVEAS, "&Save build order as...\tCtrl-Shift-S", "Save the build order as...");
 	mbar->GetMenu(0)->Insert(6, wxID_CLOSE, "&Close build order\tCtrl-Del", "Close this build order");
+	mbar->GetMenu(0)->InsertSeparator(7);
+	mbar->GetMenu(0)->Insert(8, wxID_EXPORT_SVG, "Export to SVG", "Export to SVG");
 
 	wxMenu *menuEdit = new wxMenu;
 
@@ -1712,6 +1716,16 @@ bool MyChild::DoSaveAs()
 	SetModified(false);
 	UpdateTitle();
 
+	return true;
+}
+
+void MyChild::OnExportSVG(wxCommandEvent& WXUNUSED(event))
+{
+	DoExportSVG();
+}
+
+bool MyChild::DoExportSVG()
+{
 	return true;
 }
 
