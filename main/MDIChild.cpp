@@ -1726,6 +1726,18 @@ void MyChild::OnExportSVG(wxCommandEvent& WXUNUSED(event))
 
 bool MyChild::DoExportSVG()
 {
+	wxFileDialog* exportSvgDialog = new wxFileDialog(this, wxT("Save SVG file"), wxEmptyString, wxEmptyString, wxT("SVG files (*.svg)|*.svg|All Files (*.*)|*.*"), wxFD_SAVE);
+
+	if (exportSvgDialog->ShowModal() != wxID_OK)
+	{
+		exportSvgDialog->Destroy();
+		return false;
+	}
+
+	wxString path = exportSvgDialog->GetPath();
+
+	exportSvgDialog->Destroy();
+
 	return true;
 }
 
