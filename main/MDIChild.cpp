@@ -1750,7 +1750,7 @@ bool MyChild::DoExportSVG()
 
 	exportSvgDialog->Destroy();
 
-	return true;
+	return m_visualOutput->ExportSVG(path);
 }
 
 bool MyChild::WriteToFile(wxString fileName)

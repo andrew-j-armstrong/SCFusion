@@ -1,5 +1,6 @@
 #include "VisualPanel.h"
 #include <map>
+#include <wx/dcsvg.h>
 
 BEGIN_EVENT_TABLE(VisualPanel, wxScrolledWindow)
 END_EVENT_TABLE()
@@ -112,9 +113,11 @@ wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType)
     return m_colorful ? COLORFUL.at(itemType) : PLAIN.at(itemType);
 }
 
-void VisualPanel::ExportSVG(wxString filename)
+bool VisualPanel::ExportSVG(wxString filename)
 {
-    //OnDraw(wxSVGFileDC(filename, m_width, m_height));
+    wxSVGFileDC svgDC(filename, m_width, m_height);
+    OnDraw(svgDC);
+    return svgDC.IsOk();
 }
 
 void VisualPanel::OnDraw(wxDC& dc)
