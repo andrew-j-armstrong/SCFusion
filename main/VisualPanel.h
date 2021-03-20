@@ -14,6 +14,7 @@ public:
     VisualPanel(wxFrame* parent, wxWindowID id);
 
     void OnDraw(wxDC& dc);
+    void ExportSVG(wxString filename);
 
     void SetVisualItems(vector<vector<VisualItem>> visualItems);
     void SetColorfulOutput();

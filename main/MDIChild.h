@@ -73,6 +73,7 @@ private:
 	wxButton* m_btnAddWaypoint;
 	wxButton* m_btnRemoveWaypoint;
 	wxButton* m_btnStart;
+	wxButton* m_btnExportSVG;
 	wxStaticText* m_staticCompletionLikelihood;
 	wxTextCtrl* m_txtCompletionLikelihood;
 	wxListCtrl* m_listVillages;
