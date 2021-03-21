@@ -144,8 +144,6 @@ private:
 
 	void AddWaypoint();
 
-	void TestStuff();
-
 	void SetModified(bool modified = true);
 	void UpdateTitle();
 
