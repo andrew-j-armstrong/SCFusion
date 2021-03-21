@@ -258,14 +258,13 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_btnStart = new wxButton(this, wxID_APPLY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer41->Add(m_btnStart, 0, wxALL, CONTROL_BORDER);
 
-	bSizer41->AddSpacer(20);
 	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
 	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
 	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY | wxTE_RIGHT);
 	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
-	bSizer41->AddSpacer(20);
+	bSizer41->AddSpacer(12);
 	m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("Output Format:"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText1->Wrap(-1);
 	bSizer41->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
@@ -281,7 +280,6 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_choiceOutput->SetSelection(1);
 	bSizer41->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
 
-	bSizer41->AddSpacer(20);
 	m_btnExportSVG = new wxButton(this, wxID_EXPORT_SVG, wxT("Export SVG"), wxDefaultPosition, wxDefaultSize, 0);
 	m_btnExportSVG->Hide();
 	bSizer41->Add(m_btnExportSVG, 0, wxALL, CONTROL_BORDER);
