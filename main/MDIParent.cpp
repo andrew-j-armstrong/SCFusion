@@ -142,12 +142,12 @@ wxMenuBar *MyFrame::CreateMainMenubar()
 {
 	wxMenu *menuFile = new wxMenu;
 
-	menuFile->Append(wxID_NEW_PROTOSS, "&New Protoss Build Order\tCtrl-P", "Create a new Protoss build order");
-	menuFile->Append(wxID_NEW_TERRAN, "&New Terran Build Order\tCtrl-T", "Create a new Terran build order");
-	menuFile->Append(wxID_NEW_ZERG, "&New Zerg Build Order\tCtrl-Z", "Create a new Zerg build order");
+	menuFile->Append(wxID_NEW_PROTOSS, "New &Protoss Build Order\tCtrl-P", "Create a new Protoss build order");
+	menuFile->Append(wxID_NEW_TERRAN, "New &Terran Build Order\tCtrl-T", "Create a new Terran build order");
+	menuFile->Append(wxID_NEW_ZERG, "New &Zerg Build Order\tCtrl-Z", "Create a new Zerg build order");
 	menuFile->Append(wxID_OPEN, "&Open Build Order\tCtrl-O", "Open a build order from a file");
 	menuFile->AppendSeparator();
-	menuFile->Append(wxID_EXIT, "&Exit\tAlt-X", "Quit the program");
+	menuFile->Append(wxID_EXIT, "E&xit\tAlt-X", "Quit the program");
 
 	wxMenu *menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT, "&About\tF1");

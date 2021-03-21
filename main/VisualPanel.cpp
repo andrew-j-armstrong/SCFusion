@@ -1,5 +1,6 @@
 #include "VisualPanel.h"
 #include <map>
+#include <wx/dcsvg.h>
 
 BEGIN_EVENT_TABLE(VisualPanel, wxScrolledWindow)
 END_EVENT_TABLE()
@@ -95,13 +96,13 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
     }
 
     m_visual_items = visualItems;
-    m_height = (m_visual_items.size() + m_stray_visual_items.size()) * 30 + 50;
+    m_height = (m_visual_items.size() + m_stray_visual_items.size()) * ROW_HEIGHT + 30;
     
     for (size_t i = 0; i < m_visual_items.size(); i++)
     {
         if (m_visual_items[i].size() && m_visual_items[i].back().endTime > maxEndTime) maxEndTime = m_visual_items[i].back().endTime;
     }
-    m_width = maxEndTime * PIXELS_PER_SECOND + 50;
+    m_width = (maxEndTime + 2) * PIXELS_PER_SECOND;
 
     wxPoint scrolled = GetViewStart();
     SetScrollbars(10, 10, (int)m_width/10, (int)m_height/10, scrolled.x, scrolled.y);
@@ -110,6 +111,13 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
 wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType)
 {
     return m_colorful ? COLORFUL.at(itemType) : PLAIN.at(itemType);
+}
+
+bool VisualPanel::ExportSVG(wxString filename)
+{
+    wxSVGFileDC svgDC(filename, m_width, m_height);
+    OnDraw(svgDC);
+    return svgDC.IsOk();
 }
 
 void VisualPanel::OnDraw(wxDC& dc)

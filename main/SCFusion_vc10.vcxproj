@@ -331,6 +331,7 @@
     </CopyFileToFolders>
     <None Include="bitmaps\copy.xpm" />
     <None Include="bitmaps\cut.xpm" />
+    <None Include="bitmaps\gantt.xpm" />
     <None Include="bitmaps\help.xpm" />
     <None Include="bitmaps\new.xpm" />
     <None Include="bitmaps\open.xpm" />

@@ -39,6 +39,7 @@
 #define wxID_OUTPUTFORMAT				(wxID_HIGHEST + 10)
 #define wxID_OUTPUT						(wxID_HIGHEST + 11)
 #define wxID_COMPLETIONLIKELIHOOD		(wxID_HIGHEST + 12)
+#define wxID_EXPORT_SVG					(wxID_HIGHEST + 13)
 
 unsigned MyChild::ms_numChildren = 0;
 
@@ -52,6 +53,7 @@ BEGIN_EVENT_TABLE(MyChild, wxMDIChildFrame)
 
 	EVT_MENU(wxID_SAVE, MyChild::OnSave)
 	EVT_MENU(wxID_SAVEAS, MyChild::OnSaveAs)
+	EVT_MENU(wxID_EXPORT_SVG, MyChild::OnExportSVG)
 
 	EVT_SIZE(MyChild::OnSize)
 	EVT_MOVE(MyChild::OnMove)
@@ -91,6 +93,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_btnAddWaypoint(NULL)
 	, m_btnRemoveWaypoint(NULL)
 	, m_btnStart(NULL)
+	, m_btnExportSVG(NULL)
 	, m_staticCompletionLikelihood(NULL)
 	, m_txtCompletionLikelihood(NULL)
 	, m_listVillages(NULL)
@@ -116,8 +119,10 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 #if wxUSE_MENUS
 	wxMenuBar *mbar = MyFrame::CreateMainMenubar();
 	mbar->GetMenu(0)->Insert(4, wxID_SAVE, "&Save build order\tCtrl-S", "Save the build order");
-	mbar->GetMenu(0)->Insert(5, wxID_SAVEAS, "&Save build order as...\tCtrl-A", "Save the build order as...");
+	mbar->GetMenu(0)->Insert(5, wxID_SAVEAS, "&Save build order as...\tCtrl-Shift-S", "Save the build order as...");
 	mbar->GetMenu(0)->Insert(6, wxID_CLOSE, "&Close build order\tCtrl-Del", "Close this build order");
+	mbar->GetMenu(0)->InsertSeparator(7);
+	mbar->GetMenu(0)->Insert(8, wxID_EXPORT_SVG, "Export to SVG", "Export to SVG");
 
 	wxMenu *menuEdit = new wxMenu;
 
@@ -254,6 +259,13 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	bSizer41->Add(m_btnStart, 0, wxALL, CONTROL_BORDER);
 
 	bSizer41->AddSpacer(20);
+	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+
+	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY | wxTE_RIGHT);
+	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+
+	bSizer41->AddSpacer(20);
 	m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("Output Format:"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText1->Wrap(-1);
 	bSizer41->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
@@ -270,11 +282,9 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	bSizer41->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
 
 	bSizer41->AddSpacer(20);
-	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
-
-	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY|wxTE_RIGHT);
-	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL|wxALL, CONTROL_BORDER);
+	m_btnExportSVG = new wxButton(this, wxID_EXPORT_SVG, wxT("Export SVG"), wxDefaultPosition, wxDefaultSize, 0);
+	m_btnExportSVG->Hide();
+	bSizer41->Add(m_btnExportSVG, 0, wxALL, CONTROL_BORDER);
 
 	bSizer4->AddSpacer(6);
 	bSizer4->Add(bSizer41, 0, wxEXPAND, 0);
@@ -377,6 +387,9 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	Connect(wxID_INITIALBUILDORDER_CHOICE, wxEVT_COMMAND_CHOICE_SELECTED, 
 		wxCommandEventHandler(MyChild::UpdateInitialBuildOrder));
 
+	Connect(wxID_EXPORT_SVG, wxEVT_COMMAND_BUTTON_CLICKED,
+		wxCommandEventHandler(MyChild::OnExportSVG));
+
 	m_txtMaxTime->Connect(wxEVT_KILL_FOCUS, wxCommandEventHandler(MyChild::OnMaxTime), 0, this);
 	m_txtScoutingWorkerTime->Connect(wxEVT_KILL_FOCUS, wxCommandEventHandler(MyChild::OnScoutingWorkerTime), 0, this);
 	m_txtScoutingWorkerEndTime->Connect(wxEVT_KILL_FOCUS, wxCommandEventHandler(MyChild::OnScoutingWorkerEndTime), 0, this);
@@ -469,6 +482,7 @@ void MyChild::UpdateOutputFormat()
 {
 	if(m_engine)
 	{
+		m_btnExportSVG->Hide();
 		switch(m_choiceOutput->GetCurrentSelection())
 		{
 		case 0:
@@ -496,12 +510,14 @@ void MyChild::UpdateOutputFormat()
 			m_visualOutput->SetPlainOutput();
 			m_visualOutput->Show();
 			m_txtOutput->Hide();
+			m_btnExportSVG->Show();
 			break;
 		case 5:
 			m_engine->SetOutput(new CSC2OutputVisual());
 			m_visualOutput->SetColorfulOutput();
 			m_visualOutput->Show();
 			m_txtOutput->Hide();
+			m_btnExportSVG->Show();
 			break;
 		}
 		this->Layout();
@@ -1713,6 +1729,28 @@ bool MyChild::DoSaveAs()
 	UpdateTitle();
 
 	return true;
+}
+
+void MyChild::OnExportSVG(wxCommandEvent& WXUNUSED(event))
+{
+	DoExportSVG();
+}
+
+bool MyChild::DoExportSVG()
+{
+	wxFileDialog* exportSvgDialog = new wxFileDialog(this, wxT("Save SVG file"), wxEmptyString, wxEmptyString, wxT("SVG files (*.svg)|*.svg|All Files (*.*)|*.*"), wxFD_SAVE);
+
+	if (exportSvgDialog->ShowModal() != wxID_OK)
+	{
+		exportSvgDialog->Destroy();
+		return false;
+	}
+
+	wxString path = exportSvgDialog->GetPath();
+
+	exportSvgDialog->Destroy();
+
+	return m_visualOutput->ExportSVG(path);
 }
 
 bool MyChild::WriteToFile(wxString fileName)

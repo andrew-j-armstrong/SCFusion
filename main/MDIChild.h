@@ -28,6 +28,7 @@ public:
 
 	bool DoSave();
 	bool DoSaveAs();
+	bool DoExportSVG();
 
 	const wxString &GetFileName() const { return m_fileName; }
 
@@ -48,6 +49,7 @@ private:
 	void OnOutputURL(wxTextUrlEvent &event);
 	void OnSave(wxCommandEvent& event);
 	void OnSaveAs(wxCommandEvent& event);
+	void OnExportSVG(wxCommandEvent& event);
 
 	void AddWaypoint(wxCommandEvent & WXUNUSED(event));
 	void RemoveWaypoint(wxCommandEvent & WXUNUSED(event));
@@ -71,6 +73,7 @@ private:
 	wxButton* m_btnAddWaypoint;
 	wxButton* m_btnRemoveWaypoint;
 	wxButton* m_btnStart;
+	wxButton* m_btnExportSVG;
 	wxStaticText* m_staticCompletionLikelihood;
 	wxTextCtrl* m_txtCompletionLikelihood;
 	wxListCtrl* m_listVillages;
