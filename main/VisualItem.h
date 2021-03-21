@@ -16,7 +16,8 @@ public:
         tMilitary,
         tMilitaryUnit,
         tWorker,
-        tResearch
+        tResearch,
+        tMilestone
     };
 
     enum QueueType

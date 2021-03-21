@@ -456,4 +456,5 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 
 void CSC2OutputVisual::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
+	AddVisualItem(0, VisualItem("", 0, state.m_time, VisualItem::tMilestone));
 }

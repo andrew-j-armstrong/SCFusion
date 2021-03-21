@@ -59,6 +59,7 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
 
     // split stray items (not occupying a building) on multiple rows to avoid overlapping
     m_stray_visual_items.clear();
+    m_milestones.clear();
     if (visualItems.size() > 0)
     {
         vector<VisualItem> strayRow = visualItems[0];
@@ -68,27 +69,34 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
             // track max endTime
             if (strayRow[i].endTime > maxEndTime) maxEndTime = strayRow[i].endTime;
 
-            bool fitted = false;
-            size_t n = 0;
-            while (!fitted && n < m_stray_visual_items.size())
+            if (strayRow[i].itemType == VisualItem::tMilestone)
             {
-                if (m_stray_visual_items[n].back().endTime > strayRow[i].startTime || m_stray_visual_items[n].back().startTime + 10 > strayRow[i].startTime)
-                {
-                    n++;
-                }
-                else
-                {
-                    m_stray_visual_items[n].push_back(strayRow[i]);
-                    fitted = true;
-                }
+                m_milestones.push_back(strayRow[i]);
             }
-            
-            if (!fitted)
+            else
             {
-                // add new row for stray item
-                vector<VisualItem> row;
-                row.push_back(strayRow[i]);
-                m_stray_visual_items.push_back(row);
+                bool fitted = false;
+                size_t n = 0;
+                while (!fitted && n < m_stray_visual_items.size())
+                {
+                    if (m_stray_visual_items[n].back().endTime > strayRow[i].startTime || m_stray_visual_items[n].back().startTime + 10 > strayRow[i].startTime)
+                    {
+                        n++;
+                    }
+                    else
+                    {
+                        m_stray_visual_items[n].push_back(strayRow[i]);
+                        fitted = true;
+                    }
+                }
+
+                if (!fitted)
+                {
+                    // add new row for stray item
+                    vector<VisualItem> row;
+                    row.push_back(strayRow[i]);
+                    m_stray_visual_items.push_back(row);
+                }
             }
         }
 
@@ -102,7 +110,7 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
     {
         if (m_visual_items[i].size() && m_visual_items[i].back().endTime > maxEndTime) maxEndTime = m_visual_items[i].back().endTime;
     }
-    m_width = (maxEndTime + 2) * PIXELS_PER_SECOND;
+    m_width = (maxEndTime + 3) * PIXELS_PER_SECOND;
 
     wxPoint scrolled = GetViewStart();
     SetScrollbars(10, 10, (int)m_width/10, (int)m_height/10, scrolled.x, scrolled.y);
@@ -131,6 +139,20 @@ void VisualPanel::OnDraw(wxDC& dc)
         if (i % 4 == 0) dc.DrawLine(wxPoint(i * 15 * PIXELS_PER_SECOND - 1, 20), wxPoint(i * 15 * PIXELS_PER_SECOND - 1, m_height - 20));
         dc.DrawText(wxString::Format(L"%02d:%02d", i / 4, i % 4 * 15), i * 15 * PIXELS_PER_SECOND - 13, 3);
         dc.DrawText(wxString::Format(L"%02d:%02d", i / 4, i % 4 * 15), i * 15 * PIXELS_PER_SECOND - 13, m_height - 17);
+    }
+
+    // Draw milestones
+    dc.SetTextForeground(wxColor(153, 153, 153));
+    dc.SetBrush(wxColor(230, 230, 230));
+    for (size_t i = 0; i < m_milestones.size(); i++)
+    {
+        dc.SetPen(wxPen(wxColor(204, 204, 204), 2));
+        dc.DrawLine(wxPoint(m_milestones[i].endTime * PIXELS_PER_SECOND - 1, 20), wxPoint(m_milestones[i].endTime * PIXELS_PER_SECOND - 1, m_height - 20));
+        dc.SetPen(*wxTRANSPARENT_PEN);
+        dc.DrawRectangle((m_milestones[i].endTime * PIXELS_PER_SECOND) - 18, 3, 36, 15);
+        dc.DrawRectangle((m_milestones[i].endTime * PIXELS_PER_SECOND) - 18, m_height - 17, 36, 15);
+        dc.DrawText(wxString::Format(L"%02d:%02d", (int)(m_milestones[i].endTime / 60), (int)(m_milestones[i].endTime) % 60), m_milestones[i].endTime * PIXELS_PER_SECOND - 13, 3);
+        dc.DrawText(wxString::Format(L"%02d:%02d", (int)(m_milestones[i].endTime / 60), (int)(m_milestones[i].endTime) % 60), m_milestones[i].endTime * PIXELS_PER_SECOND - 13, m_height - 17);
     }
 
     // Draw items

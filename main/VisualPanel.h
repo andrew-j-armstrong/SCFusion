@@ -27,6 +27,7 @@ public:
 protected:
     vector<vector<VisualItem>> m_visual_items;
     vector<vector<VisualItem>> m_stray_visual_items;
+    vector<VisualItem> m_milestones;
     int m_width;
     int m_height;
     bool m_colorful = false;
