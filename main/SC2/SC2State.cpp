@@ -774,6 +774,18 @@ void CSC2State::PrintSummary(wxString &output) const
 		output += wxString::Format("%4.0fM %4.0fG %3d/%3dS", m_minerals, m_gas, m_supply, m_supplyCap);
 }
 
+void CSC2State::FillData(GridItem& item) const
+{
+	item.minerals = m_minerals;
+	item.gas = m_gas;
+	item.larvae = m_totalLarvaeCount;
+	item.mineralIncomeRate = m_mineralIncomeRate;
+	item.gasIncomeRate = m_gasIncomeRate;
+	item.supply = m_supply;
+	item.workers = m_workerCount;
+	item.supplyCap = m_supplyCap;
+}
+
 void CSC2State::PrintDetails(wxString &output) const
 {
 	PrintSummary(output);

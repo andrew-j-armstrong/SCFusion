@@ -5,6 +5,7 @@
 #include "SC2State.h"
 #include "SC2Event.h"
 #include "VisualItem.h"
+#include "GridItem.h"
 
 class CSC2Output
 {
@@ -128,33 +129,27 @@ protected:
 	vector<vector<VisualItem>> m_visual_items;
 };
 
-/*
-class CSC2OutputCustom : public CSC2Output
+class CSC2OutputGrid : public CSC2Output
 {
 public:
-	CSC2OutputCustom() {}
-	~CSC2OutputCustom() {}
+	CSC2OutputGrid() {}
+	~CSC2OutputGrid() {}
 
-	void ProcessCommand(const CSC2Command *command, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessEvent(const CSC2Event &event, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state) override;
+	void ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+	void ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state) override;
 
-	void GetOutput(wxString &output) const override { output = m_output; }
-
-	class CFormat
+	void Reset()
 	{
-	public:
-		CFormat();
-		~CFormat();
-
-	protected:
-		CVector<bool> m_bulkUpCommand;
+		m_data.clear();
 	};
 
+	void GetOutput(wxString& output) const override { output = m_output; }
+
+	void GetData(vector<GridItem>& data) const { data = m_data; }
+
 protected:
+	vector<GridItem> m_data;
 	wxString m_output;
-	CSC2State m_lastState;
-	CSC2Command *m_lastCommand;
-	size_t m_lastCommandCount;
+
 };
-*/

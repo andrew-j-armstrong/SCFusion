@@ -27,7 +27,14 @@ public:
         qDoubleSecondary
     };
 
-    VisualItem(wxString name, double startTime, double endTime, VisualItemType itemType = tDefault, QueueType queueType = qSingle);
+    VisualItem(wxString name, double startTime, double endTime, VisualItemType itemType = tDefault, QueueType queueType = qSingle)
+    {
+        this->startTime = startTime;
+        this->endTime = endTime;
+        this->name = name;
+        this->itemType = itemType;
+        this->queueType = queueType;
+    }
 
     wxString name;
     double startTime;

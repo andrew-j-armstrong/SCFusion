@@ -177,6 +177,7 @@
     <ClCompile Include="GA\GAPopulation.cpp" />
     <ClCompile Include="GA\GASequenceChromosome.cpp" />
     <ClCompile Include="GA\GAStringFitnessCalc.cpp" />
+    <ClCompile Include="GridOutput.cpp" />
     <ClCompile Include="MDIChild.cpp" />
     <ClCompile Include="MDIParent.cpp" />
     <ClCompile Include="RaceChoiceDlg.cpp" />
@@ -199,7 +200,6 @@
     <ClCompile Include="SC2\SC2Unit.cpp" />
     <ClCompile Include="SC2\SC2Version.cpp" />
     <ClCompile Include="SC2\TargetMinMax.cpp" />
-    <ClCompile Include="VisualItem.cpp" />
     <ClCompile Include="VisualPanel.cpp" />
     <ClCompile Include="TimeTextCtrl.cpp" />
     <ClCompile Include="TimeValidator.cpp" />
@@ -241,6 +241,8 @@
     <ClInclude Include="GA\GAStringFitnessCalc.h" />
     <ClInclude Include="GA\GAValueArrayChromosome.h" />
     <ClInclude Include="GA\GAVillage.h" />
+    <ClInclude Include="GridItem.h" />
+    <ClInclude Include="GridOutput.h" />
     <ClInclude Include="VisualItem.h" />
     <ClInclude Include="MDIChild.h" />
     <ClInclude Include="MDIParent.h" />

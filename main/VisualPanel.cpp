@@ -114,6 +114,7 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
 
     wxPoint scrolled = GetViewStart();
     SetScrollbars(10, 10, (int)m_width/10, (int)m_height/10, scrolled.x, scrolled.y);
+    Refresh();
 }
 
 wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType)

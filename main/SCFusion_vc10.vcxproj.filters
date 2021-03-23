@@ -151,7 +151,7 @@
     <ClCompile Include="VisualPanel.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="VisualItem.cpp">
+    <ClCompile Include="GridOutput.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -351,6 +351,12 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="VisualItem.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GridItem.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GridOutput.h">
       <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>

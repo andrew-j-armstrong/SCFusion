@@ -11,6 +11,7 @@
 #include "SC2Unit.h"
 #include "SC2Research.h"
 #include "GasMicro.h"
+#include "GridItem.h"
 
 class CSC2State
 {
@@ -32,6 +33,7 @@ public:
 
 	void PrintSummary(wxString &output) const;
 	void PrintDetails(wxString &output) const;
+	void FillData(GridItem& item) const;
 
 	const ESC2Race m_race;
 	const CSC2RaceData &m_raceData;

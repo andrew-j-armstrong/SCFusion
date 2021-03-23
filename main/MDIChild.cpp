@@ -101,6 +101,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_choiceOutput(NULL)
 	, m_txtOutput(NULL)
 	, m_visualOutput(NULL)
+	, m_gridOutput(NULL)
 	, m_txtMaxTime(NULL)
 	, m_choiceInitialBuildOrder(NULL)
 	, m_txtInitialBuildOrder(NULL)
@@ -276,6 +277,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	arrOutputChoices.Add(wxT("Full"));
 	arrOutputChoices.Add(wxT("Plain Gantt"));
 	arrOutputChoices.Add(wxT("Colorful Gantt"));
+	arrOutputChoices.Add(wxT("Detailed Grid"));
 	m_choiceOutput = new wxChoice(this, wxID_OUTPUTFORMAT, wxDefaultPosition, wxDefaultSize, arrOutputChoices, 0);
 	m_choiceOutput->SetSelection(1);
 	bSizer41->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
@@ -297,6 +299,10 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_visualOutput = new VisualPanel(this, wxID_ANY);
 	bSizer10->Add(m_visualOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
 	m_visualOutput->Hide();
+
+	m_gridOutput = new GridOutput(this, wxID_ANY);
+	bSizer10->Add(m_gridOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
+	m_gridOutput->Hide();
 
 	m_pgResult = new wxPropertyGrid(this, -1, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED | wxPG_LIMITED_EDITING);
 	m_pgResult->SetMinSize(wxSize(230,-1));
@@ -481,6 +487,7 @@ void MyChild::UpdateOutputFormat()
 	if(m_engine)
 	{
 		m_btnExportSVG->Hide();
+		m_gridOutput->Hide();
 		switch(m_choiceOutput->GetCurrentSelection())
 		{
 		case 0:
@@ -517,6 +524,11 @@ void MyChild::UpdateOutputFormat()
 			m_txtOutput->Hide();
 			m_btnExportSVG->Show();
 			break;
+		case 6:
+			m_engine->SetOutput(new CSC2OutputGrid());
+			m_visualOutput->Hide();
+			m_txtOutput->Hide();
+			m_gridOutput->Show();
 		}
 		this->Layout();
 	}
@@ -983,7 +995,11 @@ void MyChild::OnTimer(wxTimerEvent& event)
 
 void MyChild::RefreshOutput()
 {
-	if (m_choiceOutput->GetCurrentSelection() == 4 || m_choiceOutput->GetCurrentSelection() == 5) {
+	if (m_choiceOutput->GetCurrentSelection() == 6)
+	{
+		GetBestGameGridData();
+	}
+	else if (m_choiceOutput->GetCurrentSelection() == 4 || m_choiceOutput->GetCurrentSelection() == 5) {
 		DrawBestGame();
 	}
 	else
@@ -1039,7 +1055,13 @@ void MyChild::DrawBestGame()
 	m_engine->DrawBestGame(visualItems, m_pgResult);
 	if (visualItems.size() > 3)	sort(visualItems.begin() + 2, visualItems.end(), compareRowStartTime);
 	m_visualOutput->SetVisualItems(visualItems);
-	m_visualOutput->Refresh();
+}
+
+void MyChild::GetBestGameGridData()
+{
+	vector<GridItem> data;
+	m_engine->GetBestGameGridData(data, m_pgResult);
+	m_gridOutput->SetData(data);
 }
 
 void MyChild::OnSave(wxCommandEvent& WXUNUSED(event))

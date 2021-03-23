@@ -1,5 +1,4 @@
-#ifndef _VISUALPANEL_H_
-#define _VISUALPANEL_H_
+#pragma once
 
 #include <wx/wx.h>
 #include <Wx/sizer.h>
@@ -32,5 +31,3 @@ protected:
     int m_height;
     bool m_colorful = false;
 };
-
-#endif // _VISUALPANEL_H_

@@ -458,3 +458,20 @@ void CSC2OutputVisual::ProcessWaypointComplete(bool succeeded, size_t waypointIn
 {
 	AddVisualItem(0, VisualItem("", 0, state.m_time, VisualItem::tMilestone));
 }
+
+
+void CSC2OutputGrid::ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state)
+{
+	GridItem gridItem = GridItem(command->GetName(), state.m_time, GridItem::tDefault);
+	state.FillData(gridItem);
+
+	m_data.push_back(gridItem);
+}
+
+void CSC2OutputGrid::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state)
+{
+}
+
+void CSC2OutputGrid::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state)
+{
+}

@@ -12,6 +12,7 @@
 #include "SC2Engine.h"
 #include "TimeValidator.h"
 #include "VisualPanel.h"
+#include "GridOutput.h"
 
 //template<typename TTarget, typename TState, typename TCommand, typename TEvent>
 class MyChild : public wxMDIChildFrame
@@ -81,6 +82,7 @@ private:
 	wxChoice* m_choiceOutput;
 	wxTextCtrl* m_txtOutput;
 	VisualPanel* m_visualOutput;
+	GridOutput* m_gridOutput;
 	wxTimer* m_timer;
 
 	wxTextCtrl *m_txtMaxTime;
@@ -118,6 +120,7 @@ private:
 	void RefreshOutput();
 	void PrintBestGame();
 	void DrawBestGame();
+	void GetBestGameGridData();
 
 private:
 	void OnActivate(wxActivateEvent& event);
