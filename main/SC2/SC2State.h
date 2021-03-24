@@ -34,6 +34,7 @@ public:
 	void PrintSummary(wxString &output) const;
 	void PrintDetails(wxString &output) const;
 	void FillData(GridItem& item) const;
+	void FillMilestoneData(GridItem& item) const;
 
 	const ESC2Race m_race;
 	const CSC2RaceData &m_raceData;

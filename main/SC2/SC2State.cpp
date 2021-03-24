@@ -786,6 +786,34 @@ void CSC2State::FillData(GridItem& item) const
 	item.supplyCap = m_supplyCap;
 }
 
+void CSC2State::FillMilestoneData(GridItem& item) const
+{
+	FillData(item);
+
+	item.buildingsCompleted = wxString("");
+	for (size_t i = 0; i < m_buildings.size(); i++)
+	{
+		const CBuildingStateList* buildingStateList = m_buildings[i];
+		if (buildingStateList->size() > 0)
+			item.buildingsCompleted += wxString::Format(L" %u %s;", buildingStateList->size(), buildingStateList->m_building.GetName());
+	}
+
+	item.unitsCompleted = wxString("");
+	for (size_t i = 0; i < m_units.size(); i++)
+	{
+		const CUnitStateList* unitStateList = m_units[i];
+		if (unitStateList->size() > 0)
+			item.unitsCompleted += wxString::Format(L" %u %s;", unitStateList->size(), unitStateList->m_unit.GetName());
+	}
+
+	item.researchCompleted = wxString("");
+	for (size_t i = 0; i < m_researchCompleted.size(); i++)
+	{
+		if (m_researchCompleted[i])
+			item.researchCompleted += wxString::Format(L" %s;", m_raceData.m_research[i]->GetName());
+	}
+}
+
 void CSC2State::PrintDetails(wxString &output) const
 {
 	PrintSummary(output);

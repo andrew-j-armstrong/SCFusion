@@ -474,4 +474,12 @@ void CSC2OutputGrid::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& wa
 
 void CSC2OutputGrid::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
+	wxString itemName;
+	if (waypoint.IsFinalTarget()) itemName = wxString::Format(L"Target %s", succeeded ? L"reached" : L"failed");
+	else itemName = wxString::Format(L"Milestone %d %s", waypointIndex + 1, succeeded ? L"reached" : L"failed");
+
+	GridItem gridItem = GridItem(itemName, state.m_time, GridItem::tMilestone);
+	state.FillMilestoneData(gridItem);
+
+	m_data.push_back(gridItem);
 }

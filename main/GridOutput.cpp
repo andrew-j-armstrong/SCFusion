@@ -27,33 +27,46 @@ GridOutput::GridOutput(wxWindow* parent, wxWindowID id) :
     SetColLabelValue(7, "Supply");
     SetColSize(7, 60);
     SetColLabelValue(8, "Event");
-    SetColSize(8, 500);
+    SetColSize(8, 700);
 }
 
 
 void GridOutput::SetData(vector<GridItem> data)
 {
-    if (GetNumberRows() > data.size())
+    if (GetNumberRows() > (int)data.size())
     {
         DeleteRows(0, GetNumberRows() - data.size());
     }
-    else if (data.size() > GetNumberRows())
+    else if ((int)data.size() > GetNumberRows())
     {
         InsertRows(0, data.size() - GetNumberRows());
     }
 
-    for (size_t i = 0; i < data.size(); i++)
+    size_t i = 0;
+    for (GridItem item : data)
     {
-        SetCellValue(i, 0, wxString::Format(L"%2d:%05.2f ", (int)(data[i].time / 60) - 60 * (int)(data[i].time / 3600), data[i].time - 60 * (int)(data[i].time / 60)));
-        SetCellValue(i, 1, wxString::Format(L"%d ", data[i].minerals));
-        SetCellValue(i, 2, wxString::Format(L"%d ", data[i].gas));
-        SetCellValue(i, 3, wxString::Format(L"%d ", data[i].larvae));
-        SetCellValue(i, 4, wxString::Format(L"%.2f ", data[i].mineralIncomeRate));
-        SetCellValue(i, 5, wxString::Format(L"%.2f ", data[i].gasIncomeRate));
-        SetCellValue(i, 6, wxString::Format(L"%d ", data[i].workers));
-        SetCellValue(i, 7, wxString::Format(L"%d / %d ", data[i].supply, data[i].supplyCap));
-        SetCellValue(i, 8, data[i].name);
+        SetCellValue(i, 0, wxString::Format(L"%2d:%05.2f ", (int)(item.time / 60) - 60 * (int)(item.time / 3600), item.time - 60 * (int)(item.time / 60)));
+        SetCellValue(i, 1, wxString::Format(L"%d ", item.minerals));
+        SetCellValue(i, 2, wxString::Format(L"%d ", item.gas));
+        SetCellValue(i, 3, wxString::Format(L"%d ", item.larvae));
+        SetCellValue(i, 4, wxString::Format(L"%.2f ", item.mineralIncomeRate));
+        SetCellValue(i, 5, wxString::Format(L"%.2f ", item.gasIncomeRate));
+        SetCellValue(i, 6, wxString::Format(L"%d ", item.workers));
+        SetCellValue(i, 7, wxString::Format(L"%d / %d ", item.supply, item.supplyCap));
+
+        wxString name = " " + item.name;
+        if (item.itemType == GridItem::tMilestone)
+        {
+            name += "\n Buildings: " + item.buildingsCompleted;
+            name += "\n Units: " + item.unitsCompleted;
+            name += "\n Research: " + item.researchCompleted;
+        }
+        SetCellValue(i, 8, name);
+
         SetCellAlignment(i, 8, wxALIGN_LEFT, wxALIGN_CENTER);
+        SetRowSize(i, GetDefaultRowSize() * (item.itemType == GridItem::tMilestone ? 4 : 1));
+
+        i++;
     }
 
 }
