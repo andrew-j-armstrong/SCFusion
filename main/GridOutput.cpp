@@ -33,9 +33,14 @@ GridOutput::GridOutput(wxWindow* parent, wxWindowID id) :
 
 void GridOutput::SetData(vector<GridItem> data)
 {
-    if (GetNumberRows() > 0)
-        DeleteRows(0, GetNumberRows());
-    InsertRows(0, data.size());
+    if (GetNumberRows() > data.size())
+    {
+        DeleteRows(0, GetNumberRows() - data.size());
+    }
+    else if (data.size() > GetNumberRows())
+    {
+        InsertRows(0, data.size() - GetNumberRows());
+    }
 
     for (size_t i = 0; i < data.size(); i++)
     {
