@@ -470,6 +470,98 @@ void CSC2OutputGrid::ProcessCommand(const CSC2Command* command, const CSC2Waypoi
 
 void CSC2OutputGrid::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
+	GridItem gridItem = GridItem(wxString::Format(L"(unknown event)", event.m_event.m_data.m_data), state.m_time, GridItem::tDefault);
+	CSC2Building* building;
+	CSC2Unit* unit;
+	GridItem::GridItemType itemType;
+
+	switch (event.m_event.m_data.m_eventCategory)
+	{
+	case CSC2Event::eWorkerStartMiningMinerals:
+		gridItem.name = wxString::Format(L"(Worker starts mining minerals)");
+		break;
+	case CSC2Event::eWorkerStartMiningGas:
+		gridItem.name = wxString::Format(L"(Worker starts mining gas)");
+		break;
+	case CSC2Event::eSendScout:
+		gridItem.name = wxString::Format(L"(Scouting worker sent)");
+		break;
+	case CSC2Event::eKillScout:
+		gridItem.name = wxString::Format(L"(Scouting worker killed)");
+		break;
+	case CSC2Event::eReturnScout:
+		gridItem.name = wxString::Format(L"(Scouting worker returns)");
+		break;
+	case CSC2Event::eBuildingComplete:
+	case CSC2Event::eBuildingMorph:
+		building = state.m_raceData.m_buildings[event.m_event.m_data.m_targetID];
+		gridItem.name = wxString::Format(L"(%s completed)", building->GetName());
+		gridItem.itemType = GridItem::tMilitary;
+		if (building->IsBase()) gridItem.itemType = GridItem::tBase;
+		else if (building->IsGeyserBuilding()) gridItem.itemType = GridItem::tGas;
+		else if (building->GetProvidedSupply() > 0) gridItem.itemType = GridItem::tSupply;
+		break;
+	case CSC2Event::eUnitComplete:
+	case CSC2Event::eUnitMorph:
+		unit = state.m_raceData.m_units[event.m_event.m_data.m_targetID];
+		gridItem.name = wxString::Format(L"(%s completed)", unit->GetName());
+		gridItem.itemType = GridItem::tMilitaryUnit;
+		if (unit->IsWorker() || unit->GetMineralIncomeRate() > 0) gridItem.itemType = GridItem::tWorker;
+		else if (unit->GetProvidedSupply() > 0) gridItem.itemType = GridItem::tSupply;
+		break;
+	case CSC2Event::eResearchComplete:
+		gridItem.name = wxString::Format(L"(%s completed)", state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName());
+		gridItem.itemType = GridItem::tResearch;
+		break;
+	case CSC2Event::eBuildingConsume:
+		gridItem.name = wxString::Format(L"(%s consumed)", state.m_raceData.m_buildings[event.m_event.m_data.m_targetID]->GetName());
+		break;
+	case CSC2Event::eUnitDies:
+		gridItem.name = wxString::Format(L"(%s expired)", state.m_raceData.m_units[state.m_allUnits[event.m_event.m_data.m_sourceID]->unitTypeID]->GetName());
+		break;
+	case CSC2Event::eBuildingStatusApply:
+	{
+		size_t status = event.m_event.m_data.m_data;
+		size_t statusIndex = 0;
+		while (status > 0)
+		{
+			if (status & 1)
+				gridItem.name = wxString::Format(L"(%s: %s applied)", state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->GetName(), state.m_raceData.m_buildingStatuses[statusIndex]->GetName());
+
+			status >>= 1;
+			statusIndex++;
+		}
+		gridItem.itemType = GridItem::tStatus;
+	}
+	break;
+	case CSC2Event::eBuildingStatusLapse:
+	{
+		size_t status = event.m_event.m_data.m_data;
+		size_t statusIndex = 0;
+		while (status > 0)
+		{
+			if (status & 1)
+				gridItem.name = wxString::Format(L"(%s: %s lapsed)", state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->GetName(), state.m_raceData.m_buildingStatuses[statusIndex]->GetName());
+
+			status >>= 1;
+			statusIndex++;
+		}
+		gridItem.itemType = GridItem::tStatus;
+	}
+	break;
+	case CSC2Event::eBuildingSpawnLarvae:
+		gridItem.name = wxString::Format(L"(Larva spawned)");
+		break;
+	case CSC2Event::eBuildingSpawnBonusLarvae:
+		gridItem.name = wxString::Format(L"(%d bonus larvae spawned)", event.m_event.m_data.m_data);
+		break;
+	default:
+		return;
+	}
+
+	state.FillData(gridItem);
+
+	m_data.push_back(gridItem);
 }
 
 void CSC2OutputGrid::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state)
