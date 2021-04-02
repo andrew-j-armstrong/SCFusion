@@ -2,6 +2,7 @@
 
 GridOutput::GridOutput(wxWindow* parent, wxWindowID id) :
     wxGrid(parent, id, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME)
+    , m_level(0)
 {
     CreateGrid(0, 9);
     EnableEditing(false);
@@ -33,40 +34,62 @@ GridOutput::GridOutput(wxWindow* parent, wxWindowID id) :
 
 void GridOutput::SetData(vector<GridItem> data)
 {
-    if (GetNumberRows() > (int)data.size())
-    {
-        DeleteRows(0, GetNumberRows() - data.size());
-    }
-    else if ((int)data.size() > GetNumberRows())
-    {
-        InsertRows(0, data.size() - GetNumberRows());
-    }
+    m_data = data;
+    UpdateGrid();
+}
 
-    size_t i = 0;
-    for (GridItem item : data)
-    {
-        SetCellValue(i, 0, wxString::Format(L"%2d:%05.2f ", (int)(item.time / 60) - 60 * (int)(item.time / 3600), item.time - 60 * (int)(item.time / 60)));
-        SetCellValue(i, 1, wxString::Format(L"%d ", item.minerals));
-        SetCellValue(i, 2, wxString::Format(L"%d ", item.gas));
-        SetCellValue(i, 3, wxString::Format(L"%d ", item.larvae));
-        SetCellValue(i, 4, wxString::Format(L"%.2f ", item.mineralIncomeRate));
-        SetCellValue(i, 5, wxString::Format(L"%.2f ", item.gasIncomeRate));
-        SetCellValue(i, 6, wxString::Format(L"%d ", item.workers));
-        SetCellValue(i, 7, wxString::Format(L"%d / %d ", item.supply, item.supplyCap));
+void GridOutput::SetLevel(int level)
+{
+    m_level = level;
+    UpdateGrid();
+}
 
-        wxString name = " " + item.name;
-        if (item.itemType == GridItem::tMilestone)
+void GridOutput::UpdateGrid()
+{
+    
+    size_t rowIndex = 0;
+    for (GridItem item : m_data)
+    {
+        switch (item.level)
         {
-            name += "\n Buildings: " + item.buildingsCompleted;
-            name += "\n Units: " + item.unitsCompleted;
-            name += "\n Research: " + item.researchCompleted;
+            case GridItem::lFull:
+                if (m_level < 2) break;
+            case GridItem::lDetailed:
+                if (m_level < 1) break;
+            default:
+                if (rowIndex >= GetNumberRows()) InsertRows(rowIndex, 1);
+                AddRow(rowIndex, item);
+                rowIndex++;
         }
-        SetCellValue(i, 8, name);
-
-        SetCellAlignment(i, 8, wxALIGN_LEFT, wxALIGN_CENTER);
-        SetRowSize(i, GetDefaultRowSize() * (item.itemType == GridItem::tMilestone ? 4 : 1));
-
-        i++;
     }
 
+    if (GetNumberRows() > rowIndex)
+    {
+        DeleteRows(rowIndex, GetNumberRows() - rowIndex);
+    }
+
+}
+
+void GridOutput::AddRow(size_t rowIndex, GridItem item)
+{
+    SetCellValue(rowIndex, 0, wxString::Format(L"%2d:%05.2f ", (int)(item.time / 60) - 60 * (int)(item.time / 3600), item.time - 60 * (int)(item.time / 60)));
+    SetCellValue(rowIndex, 1, wxString::Format(L"%d ", item.minerals));
+    SetCellValue(rowIndex, 2, wxString::Format(L"%d ", item.gas));
+    SetCellValue(rowIndex, 3, wxString::Format(L"%d ", item.larvae));
+    SetCellValue(rowIndex, 4, wxString::Format(L"%.2f ", item.mineralIncomeRate));
+    SetCellValue(rowIndex, 5, wxString::Format(L"%.2f ", item.gasIncomeRate));
+    SetCellValue(rowIndex, 6, wxString::Format(L"%d ", item.workers));
+    SetCellValue(rowIndex, 7, wxString::Format(L"%d / %d ", item.supply, item.supplyCap));
+
+    wxString name = " " + item.name;
+    if (item.itemType == GridItem::tMilestone)
+    {
+        name += "\n Buildings: " + item.buildingsCompleted;
+        name += "\n Units: " + item.unitsCompleted;
+        name += "\n Research: " + item.researchCompleted;
+    }
+    SetCellValue(rowIndex, 8, name);
+
+    SetCellAlignment(rowIndex, 8, wxALIGN_LEFT, wxALIGN_CENTER);
+    SetRowSize(rowIndex, GetDefaultRowSize() * (item.itemType == GridItem::tMilestone ? 4 : 1));
 }

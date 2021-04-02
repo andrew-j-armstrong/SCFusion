@@ -11,4 +11,13 @@ public:
 	GridOutput(wxWindow* parent, wxWindowID id);
 
 	void SetData(vector<GridItem> data);
+
+	void SetLevel(int level);
+
+private:
+	int m_level;
+	vector<GridItem> m_data;
+
+	void UpdateGrid();
+	void AddRow(size_t i, GridItem item);
 };

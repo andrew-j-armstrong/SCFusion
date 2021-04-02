@@ -47,62 +47,6 @@ protected:
 	wxString m_output;
 };
 
-class CSC2OutputSimple : public CSC2Output
-{
-public:
-	CSC2OutputSimple() : m_lastCommandWaitDuration(0.0) {}
-	~CSC2OutputSimple() {}
-
-	void ProcessCommand(const CSC2Command *command, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessEvent(const CSC2Event &event, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-
-	void Reset() { m_output.clear(); m_lastCommandWaitDuration = 0.0; }
-
-	void GetOutput(wxString &output) const override { output = m_output; }
-
-protected:
-	wxString m_output;
-	wxString m_lastSummary;
-	double m_lastCommandWaitDuration;
-};
-
-class CSC2OutputDetailed : public CSC2Output
-{
-public:
-	CSC2OutputDetailed() {}
-	~CSC2OutputDetailed() {}
-
-	void ProcessCommand(const CSC2Command *command, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessEvent(const CSC2Event &event, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-
-	void Reset() { m_output.clear(); }
-
-	void GetOutput(wxString &output) const override { output = m_output; }
-
-protected:
-	wxString m_output;
-};
-
-class CSC2OutputFull : public CSC2Output
-{
-public:
-	CSC2OutputFull() {}
-	~CSC2OutputFull() {}
-
-	void ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state) override;
-	void ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state) override;
-
-	void Reset() { m_output.clear(); }
-
-	void GetOutput(wxString& output) const override { output = m_output; }
-
-protected:
-	wxString m_output;
-};
-
 class CSC2OutputVisual : public CSC2Output
 {
 public:

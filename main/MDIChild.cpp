@@ -40,6 +40,7 @@
 #define wxID_OUTPUT						(wxID_HIGHEST + 11)
 #define wxID_COMPLETIONLIKELIHOOD		(wxID_HIGHEST + 12)
 #define wxID_EXPORT_SVG					(wxID_HIGHEST + 13)
+#define wxID_LEVEL						(wxID_HIGHEST + 14)
 
 unsigned MyChild::ms_numChildren = 0;
 
@@ -99,6 +100,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_listVillages(NULL)
 	, m_staticText1(NULL)
 	, m_choiceOutput(NULL)
+	, m_choiceLevel(NULL)
 	, m_txtOutput(NULL)
 	, m_visualOutput(NULL)
 	, m_gridOutput(NULL)
@@ -110,6 +112,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_txtMaxAPM(NULL)
 	, m_modified(false)
 	, m_buildOrderNumber(++ms_numChildren)
+	, m_gridOptionsSizer(NULL)
 {
 	wxIcon icon(xpmIcon);
 	SetIcon(icon);
@@ -254,40 +257,53 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 
 	wxBoxSizer *bSizer4 = new wxBoxSizer(wxVERTICAL);
 
-	wxBoxSizer *bSizer41 = new wxBoxSizer(wxHORIZONTAL);
+	m_outputControlsSizer = new wxBoxSizer(wxHORIZONTAL);
 
 	m_btnStart = new wxButton(this, wxID_APPLY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer41->Add(m_btnStart, 0, wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_btnStart, 0, wxALL, CONTROL_BORDER);
 
 	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
 	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY | wxTE_RIGHT);
-	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
-	bSizer41->AddSpacer(12);
+	m_outputControlsSizer->AddSpacer(12);
 	m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("Output Format:"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText1->Wrap(-1);
-	bSizer41->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
 	wxArrayString arrOutputChoices;
 	arrOutputChoices.Add(wxT("Minimal"));
-	arrOutputChoices.Add(wxT("Simple"));
-	arrOutputChoices.Add(wxT("Detailed"));
-	arrOutputChoices.Add(wxT("Full"));
-	arrOutputChoices.Add(wxT("Plain Gantt"));
-	arrOutputChoices.Add(wxT("Colorful Gantt"));
-	arrOutputChoices.Add(wxT("Detailed Grid"));
+	arrOutputChoices.Add(wxT("Grid"));
+	arrOutputChoices.Add(wxT("Chart"));
 	m_choiceOutput = new wxChoice(this, wxID_OUTPUTFORMAT, wxDefaultPosition, wxDefaultSize, arrOutputChoices, 0);
 	m_choiceOutput->SetSelection(1);
-	bSizer41->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->AddSpacer(12);
+
+	m_gridOptionsSizer = new wxBoxSizer(wxHORIZONTAL);
+
+	wxStaticText* levelText = new wxStaticText(this, wxID_ANY, wxT("Grid Level:"), wxDefaultPosition, wxDefaultSize, 0);
+	levelText->Wrap(-1);
+	m_gridOptionsSizer->Add(levelText, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+
+	wxArrayString arrLevelChoices;
+	arrLevelChoices.Add(wxT("Simple"));
+	arrLevelChoices.Add(wxT("Detailed"));
+	arrLevelChoices.Add(wxT("Full"));
+	m_choiceLevel = new wxChoice(this, wxID_LEVEL, wxDefaultPosition, wxDefaultSize, arrLevelChoices, 0);
+	m_choiceLevel->SetSelection(0);
+	m_gridOptionsSizer->Add(m_choiceLevel, 0, wxALL, CONTROL_BORDER);
+
+	m_outputControlsSizer->Add(m_gridOptionsSizer, 0, wxEXPAND, 0);
 
 	m_btnExportSVG = new wxButton(this, wxID_EXPORT_SVG, wxT("Export SVG"), wxDefaultPosition, wxDefaultSize, 0);
 	m_btnExportSVG->Hide();
-	bSizer41->Add(m_btnExportSVG, 0, wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_btnExportSVG, 0, wxALL, CONTROL_BORDER);
 
 	bSizer4->AddSpacer(6);
-	bSizer4->Add(bSizer41, 0, wxEXPAND, 0);
+	bSizer4->Add(m_outputControlsSizer, 0, wxEXPAND, 0);
 
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
@@ -388,6 +404,9 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	Connect(wxID_OUTPUTFORMAT, wxEVT_COMMAND_CHOICE_SELECTED, 
 		wxCommandEventHandler(MyChild::UpdateOutputFormat));
 
+	Connect(wxID_LEVEL, wxEVT_COMMAND_CHOICE_SELECTED,
+		wxCommandEventHandler(MyChild::UpdateOutputLevel));
+
 	Connect(wxID_INITIALBUILDORDER_CHOICE, wxEVT_COMMAND_CHOICE_SELECTED, 
 		wxCommandEventHandler(MyChild::UpdateInitialBuildOrder));
 
@@ -400,6 +419,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 
 	UpdateScoutingCheckboxes();
 	UpdateOutputFormat();
+	UpdateOutputLevel();
 	UpdateTitle();
 	Maximize();
 	m_btnStart->SetFocus();
@@ -477,62 +497,56 @@ void MyChild::UpdateScoutingCheckboxes()
 	}
 }
 
-void MyChild::UpdateOutputFormat(wxCommandEvent &event)
+void MyChild::UpdateOutputFormat(wxCommandEvent& event)
 {
 	UpdateOutputFormat();
 }
 
 void MyChild::UpdateOutputFormat()
 {
-	if(m_engine)
+	if (m_engine)
 	{
-		m_btnExportSVG->Hide();
+		m_txtOutput->Hide();
 		m_gridOutput->Hide();
-		switch(m_choiceOutput->GetCurrentSelection())
+		m_visualOutput->Hide();
+		m_btnExportSVG->Hide();
+		m_outputControlsSizer->Hide(m_gridOptionsSizer);
+		switch (m_choiceOutput->GetCurrentSelection())
 		{
 		case 0:
 			m_engine->SetOutput(new CSC2OutputMinimal());
-			m_visualOutput->Hide();
 			m_txtOutput->Show();
 			break;
 		case 1:
-			m_engine->SetOutput(new CSC2OutputSimple());
-			m_visualOutput->Hide();
-			m_txtOutput->Show();
+			m_engine->SetOutput(new CSC2OutputGrid());
+			m_gridOutput->Show();
+			m_gridOutput->SetLevel(m_choiceLevel->GetCurrentSelection());
+			m_outputControlsSizer->Show(m_gridOptionsSizer);
 			break;
 		case 2:
-			m_engine->SetOutput(new CSC2OutputDetailed());
-			m_visualOutput->Hide();
-			m_txtOutput->Show();
-			break;
-		case 3:
-			m_engine->SetOutput(new CSC2OutputFull());
-			m_visualOutput->Hide();
-			m_txtOutput->Show();
-			break;
-		case 4:
-			m_engine->SetOutput(new CSC2OutputVisual());
-			m_visualOutput->SetPlainOutput();
-			m_visualOutput->Show();
-			m_txtOutput->Hide();
-			m_btnExportSVG->Show();
-			break;
-		case 5:
 			m_engine->SetOutput(new CSC2OutputVisual());
 			m_visualOutput->SetColorfulOutput();
 			m_visualOutput->Show();
-			m_txtOutput->Hide();
 			m_btnExportSVG->Show();
 			break;
-		case 6:
-			m_engine->SetOutput(new CSC2OutputGrid());
-			m_visualOutput->Hide();
-			m_txtOutput->Hide();
-			m_gridOutput->Show();
 		}
 		this->Layout();
 	}
 
+	RefreshOutput();
+}
+
+void MyChild::UpdateOutputLevel(wxCommandEvent& event)
+{
+	UpdateOutputLevel();
+}
+
+void MyChild::UpdateOutputLevel()
+{
+	if (m_engine)
+	{
+		m_gridOutput->SetLevel(m_choiceLevel->GetCurrentSelection());
+	}
 	RefreshOutput();
 }
 
@@ -995,11 +1009,11 @@ void MyChild::OnTimer(wxTimerEvent& event)
 
 void MyChild::RefreshOutput()
 {
-	if (m_choiceOutput->GetCurrentSelection() == 6)
+	if (m_choiceOutput->GetCurrentSelection() == 1)
 	{
 		GetBestGameGridData();
 	}
-	else if (m_choiceOutput->GetCurrentSelection() == 4 || m_choiceOutput->GetCurrentSelection() == 5) {
+	else if (m_choiceOutput->GetCurrentSelection() == 2) {
 		DrawBestGame();
 	}
 	else

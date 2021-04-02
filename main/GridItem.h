@@ -20,16 +20,25 @@ public:
         tMilestone
     };
 
-    GridItem(wxString name, double time, GridItemType itemType)
+    enum GridItemLevel
+    {
+        lSimple,
+        lDetailed,
+        lFull
+    };
+
+    GridItem(wxString name, double time, GridItemType itemType = tDefault, GridItemLevel level = lFull)
     {
         this->name = name;
         this->time = time;
         this->itemType = itemType;
+        this->level = level;
     }
 
     wxString name;
     double time;
     GridItemType itemType;
+    GridItemLevel level;
 
     int minerals;
     int gas;

@@ -56,10 +56,12 @@ private:
 	void RemoveWaypoint(wxCommandEvent & WXUNUSED(event));
 	void Start(wxCommandEvent & WXUNUSED(event));
 	void UpdateOutputFormat(wxCommandEvent & WXUNUSED(event));
+	void UpdateOutputLevel(wxCommandEvent& WXUNUSED(event));
 	void UpdateInitialBuildOrder(wxCommandEvent & WXUNUSED(event));
 
 	void UpdateScoutingCheckboxes();
 	void UpdateOutputFormat();
+	void UpdateOutputLevel();
 
 private:
 	wxString m_fileName;
@@ -80,6 +82,7 @@ private:
 	wxListCtrl* m_listVillages;
 	wxStaticText* m_staticText1;
 	wxChoice* m_choiceOutput;
+	wxChoice* m_choiceLevel;
 	wxTextCtrl* m_txtOutput;
 	VisualPanel* m_visualOutput;
 	GridOutput* m_gridOutput;
@@ -123,6 +126,9 @@ private:
 	void GetBestGameGridData();
 
 private:
+	wxBoxSizer* m_gridOptionsSizer;
+	wxBoxSizer* m_outputControlsSizer;
+
 	void OnActivate(wxActivateEvent& event);
 
 	void OnClose(wxCommandEvent& event);
