@@ -432,7 +432,7 @@ public:
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
 	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
+	bool WillBuildUnit() const { return true; }
 	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
 	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
@@ -714,7 +714,7 @@ public:
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
 	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
+	bool WillBuildUnit() const { return m_buildUnit ? true : false; }
 	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
 	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
@@ -733,6 +733,7 @@ protected:
 	SC2BuildingFlags m_buildingRequirements;
 	SC2UnitFlags m_unitRequirements;
 	SC2ResearchFlags m_researchRequirements;
+	const CSC2Unit* m_buildUnit;
 	
 	std::vector<wxString> m_commandMultiNames;
 	CVector<const CSC2Command *> m_commandMulti;

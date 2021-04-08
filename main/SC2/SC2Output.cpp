@@ -205,7 +205,17 @@ void CSC2OutputVisual::ProcessWaypointComplete(bool succeeded, size_t waypointIn
 
 void CSC2OutputGrid::ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
-	GridItem gridItem = GridItem(command->GetName(), state.m_time, GridItem::tDefault, command->IsAutoCastAbility() ? GridItem::lFull : GridItem::lSimple);
+	
+	GridItem::GridItemType itemType = GridItem::tDefault;
+
+	if (command->IsBuildWorkerCommand()) itemType = GridItem::tWorker;
+	else if (command->WillSpawnBase()) itemType = GridItem::tBase;
+	else if (command->GetProvidedSupply() > 0) itemType = GridItem::tSupply;
+	else if (command->WillBuildGeyserBuilding()) itemType = GridItem::tGas;
+	else if (command->WillBuildBuilding()) itemType = GridItem::tMilitary;
+	else if (command->WillBuildUnit()) itemType = GridItem::tMilitaryUnit;
+
+	GridItem gridItem = GridItem(command->GetName(), state.m_time, itemType, command->IsAutoCastAbility() ? GridItem::lFull : GridItem::lSimple);
 	state.FillData(gridItem);
 
 	m_data.push_back(gridItem);

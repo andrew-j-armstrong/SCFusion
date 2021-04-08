@@ -3465,6 +3465,7 @@ CSC2MultiCommand::CSC2MultiCommand(const CSC2RaceData &raceData)
 	, m_willBuildGasBuilding(false)
 	, m_commandMultiNames()
 	, m_commandMulti()
+	, m_buildUnit(NULL)
 {
 }
 
@@ -3510,6 +3511,8 @@ bool CSC2MultiCommand::LoadXML(const wxXmlNode *xmlCommand)
 			return false;
 		}
 	}
+
+	// m_buildUnit (loop through subcommands to fill this field)
 
 	return true;
 }

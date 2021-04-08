@@ -19,5 +19,5 @@ private:
 	vector<GridItem> m_data;
 
 	void UpdateGrid();
-	void AddRow(size_t i, GridItem item);
+	void DrawRow(size_t i, GridItem item);
 };
