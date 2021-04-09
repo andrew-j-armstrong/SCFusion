@@ -3465,7 +3465,8 @@ CSC2MultiCommand::CSC2MultiCommand(const CSC2RaceData &raceData)
 	, m_willBuildGasBuilding(false)
 	, m_commandMultiNames()
 	, m_commandMulti()
-	, m_buildUnit(NULL)
+	, m_willBuildUnit(false)
+	, m_willBuildWorker(false)
 {
 }
 
@@ -3512,8 +3513,6 @@ bool CSC2MultiCommand::LoadXML(const wxXmlNode *xmlCommand)
 		}
 	}
 
-	// m_buildUnit (loop through subcommands to fill this field)
-
 	return true;
 }
 
@@ -3539,6 +3538,8 @@ bool CSC2MultiCommand::ResolveIDs(const CSC2RaceData &raceData, const CVector<co
 				m_buildingRequirements &= commands[j]->GetBuildingRequirementFlags();
 				m_unitRequirements &= commands[j]->GetUnitRequirementFlags();
 				m_researchRequirements &= commands[j]->GetResearchRequirementFlags();
+				m_willBuildUnit |= commands[j]->WillBuildUnit();
+				m_willBuildWorker |= commands[j]->IsBuildWorkerCommand();
 				if(commands[j]->GetMineralCost() < m_minimumMineralCost)
 					m_minimumMineralCost = commands[j]->GetMineralCost();
 				if(commands[j]->GetGasCost() < m_minimumGasCost)

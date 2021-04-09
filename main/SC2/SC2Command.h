@@ -502,7 +502,7 @@ public:
 
 
 	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
+	bool WillBuildUnit() const { return m_morphSourceUnit ? true : false; }
 	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
 	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
@@ -700,7 +700,7 @@ public:
 	bool RequiresGeyser() const { return false; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return false; }
-	bool IsBuildWorkerCommand() const { return false; }
+	bool IsBuildWorkerCommand() const { return m_willBuildWorker; }
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -714,7 +714,7 @@ public:
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
 	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return m_buildUnit ? true : false; }
+	bool WillBuildUnit() const { return m_willBuildUnit; }
 	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
 	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
@@ -733,7 +733,8 @@ protected:
 	SC2BuildingFlags m_buildingRequirements;
 	SC2UnitFlags m_unitRequirements;
 	SC2ResearchFlags m_researchRequirements;
-	const CSC2Unit* m_buildUnit;
+	bool m_willBuildUnit;
+	bool m_willBuildWorker;
 	
 	std::vector<wxString> m_commandMultiNames;
 	CVector<const CSC2Command *> m_commandMulti;
