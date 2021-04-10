@@ -106,7 +106,7 @@ MyFrame::MyFrame()
 	LoadVersions();
 
 #if wxUSE_TOOLBAR
-	CreateToolBar(wxNO_BORDER | wxTB_FLAT | wxTB_HORIZONTAL);
+	CreateToolBar(wxTB_DEFAULT_STYLE);
 	InitToolBar(GetToolBar());
 #endif // wxUSE_TOOLBAR
 
@@ -512,9 +512,9 @@ void MyFrame::InitToolBar(wxToolBar* toolBar)
 
 	DoVersionSelected();
 
-	toolBar->AddTool(wxID_NEW_PROTOSS, "New Protoss", bitmaps[0], "New Protoss");
-	toolBar->AddTool(wxID_NEW_TERRAN, "New Terran", bitmaps[1], "New Terran");
-	toolBar->AddTool(wxID_NEW_ZERG, "New Zerg", bitmaps[2], "New Zerg");
+	toolBar->AddTool(wxID_NEW_PROTOSS, "New Protoss", bitmaps[0], "New Protoss build order");
+	toolBar->AddTool(wxID_NEW_TERRAN, "New Terran", bitmaps[1], "New Terran build order");
+	toolBar->AddTool(wxID_NEW_ZERG, "New Zerg", bitmaps[2], "New Zerg build order");
 	toolBar->AddTool(wxID_OPEN, "Open", bitmaps[3], "Open file");
 	toolBar->AddTool(wxID_SAVE, "Save", bitmaps[4], "Save file");
 	toolBar->AddSeparator();
