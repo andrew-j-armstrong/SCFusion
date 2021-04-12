@@ -206,13 +206,15 @@ void CSC2OutputVisual::ProcessWaypointComplete(bool succeeded, size_t waypointIn
 void CSC2OutputGrid::ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
 	
-	GridItem::GridItemType itemType = GridItem::tDefault;
+	GridItem::GridItemType itemType = command->IsApplyVisualStatusCommand() ? GridItem::tStatus : GridItem::tDefault;
 
 	if (command->IsBuildWorkerCommand()) itemType = GridItem::tWorker;
+	else if (command->WillBuildUnit() && state.m_raceData.m_units[command->GetBuildUnitTypeID()]->GetMineralIncomeRate() > 0) itemType = GridItem::tWorker;
 	else if (command->WillSpawnBase()) itemType = GridItem::tBase;
+	else if (command->WillBuildBuilding() && state.m_raceData.m_buildings[command->GetBuildBuildingTypeID()]->IsBase()) itemType = GridItem::tBase;
 	else if (command->GetProvidedSupply() > 0) itemType = GridItem::tSupply;
 	else if (command->WillBuildGeyserBuilding()) itemType = GridItem::tGas;
-	else if (command->WillBuildBuilding()) itemType = GridItem::tMilitary;
+	else if (command->WillBuildBuilding() && state.m_raceData.m_buildings[command->GetBuildBuildingTypeID()]->IsVisual()) itemType = GridItem::tMilitary;
 	else if (command->WillBuildUnit()) itemType = GridItem::tMilitaryUnit;
 
 	GridItem gridItem = GridItem(command->GetName(), state.m_time, itemType, command->IsAutoCastAbility() ? GridItem::lFull : GridItem::lSimple);
@@ -297,15 +299,18 @@ void CSC2OutputGrid::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& wa
 	{
 		size_t status = event.m_event.m_data.m_data;
 		size_t statusIndex = 0;
+		gridItem.itemType = GridItem::tDefault;
 		while (status > 0)
 		{
 			if (status & 1)
+			{
 				gridItem.name = wxString::Format(L"(%s: %s lapsed)", state.m_raceData.m_buildings[state.m_allBuildings[event.m_event.m_data.m_sourceID]->buildingTypeID]->GetName(), state.m_raceData.m_buildingStatuses[statusIndex]->GetName());
-
+				if (state.m_raceData.m_buildingStatuses[statusIndex]->IsVisual())
+					gridItem.itemType = GridItem::tStatus;
+			}
 			status >>= 1;
 			statusIndex++;
 		}
-		gridItem.itemType = GridItem::tStatus;
 	}
 	break;
 	case CSC2Event::eBuildingSpawnLarvae:

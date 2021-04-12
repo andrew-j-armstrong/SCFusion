@@ -6,6 +6,7 @@ CSC2Building::CSC2Building()
 	, m_gameStartCount(0)
 	, m_isBase(false)
 	, m_isGeyserBuilding(false)
+	, m_isVisual(true)
 	, m_providedSupply(0)
 	, m_startingEnergy(0.0)
 	, m_maxEnergy(0.0)
@@ -55,10 +56,17 @@ bool CSC2Building::LoadXML(const wxXmlNode *xmlBuilding)
 		}
 		else if (child->GetName() == wxT("IsGeyserBuilding"))
 		{
-			if(content == "True")
+			if (content == "True")
 				m_isGeyserBuilding = true;
 			else
 				m_isGeyserBuilding = false;
+		}
+		else if (child->GetName() == wxT("IsVisual"))
+		{
+			if (content == "False")
+				m_isVisual = false;
+			else
+				m_isVisual = true;
 		}
 		else if (child->GetName() == wxT("StartingEnergy"))
 		{

@@ -1523,6 +1523,22 @@ bool CSC2BuildingAbilityCommand::IsMacroAbility(SC2BuildingFlags buildings, SC2U
 		;
 }
 
+bool CSC2BuildingAbilityCommand::IsApplyVisualStatusCommand() const
+{
+	for (size_t i = 0; i < m_applyTargetBuildingStatusNames.size(); i++)
+	{
+		for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
+		{
+			if (m_applyTargetBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName() && m_raceData.m_buildingStatuses[j]->IsVisual())
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 size_t CSC2BuildingAbilityCommand::GetProvidedSupply() const
 {
 	size_t providedSupply = 0, requiredSupply = 0;
@@ -3643,4 +3659,14 @@ size_t CSC2MultiCommand::GetRequiredSupply() const
 	}
 
 	return minRequiredSupply;
+}
+
+size_t CSC2MultiCommand::GetBuildBuildingTypeID() const
+{
+	return m_commandMulti[0]->GetBuildBuildingTypeID();
+}
+
+size_t CSC2MultiCommand::GetBuildUnitTypeID() const
+{
+	return m_commandMulti[0]->GetBuildUnitTypeID();
 }
