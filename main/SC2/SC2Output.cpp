@@ -216,6 +216,7 @@ void CSC2OutputGrid::ProcessCommand(const CSC2Command* command, const CSC2Waypoi
 	else if (command->WillBuildGeyserBuilding()) itemType = GridItem::tGas;
 	else if (command->WillBuildBuilding() && state.m_raceData.m_buildings[command->GetBuildBuildingTypeID()]->IsVisual()) itemType = GridItem::tMilitary;
 	else if (command->WillBuildUnit()) itemType = GridItem::tMilitaryUnit;
+	else if (command->IsResearchCommand()) itemType = GridItem::tResearch;
 
 	GridItem gridItem = GridItem(command->GetName(), state.m_time, itemType, command->IsAutoCastAbility() ? GridItem::lFull : GridItem::lSimple);
 	state.FillData(gridItem);

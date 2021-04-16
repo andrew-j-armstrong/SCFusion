@@ -29,6 +29,7 @@ public:
 	virtual bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const = 0;
 	virtual bool IsBuildWorkerCommand() const = 0;
 	virtual bool IsApplyVisualStatusCommand() const = 0;
+	virtual bool IsResearchCommand() const { return false; }
 	virtual size_t GetProvidedSupply() const = 0;
 	virtual size_t GetRequiredSupply() const = 0;
 	virtual SC2BuildingFlags GetBuildingRequirementFlags() const = 0;
@@ -592,6 +593,7 @@ public:
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
 	bool IsApplyVisualStatusCommand() const { return false; }
+	bool IsResearchCommand() const { return true; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
 	VisualItem::QueueType GetQueueType() const { return m_queueType; }
