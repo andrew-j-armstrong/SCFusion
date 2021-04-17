@@ -218,7 +218,11 @@ void CSC2OutputGrid::ProcessCommand(const CSC2Command* command, const CSC2Waypoi
 	else if (command->WillBuildUnit()) itemType = GridItem::tMilitaryUnit;
 	else if (command->IsResearchCommand()) itemType = GridItem::tResearch;
 
-	GridItem gridItem = GridItem(command->GetName(), state.m_time, itemType, command->IsAutoCastAbility() ? GridItem::lFull : GridItem::lSimple);
+	GridItem::GridItemLevel level = GridItem::lSimple;
+	if (command->IsAutoCastAbility() || command->IsWaitCommand())
+		level = GridItem::lFull;
+
+	GridItem gridItem = GridItem(command->GetName(), state.m_time, itemType, level);
 	state.FillData(gridItem);
 
 	m_data.push_back(gridItem);
