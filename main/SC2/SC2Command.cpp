@@ -1797,7 +1797,7 @@ CSC2BuildUnitCommand::CSC2BuildUnitCommand(const CSC2RaceData &raceData)
 	, m_buildUnit(NULL)
 	, m_buildUnitCount(1)
 	, m_unitOccupiesBuilding(false)
-	, m_queueType(VisualItem::qSingle)
+	, m_queueType(ChartItem::qSingle)
 {
 }
 
@@ -1871,9 +1871,9 @@ bool CSC2BuildUnitCommand::LoadXML(const wxXmlNode *xmlCommand)
 		else if (child->GetName() == wxT("Queue"))
 		{
 			if (content == "Primary")
-				m_queueType = VisualItem::qDoublePrimary;
+				m_queueType = ChartItem::qDoublePrimary;
 			else if (content == "Secondary")
-				m_queueType = VisualItem::qDoubleSecondary;
+				m_queueType = ChartItem::qDoubleSecondary;
 		}
 		else if (child->GetName() == wxT("MineralCost"))
 		{
@@ -2971,7 +2971,7 @@ CSC2ResearchCommand::CSC2ResearchCommand(const CSC2RaceData &raceData)
 	, m_completeResearchName()
 	, m_completeResearchID(0)
 	, m_completeResearch(NULL)
-	, m_queueType(VisualItem::qSingle)
+	, m_queueType(ChartItem::qSingle)
 {
 }
 
@@ -3032,9 +3032,9 @@ bool CSC2ResearchCommand::LoadXML(const wxXmlNode *xmlCommand)
 		else if (child->GetName() == wxT("Queue"))
 		{
 			if (content == "Primary")
-				m_queueType = VisualItem::qDoublePrimary;
+				m_queueType = ChartItem::qDoublePrimary;
 			else if (content == "Secondary")
-				m_queueType = VisualItem::qDoubleSecondary;
+				m_queueType = ChartItem::qDoubleSecondary;
 		}
 		else if (child->GetName() == wxT("MineralCost"))
 		{

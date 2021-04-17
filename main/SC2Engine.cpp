@@ -420,7 +420,7 @@ CSC2Engine::CSC2Engine(const CSC2Version *version, ESC2Race race, const CSC2Race
 	, m_mutator(m_alphabet, 0.3)
 	, m_maxTime(1200.0)
 	, m_output(NULL)
-	, m_visual_output(new CSC2OutputVisual())
+	, m_chart_output(new CSC2OutputChart())
 	, m_grid_output(new CSC2OutputGrid())
 	, m_commandWaitPoint1Second(raceInfo->GetData(), 0.1)
 	, m_commandWait1Second(raceInfo->GetData(), 1.0)
@@ -595,15 +595,15 @@ void CSC2Engine::GetBestGameGridData(vector<GridItem>& data, wxPropertyGrid* pgR
 
 
 // for charts
-void CSC2Engine::DrawBestGame(vector<vector<VisualItem>>& visualItems, wxPropertyGrid* pgResults) const
+void CSC2Engine::DrawBestGame(vector<vector<ChartItem>>& chartItems, wxPropertyGrid* pgResults) const
 {
-	if (!m_fitnessCalc || !m_visual_output)
+	if (!m_fitnessCalc || !m_chart_output)
 		return;
 
-	m_visual_output->Reset();
+	m_chart_output->Reset();
 
-	CSC2State* state = m_fitnessCalc->PrintGame(*m_visual_output, m_bestGame);
-	m_visual_output->GetVisualItems(visualItems);
+	CSC2State* state = m_fitnessCalc->PrintGame(*m_chart_output, m_bestGame);
+	m_chart_output->GetChartItems(chartItems);
 
 	AddResults(*state, pgResults);
 	delete state;

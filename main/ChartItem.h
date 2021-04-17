@@ -2,11 +2,11 @@
 
 #include <wx/wx.h>
 
-class VisualItem
+class ChartItem
 {
 
 public:
-    enum VisualItemType
+    enum ChartItemType
     {
         tDefault,
         tBase,
@@ -27,7 +27,7 @@ public:
         qDoubleSecondary
     };
 
-    VisualItem(wxString name, double startTime, double endTime, VisualItemType itemType = tDefault, QueueType queueType = qSingle)
+    ChartItem(wxString name, double startTime, double endTime, ChartItemType itemType = tDefault, QueueType queueType = qSingle)
     {
         this->startTime = startTime;
         this->endTime = endTime;
@@ -39,6 +39,6 @@ public:
     wxString name;
     double startTime;
     double endTime;
-    VisualItemType itemType;
+    ChartItemType itemType;
     QueueType queueType;
 };

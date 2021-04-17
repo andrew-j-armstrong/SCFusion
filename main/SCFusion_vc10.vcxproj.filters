@@ -148,7 +148,7 @@
     <ClCompile Include="SC2\SC2BuildingStatus.cpp">
       <Filter>SC2</Filter>
     </ClCompile>
-    <ClCompile Include="VisualPanel.cpp">
+    <ClCompile Include="ChartPanel.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="GridOutput.cpp">
@@ -347,10 +347,10 @@
     <ClInclude Include="SC2\SC2BuildingStatus.h">
       <Filter>SC2</Filter>
     </ClInclude>
-    <ClInclude Include="VisualPanel.h">
+    <ClInclude Include="ChartPanel.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="VisualItem.h">
+    <ClInclude Include="ChartItem.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="GridItem.h">

@@ -4,7 +4,7 @@
 #include "SC2Waypoint.h"
 #include "SC2State.h"
 #include "SC2Event.h"
-#include "VisualItem.h"
+#include "ChartItem.h"
 #include "GridItem.h"
 
 class CSC2Output
@@ -47,11 +47,11 @@ protected:
 	wxString m_output;
 };
 
-class CSC2OutputVisual : public CSC2Output
+class CSC2OutputChart : public CSC2Output
 {
 public:
-	CSC2OutputVisual() {}
-	~CSC2OutputVisual() {}
+	CSC2OutputChart() {}
+	~CSC2OutputChart() {}
 
 	void ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state) override;
 	void ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state) override;
@@ -60,17 +60,17 @@ public:
 	void Reset()
 	{
 		m_output.clear();
-		m_visual_items.clear();
+		m_chart_items.clear();
 	}
 
 	void GetOutput(wxString& output) const override { output = m_output; }
-	void GetVisualItems(vector<vector<VisualItem>>& visualItems) const { visualItems = m_visual_items; }
+	void GetChartItems(vector<vector<ChartItem>>& chartItems) const { chartItems = m_chart_items; }
 
-	void AddVisualItem(size_t buildingId, VisualItem item);
+	void AddChartItem(size_t buildingId, ChartItem item);
 
 protected:
 	wxString m_output;
-	vector<vector<VisualItem>> m_visual_items;
+	vector<vector<ChartItem>> m_chart_items;
 };
 
 class CSC2OutputGrid : public CSC2Output

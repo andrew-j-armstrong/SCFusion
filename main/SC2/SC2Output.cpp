@@ -100,48 +100,48 @@ void CSC2OutputMinimal::ProcessWaypointComplete(bool succeeded, size_t waypointI
 	m_output += '\n';
 }
 
-void CSC2OutputVisual::ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state)
+void CSC2OutputChart::ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
 }
 
-void CSC2OutputVisual::AddVisualItem(size_t buildingId, VisualItem item)
+void CSC2OutputChart::AddChartItem(size_t buildingId, ChartItem item)
 {
-	for (size_t i = m_visual_items.size(); i <= buildingId; i++)
+	for (size_t i = m_chart_items.size(); i <= buildingId; i++)
 	{
-		vector<VisualItem> row;
-		m_visual_items.push_back(row);
+		vector<ChartItem> row;
+		m_chart_items.push_back(row);
 	}
-	m_visual_items[buildingId].push_back(item);
+	m_chart_items[buildingId].push_back(item);
 }
 
-void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state)
+void CSC2OutputChart::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
 	const double startTime = event.m_event.m_data.m_startTime;
 	const double endTime = event.m_time;
 	CSC2Building* building;
 	CSC2Unit* unit;
-	VisualItem::VisualItemType itemType;
+	ChartItem::ChartItemType itemType;
 
 	switch (event.m_event.m_data.m_eventCategory)
 	{
 	case CSC2Event::eBuildingComplete:
 		building = state.m_raceData.m_buildings[event.m_event.m_data.m_targetID];
-		itemType = VisualItem::tMilitary;
-		if (building->IsBase()) itemType = VisualItem::tBase;
-		else if (building->IsGeyserBuilding()) itemType = VisualItem::tGas;
-		else if (building->GetProvidedSupply() > 0) itemType = VisualItem::tSupply;
+		itemType = ChartItem::tMilitary;
+		if (building->IsBase()) itemType = ChartItem::tBase;
+		else if (building->IsGeyserBuilding()) itemType = ChartItem::tGas;
+		else if (building->GetProvidedSupply() > 0) itemType = ChartItem::tSupply;
 
-		AddVisualItem(state.m_allBuildings.size(), VisualItem(building->GetName(), startTime, endTime, itemType));
+		AddChartItem(state.m_allBuildings.size(), ChartItem(building->GetName(), startTime, endTime, itemType));
 		break;
 	case CSC2Event::eUnitComplete:
 		unit = state.m_raceData.m_units[event.m_event.m_data.m_targetID];
-		itemType = VisualItem::tMilitaryUnit;
-		if (unit->IsWorker() || unit->GetMineralIncomeRate() > 0) itemType = VisualItem::tWorker;
-		else if (unit->GetProvidedSupply() > 0) itemType = VisualItem::tSupply;
+		itemType = ChartItem::tMilitaryUnit;
+		if (unit->IsWorker() || unit->GetMineralIncomeRate() > 0) itemType = ChartItem::tWorker;
+		else if (unit->GetProvidedSupply() > 0) itemType = ChartItem::tSupply;
 
-		AddVisualItem(
+		AddChartItem(
 			event.m_event.m_data.m_sourceIsBuilding ? event.m_event.m_data.m_sourceID : 0,
-			VisualItem(
+			ChartItem(
 				unit->GetName(),
 				startTime,
 				endTime,
@@ -151,32 +151,32 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 		);
 		break;
 	case CSC2Event::eResearchComplete:
-		AddVisualItem(
+		AddChartItem(
 			event.m_event.m_data.m_sourceID,
-			VisualItem(
+			ChartItem(
 				state.m_raceData.m_research[event.m_event.m_data.m_targetID]->GetName(),
 				startTime,
 				endTime,
-				VisualItem::tResearch,
+				ChartItem::tResearch,
 				event.m_event.m_data.m_queueType
 			)
 		);
 		break;
 	case CSC2Event::eBuildingMorph:
 		building = state.m_raceData.m_buildings[event.m_event.m_data.m_targetID];
-		itemType = VisualItem::tMilitary;
-		if (building->IsBase()) itemType = VisualItem::tBase;
-		else if (building->IsGeyserBuilding()) itemType = VisualItem::tGas;
-		else if (building->GetProvidedSupply() > 0) itemType = VisualItem::tSupply;
+		itemType = ChartItem::tMilitary;
+		if (building->IsBase()) itemType = ChartItem::tBase;
+		else if (building->IsGeyserBuilding()) itemType = ChartItem::tGas;
+		else if (building->GetProvidedSupply() > 0) itemType = ChartItem::tSupply;
 
-		AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(building->GetName(), startTime, endTime, itemType));
+		AddChartItem(event.m_event.m_data.m_sourceID, ChartItem(building->GetName(), startTime, endTime, itemType));
 		break;
 	case CSC2Event::eUnitMorph:
 		unit = state.m_raceData.m_units[event.m_event.m_data.m_targetID];
-		itemType = VisualItem::tMilitaryUnit;
-		if (unit->IsWorker()) itemType = VisualItem::tWorker;
+		itemType = ChartItem::tMilitaryUnit;
+		if (unit->IsWorker()) itemType = ChartItem::tWorker;
 
-		AddVisualItem(0, VisualItem(unit->GetName(), startTime, endTime, itemType));
+		AddChartItem(0, ChartItem(unit->GetName(), startTime, endTime, itemType));
 		break;
 	case CSC2Event::eBuildingStatusLapse:
 		{
@@ -185,7 +185,7 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 			while (status > 0)
 			{
 				if ((status & 1) && state.m_raceData.m_buildingStatuses[statusIndex]->IsVisual())
-					AddVisualItem(event.m_event.m_data.m_sourceID, VisualItem(state.m_raceData.m_buildingStatuses[statusIndex]->GetName(), startTime, endTime, VisualItem::tStatus));
+					AddChartItem(event.m_event.m_data.m_sourceID, ChartItem(state.m_raceData.m_buildingStatuses[statusIndex]->GetName(), startTime, endTime, ChartItem::tStatus));
 
 				status >>= 1;
 				statusIndex++;
@@ -197,9 +197,9 @@ void CSC2OutputVisual::ProcessEvent(const CSC2Event& event, const CSC2Waypoint& 
 	}
 }
 
-void CSC2OutputVisual::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state)
+void CSC2OutputChart::ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state)
 {
-	AddVisualItem(0, VisualItem("", 0, state.m_time, VisualItem::tMilestone));
+	AddChartItem(0, ChartItem("", 0, state.m_time, ChartItem::tMilestone));
 }
 
 

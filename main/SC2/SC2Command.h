@@ -12,7 +12,7 @@
 #include "SC2Unit.h"
 #include "SC2Research.h"
 #include "SC2RaceData.h"
-#include "VisualItem.h"
+#include "ChartItem.h"
 
 class CSC2Command
 {
@@ -409,7 +409,7 @@ public:
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return m_buildUnit && m_buildUnit->IsWorker(); }
 	bool IsApplyVisualStatusCommand() const { return false; }
-	VisualItem::QueueType GetQueueType() const { return m_queueType; }
+	ChartItem::QueueType GetQueueType() const { return m_queueType; }
 	size_t GetProvidedSupply() const { return m_buildUnit->GetProvidedSupply(); }
 	size_t GetRequiredSupply() const { return m_buildUnit->GetSupplyCost(); }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -460,7 +460,7 @@ protected:
 	size_t m_buildUnitCount;
 	double m_buildUnitCompletionTime;
 	bool m_unitOccupiesBuilding;
-	VisualItem::QueueType m_queueType;
+	ChartItem::QueueType m_queueType;
 };
 
 class CSC2UnitAbilityCommand : public CSC2XMLCommand
@@ -574,7 +574,7 @@ public:
 	bool IsResearchCommand() const { return true; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
-	VisualItem::QueueType GetQueueType() const { return m_queueType; }
+	ChartItem::QueueType GetQueueType() const { return m_queueType; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
 	SC2UnitFlags GetUnitRequirementFlags() const { return (SC2UnitFlags)0; }
 	SC2ResearchFlags GetResearchRequirementFlags() const { return m_researchRequirements; }
@@ -609,7 +609,7 @@ protected:
 	size_t m_applySourceBuildingStatusID;
 	SC2BuildingStatusFlags m_applySourceBuildingStatus;
 	double m_applySourceBuildingStatusDuration;
-	VisualItem::QueueType m_queueType;
+	ChartItem::QueueType m_queueType;
 
 	double m_mineralCost;
 	double m_gasCost;

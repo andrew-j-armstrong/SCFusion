@@ -6,7 +6,7 @@
 
 #include "MDIChild.h"
 #include "MDIParent.h"
-#include "VisualPanel.h"
+#include "ChartPanel.h"
 #include "Core/HashFunction.h"
 #include "AStar/ASEngine.h"
 #include "AStar/ASBuildStateNode.h"
@@ -312,7 +312,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	//m_txtOutput->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT));
 	bSizer10->Add(m_txtOutput, 1, wxEXPAND|wxALL, CONTROL_BORDER);
 
-	m_visualOutput = new VisualPanel(this, wxID_ANY);
+	m_visualOutput = new ChartPanel(this, wxID_ANY);
 	bSizer10->Add(m_visualOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
 	m_visualOutput->Hide();
 
@@ -524,7 +524,7 @@ void MyChild::UpdateOutputFormat()
 			m_outputControlsSizer->Show(m_gridOptionsSizer);
 			break;
 		case 2:
-			m_engine->SetOutput(new CSC2OutputVisual());
+			m_engine->SetOutput(new CSC2OutputChart());
 			m_visualOutput->SetColorfulOutput();
 			m_visualOutput->Show();
 			m_btnExportSVG->Show();
@@ -1056,7 +1056,7 @@ void MyChild::PrintBestGame()
 	}
 }
 
-bool compareRowStartTime(vector<VisualItem> a, vector<VisualItem> b)
+bool compareRowStartTime(vector<ChartItem> a, vector<ChartItem> b)
 {
 	if (a.size() == 0) return false;
 	if (b.size() == 0) return true;
@@ -1065,10 +1065,10 @@ bool compareRowStartTime(vector<VisualItem> a, vector<VisualItem> b)
 
 void MyChild::DrawBestGame()
 {
-	vector<vector<VisualItem>> visualItems;
-	m_engine->DrawBestGame(visualItems, m_pgResult);
-	if (visualItems.size() > 3)	sort(visualItems.begin() + 2, visualItems.end(), compareRowStartTime);
-	m_visualOutput->SetVisualItems(visualItems);
+	vector<vector<ChartItem>> chartItems;
+	m_engine->DrawBestGame(chartItems, m_pgResult);
+	if (chartItems.size() > 3)	sort(chartItems.begin() + 2, chartItems.end(), compareRowStartTime);
+	m_visualOutput->SetChartItems(chartItems);
 }
 
 void MyChild::GetBestGameGridData()

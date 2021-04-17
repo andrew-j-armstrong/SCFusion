@@ -11,7 +11,7 @@
 #include "GA/GAEngine.h"
 #include "SC2Engine.h"
 #include "TimeValidator.h"
-#include "VisualPanel.h"
+#include "ChartPanel.h"
 #include "GridOutput.h"
 
 //template<typename TTarget, typename TState, typename TCommand, typename TEvent>
@@ -84,7 +84,7 @@ private:
 	wxChoice* m_choiceOutput;
 	wxChoice* m_choiceLevel;
 	wxTextCtrl* m_txtOutput;
-	VisualPanel* m_visualOutput;
+	ChartPanel* m_visualOutput;
 	GridOutput* m_gridOutput;
 	wxTimer* m_timer;
 

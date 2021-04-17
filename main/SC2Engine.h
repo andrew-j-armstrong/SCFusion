@@ -87,7 +87,7 @@ public:
 
 	void UpdateBestGame();
 	void PrintBestGame(wxString &output, wxPropertyGrid *pgResults) const;
-	void DrawBestGame(vector<vector<VisualItem>> &visualItems, wxPropertyGrid* pgResults) const;
+	void DrawBestGame(vector<vector<ChartItem>> &chartItems, wxPropertyGrid* pgResults) const;
 	void GetBestGameGridData(vector<GridItem>& data, wxPropertyGrid* pgResults) const;
 
 	static int GetPropertyIndex(const wxString &name);
@@ -126,7 +126,7 @@ protected:
 
 	const CSC2Version *m_version;
 	CSC2Output *m_output;
-	CSC2OutputVisual *m_visual_output;
+	CSC2OutputChart *m_chart_output;
 	CSC2OutputGrid *m_grid_output;
 	const CSC2RaceInfo *m_raceInfo;
 	ESC2Race m_race;
