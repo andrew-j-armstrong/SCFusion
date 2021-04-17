@@ -42,10 +42,10 @@ public:
 	virtual bool WillConsumeSource() const = 0;
 	virtual double GetMorphSourceDuration() const = 0;
 
-	virtual bool WillBuildBuilding() const = 0;
-	virtual bool WillBuildUnit() const = 0;
-	virtual size_t GetBuildBuildingTypeID() const = 0;
-	virtual size_t GetBuildUnitTypeID() const = 0;
+	virtual bool WillBuildBuilding() const { return false; }
+	virtual bool WillBuildUnit() const { return false; }
+	virtual size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
+	virtual size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	virtual bool HasPrerequisits(const CSC2State &state) const = 0;
 	virtual bool HasRequirements(const CSC2State &state) const = 0;
@@ -101,11 +101,6 @@ public:
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
-
 	bool HasPrerequisits(const CSC2State &state) const { return true; }
 	bool HasRequirements(const CSC2State &state) const { return true; }
 	double GetResourceWaitTime(const CSC2State &state) const { return 0.0; }
@@ -157,11 +152,6 @@ public:
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
-
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
 
@@ -209,9 +199,7 @@ public:
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
 	bool WillBuildBuilding() const { return true; }
-	bool WillBuildUnit() const { return false; }
 	size_t GetBuildBuildingTypeID() const { return m_buildBuildingTypeID; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -384,11 +372,6 @@ public:
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
-
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
 
@@ -439,10 +422,8 @@ public:
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
 	bool WillBuildUnit() const { return true; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { return m_buildUnitTypeID; }
+	size_t GetBuildUnitTypeID() const { wxASSERT(m_buildUnit); return m_buildUnitTypeID; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -509,11 +490,8 @@ public:
 	bool WillConsumeSource() const { return false; }
 	double GetMorphSourceDuration() const { return 0.0; }
 
-
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return m_morphSourceUnit ? true : false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
+	bool WillBuildUnit() const { return m_buildUnit || m_morphSourceUnit ? true : false; }
+	size_t GetBuildUnitTypeID() const { wxASSERT(m_buildUnit || m_morphSourceUnit); return m_buildUnit ? m_buildUnitTypeID : m_morphSourceUnitTypeID; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -607,11 +585,6 @@ public:
 	bool WillConsumeSource() const { return false; }
 	double GetMorphSourceDuration() const { return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
-
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
 
@@ -674,11 +647,6 @@ public:
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
-
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
 
@@ -726,8 +694,8 @@ public:
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return m_willBuildUnit; }
+	bool WillBuildBuilding() const;
+	bool WillBuildUnit() const;
 	size_t GetBuildBuildingTypeID() const;
 	size_t GetBuildUnitTypeID() const;
 

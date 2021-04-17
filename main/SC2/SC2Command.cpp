@@ -3661,6 +3661,16 @@ size_t CSC2MultiCommand::GetRequiredSupply() const
 	return minRequiredSupply;
 }
 
+bool CSC2MultiCommand::WillBuildBuilding() const
+{
+	return m_commandMulti[0]->WillBuildBuilding();
+}
+
+bool CSC2MultiCommand::WillBuildUnit() const
+{
+	return m_commandMulti[0]->WillBuildUnit();
+}
+
 size_t CSC2MultiCommand::GetBuildBuildingTypeID() const
 {
 	return m_commandMulti[0]->GetBuildBuildingTypeID();
