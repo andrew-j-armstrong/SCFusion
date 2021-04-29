@@ -51,6 +51,7 @@ private:
 	void OnSave(wxCommandEvent& event);
 	void OnSaveAs(wxCommandEvent& event);
 	void OnExportSVG(wxCommandEvent& event);
+	void OnPrintButtonClicked(wxCommandEvent& event);
 
 	void AddWaypoint(wxCommandEvent & WXUNUSED(event));
 	void RemoveWaypoint(wxCommandEvent & WXUNUSED(event));
@@ -77,6 +78,7 @@ private:
 	wxButton* m_btnRemoveWaypoint;
 	wxButton* m_btnStart;
 	wxButton* m_btnExportSVG;
+	wxButton* m_btnPrint;
 	wxStaticText* m_staticCompletionLikelihood;
 	wxTextCtrl* m_txtCompletionLikelihood;
 	wxListCtrl* m_listVillages;
