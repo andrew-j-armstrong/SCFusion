@@ -53,11 +53,8 @@ bool OutputPrintout::OnPrintPage(int page)
         if (pages == page) endRow = row - 1;
     }
 
-    grid->Render(*dc, wxDefaultPosition, wxDefaultSize,
+    grid->Render(*dc, wxPoint(0, 0), wxDefaultSize,
         wxGridCellCoords(startRow, 0), wxGridCellCoords(endRow, gridColCount - 1));
-
-    /*grid->Render(*dc, wxDefaultPosition, wxDefaultSize,
-        wxGridCellCoords(-1, -1), wxGridCellCoords(-1, -1));*/
 
     return true;
 }

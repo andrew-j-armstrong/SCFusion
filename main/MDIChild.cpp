@@ -1165,7 +1165,7 @@ void MyChild::OnPrintButtonClicked(wxCommandEvent& WXUNUSED(event))
 	}
 
 	wxPreviewFrame* preview_frame =
-		new wxPreviewFrame(preview, m_gridOutput, "Demo Print Preview", wxPoint(0, 0), wxSize(1200, 650));
+		new wxPreviewFrame(preview, m_gridOutput, "Print Preview", wxPoint(0, 0), wxSize(1200, 650));
 	preview_frame->Centre(wxBOTH);
 	preview_frame->InitializeWithModality(wxPreviewFrame_AppModal);
 	preview_frame->Show();
