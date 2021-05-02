@@ -1150,8 +1150,8 @@ void MyChild::OnPrintButtonClicked(wxCommandEvent& WXUNUSED(event))
 	(*g_pageSetupData) = *g_printData;
 
 	// Set some initial page margins in mm.
-	g_pageSetupData->SetMarginTopLeft(wxPoint(30, 30));
-	g_pageSetupData->SetMarginBottomRight(wxPoint(30, 30));
+	g_pageSetupData->SetMarginTopLeft(wxPoint(300, 300));
+	g_pageSetupData->SetMarginBottomRight(wxPoint(300, 300));
 
 
 	// Pass two printout objects: for preview, and possible printing.

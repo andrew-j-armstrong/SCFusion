@@ -36,14 +36,14 @@ GridOutput::GridOutput(wxWindow* parent, wxWindowID id) :
 const std::map<GridItem::GridItemType, wxColor> COLORFUL = {
    {GridItem::tDefault, wxColor(255, 255, 255)},
    {GridItem::tMilestone, wxColor(255, 255, 255)},
-   {GridItem::tBase, wxColor(153, 204, 255)},
-   {GridItem::tGas, wxColor(153, 204, 153)},
-   {GridItem::tSupply, wxColor(255, 204, 153)},
-   {GridItem::tStatus, wxColor(102, 229, 204)},
-   {GridItem::tMilitary, wxColor(255, 153, 153)},
-   {GridItem::tMilitaryUnit, wxColor(255, 204, 204)},
-   {GridItem::tWorker, wxColor(204, 229, 255)},
-   {GridItem::tResearch, wxColor(229, 204, 255)},
+   {GridItem::tBase, wxColor(204, 229, 255)},
+   {GridItem::tGas, wxColor(204, 229, 204)},
+   {GridItem::tSupply, wxColor(255, 255, 204)},
+   {GridItem::tStatus, wxColor(255, 255, 255)},
+   {GridItem::tMilitary, wxColor(255, 204, 204)},
+   {GridItem::tMilitaryUnit, wxColor(255, 229, 229)},
+   {GridItem::tWorker, wxColor(229, 242, 255)},
+   {GridItem::tResearch, wxColor(255, 229, 255)},
 };
 
 void GridOutput::SetData(vector<GridItem> data)
