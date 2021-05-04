@@ -2,7 +2,9 @@
 #include "GridItem.h"
 #include <map>
 
+
 #define ID_CONTEXT_MENU 	2000
+// checkbox ID's must follow; accessed as ID_CONTEXT_MENU + i
 #define ID_COL_MINERALS		2001
 #define ID_COL_GAS		    2002
 #define ID_COL_LARVAE		2003
@@ -10,6 +12,9 @@
 #define ID_COL_GAS_RATE	    2005
 #define ID_COL_WORKERS		2006
 #define ID_COL_SUPPLY		2007
+
+#define ID_COL_ALL	    	2008
+#define ID_COL_NONE		    2009
 
 BEGIN_EVENT_TABLE(GridOutput, wxGrid)
     EVT_CONTEXT_MENU(GridOutput::OnRightClick)
@@ -49,6 +54,10 @@ GridOutput::GridOutput(wxWindow* parent, wxWindowID id, bool hasLarvae) :
     m_menu->Check(ID_COL_WORKERS, m_visible_cols[6]);
     m_menu->AppendCheckItem(ID_COL_SUPPLY, "Supply");
     m_menu->Check(ID_COL_SUPPLY, m_visible_cols[7]);
+    m_menu->AppendSeparator();
+    m_menu->Append(ID_COL_ALL, "All columns");
+    m_menu->Append(ID_COL_NONE, "No optional columns");
+
     m_menu->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GridOutput::OnMenuItemClick), NULL, this);
 
 }
@@ -142,25 +151,45 @@ void GridOutput::OnMenuItemClick(wxCommandEvent& evt)
 {
     switch (evt.GetId()) {
     case ID_COL_MINERALS:
-        m_visible_cols[1] = !m_visible_cols[1];
+        m_visible_cols[1] = m_menu->IsChecked(ID_COL_MINERALS);
         break;
     case ID_COL_GAS:
-        m_visible_cols[2] = !m_visible_cols[2];
+        m_visible_cols[2] = m_menu->IsChecked(ID_COL_GAS);
         break;
     case ID_COL_LARVAE:
-        m_visible_cols[3] = !m_visible_cols[3];
+        m_visible_cols[3] = m_menu->IsChecked(ID_COL_LARVAE);
         break;
     case ID_COL_MINERAL_RATE:
-        m_visible_cols[4] = !m_visible_cols[4];
+        m_visible_cols[4] = m_menu->IsChecked(ID_COL_MINERAL_RATE);
         break;
     case ID_COL_GAS_RATE:
-        m_visible_cols[5] = !m_visible_cols[5];
+        m_visible_cols[5] = m_menu->IsChecked(ID_COL_GAS_RATE);
         break;
     case ID_COL_WORKERS:
-        m_visible_cols[6] = !m_visible_cols[6];
+        m_visible_cols[6] = m_menu->IsChecked(ID_COL_WORKERS);
         break;
     case ID_COL_SUPPLY:
-        m_visible_cols[7] = !m_visible_cols[7];
+        m_visible_cols[7] = m_menu->IsChecked(ID_COL_SUPPLY);
+        break;
+    case ID_COL_ALL:
+        for (size_t i = 0; i < 9; i++)
+        {
+            if (!m_disabled_cols[i])
+            {
+                m_visible_cols[i] = true;
+                m_menu->Check(ID_CONTEXT_MENU + i, true);
+            }
+        }
+        break;
+    case ID_COL_NONE:
+        for (size_t i = 0; i < 9; i++)
+        {
+            if (!m_disabled_cols[i])
+            {
+                m_visible_cols[i] = false;
+                m_menu->Check(ID_CONTEXT_MENU + i, false);
+            }
+        }
         break;
     }
 
