@@ -2,10 +2,26 @@
 #include "GridItem.h"
 #include <map>
 
-GridOutput::GridOutput(wxWindow* parent, wxWindowID id) :
+#define ID_CONTEXT_MENU 	2000
+#define ID_COL_MINERALS		2001
+#define ID_COL_GAS		    2002
+#define ID_COL_LARVAE		2003
+#define ID_COL_MINERAL_RATE	2004
+#define ID_COL_GAS_RATE	    2005
+#define ID_COL_WORKERS		2006
+#define ID_COL_SUPPLY		2007
+
+BEGIN_EVENT_TABLE(GridOutput, wxGrid)
+    EVT_CONTEXT_MENU(GridOutput::OnRightClick)
+END_EVENT_TABLE()
+
+GridOutput::GridOutput(wxWindow* parent, wxWindowID id, bool hasLarvae) :
     wxGrid(parent, id, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME)
     , m_level(0)
 {
+    m_visible_cols[3] = hasLarvae;
+    m_disabled_cols[3] = !hasLarvae;
+
     CreateGrid(0, 9);
     EnableEditing(false);
     DisableDragRowSize();
@@ -13,24 +29,28 @@ GridOutput::GridOutput(wxWindow* parent, wxWindowID id) :
     SetDefaultCellAlignment(wxALIGN_RIGHT, wxALIGN_CENTRE);
     SetDoubleBuffered(true);
 
-    SetColLabelValue(0, "Time");
-    SetColSize(0, 55);
-    SetColLabelValue(1, "Minerals");
-    SetColSize(1, 60);
-    SetColLabelValue(2, "Gas");
-    SetColSize(2, 60);
-    SetColLabelValue(3, "Larvae");
-    SetColSize(3, 60);
-    SetColLabelValue(4, "Mineral Rate");
-    SetColSize(4, 80);
-    SetColLabelValue(5, "Gas Rate");
-    SetColSize(5, 60);
-    SetColLabelValue(6, "Workers");
-    SetColSize(6, 60);
-    SetColLabelValue(7, "Supply");
-    SetColSize(7, 60);
-    SetColLabelValue(8, "Command / Event / Milestone");
-    SetColSize(8, 700);
+    SetGridColumns();
+
+    m_menu = new wxMenu();
+    m_menu->AppendCheckItem(ID_COL_MINERALS, "Minerals");
+    m_menu->Check(ID_COL_MINERALS, m_visible_cols[1]);
+    m_menu->AppendCheckItem(ID_COL_GAS, "Gas");
+    m_menu->Check(ID_COL_GAS, m_visible_cols[2]);
+    if (!m_disabled_cols[3])
+    {
+        m_menu->AppendCheckItem(ID_COL_LARVAE, "Larvae");
+        m_menu->Check(ID_COL_LARVAE, m_visible_cols[3]);
+    }
+    m_menu->AppendCheckItem(ID_COL_MINERAL_RATE, "Mineral Rate");
+    m_menu->Check(ID_COL_MINERAL_RATE, m_visible_cols[4]);
+    m_menu->AppendCheckItem(ID_COL_GAS_RATE, "Gas Rate");
+    m_menu->Check(ID_COL_GAS_RATE, m_visible_cols[5]);
+    m_menu->AppendCheckItem(ID_COL_WORKERS, "Workers");
+    m_menu->Check(ID_COL_WORKERS, m_visible_cols[6]);
+    m_menu->AppendCheckItem(ID_COL_SUPPLY, "Supply");
+    m_menu->Check(ID_COL_SUPPLY, m_visible_cols[7]);
+    m_menu->Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GridOutput::OnMenuItemClick), NULL, this);
+
 }
 
 const std::map<GridItem::GridItemType, wxColor> COLORFUL = {
@@ -45,6 +65,107 @@ const std::map<GridItem::GridItemType, wxColor> COLORFUL = {
    {GridItem::tWorker, wxColor(204, 229, 255)},
    {GridItem::tResearch, wxColor(229, 204, 255)},
 };
+
+void GridOutput::SetGridColumns()
+{
+    int targetColCount = 0;
+    for (int i = 0; i < 9; i++)
+    {
+        if (m_visible_cols[i]) targetColCount++;
+    }
+
+    if (GetNumberCols() > targetColCount)
+        DeleteCols(0, GetNumberCols() - targetColCount);
+    else if (GetNumberCols() < targetColCount)
+        AppendCols(targetColCount - GetNumberCols());
+
+
+    SetColLabelValue(0, "Time");
+    SetColSize(0, 55);
+
+    int colIndex = 1;
+    if (m_visible_cols[1])
+    {
+        SetColLabelValue(colIndex, "Minerals");
+        SetColSize(colIndex, 60);
+        colIndex++;
+    }
+    if (m_visible_cols[2])
+    {
+        SetColLabelValue(colIndex, "Gas");
+        SetColSize(colIndex, 60);
+        colIndex++;
+    }
+    if (m_visible_cols[3])
+    {
+        SetColLabelValue(colIndex, "Larvae");
+        SetColSize(colIndex, 60);
+        colIndex++;
+    }
+    if (m_visible_cols[4])
+    {
+        SetColLabelValue(colIndex, "Mineral Rate");
+        SetColSize(colIndex, 80);
+        colIndex++;
+    }
+    if (m_visible_cols[5])
+    {
+        SetColLabelValue(colIndex, "Gas Rate");
+        SetColSize(colIndex, 60);
+        colIndex++;
+    }
+    if (m_visible_cols[6])
+    {
+        SetColLabelValue(colIndex, "Workers");
+        SetColSize(colIndex, 60);
+        colIndex++;
+    }
+    if (m_visible_cols[7])
+    {
+        SetColLabelValue(colIndex, "Supply");
+        SetColSize(colIndex, 60);
+        colIndex++;
+    }
+
+    SetColLabelValue(colIndex, "Command / Event / Milestone");
+    SetColSize(colIndex, 600);
+
+    UpdateGrid();
+}
+
+void GridOutput::OnRightClick(wxContextMenuEvent&)
+{
+    PopupMenu(m_menu);
+}
+
+void GridOutput::OnMenuItemClick(wxCommandEvent& evt)
+{
+    switch (evt.GetId()) {
+    case ID_COL_MINERALS:
+        m_visible_cols[1] = !m_visible_cols[1];
+        break;
+    case ID_COL_GAS:
+        m_visible_cols[2] = !m_visible_cols[2];
+        break;
+    case ID_COL_LARVAE:
+        m_visible_cols[3] = !m_visible_cols[3];
+        break;
+    case ID_COL_MINERAL_RATE:
+        m_visible_cols[4] = !m_visible_cols[4];
+        break;
+    case ID_COL_GAS_RATE:
+        m_visible_cols[5] = !m_visible_cols[5];
+        break;
+    case ID_COL_WORKERS:
+        m_visible_cols[6] = !m_visible_cols[6];
+        break;
+    case ID_COL_SUPPLY:
+        m_visible_cols[7] = !m_visible_cols[7];
+        break;
+    }
+
+    SetGridColumns();
+}
 
 void GridOutput::SetData(vector<GridItem> data)
 {
@@ -88,13 +209,51 @@ void GridOutput::DrawRow(size_t rowIndex, GridItem item)
     if (rowIndex >= (size_t)GetNumberRows()) InsertRows(rowIndex, 1);
 
     SetCellValue(rowIndex, 0, wxString::Format(L"%2d:%05.2f ", (int)(item.time / 60) - 60 * (int)(item.time / 3600), item.time - 60 * (int)(item.time / 60)));
-    SetCellValue(rowIndex, 1, wxString::Format(L"%d ", item.minerals));
-    SetCellValue(rowIndex, 2, wxString::Format(L"%d ", item.gas));
-    SetCellValue(rowIndex, 3, wxString::Format(L"%d ", item.larvae));
-    SetCellValue(rowIndex, 4, wxString::Format(L"%.2f ", item.mineralIncomeRate));
-    SetCellValue(rowIndex, 5, wxString::Format(L"%.2f ", item.gasIncomeRate));
-    SetCellValue(rowIndex, 6, wxString::Format(L"%d ", item.workers));
-    SetCellValue(rowIndex, 7, wxString::Format(L"%d / %d ", item.supply, item.supplyCap));
+    SetCellBackgroundColour(rowIndex, 0, COLORFUL.at(item.itemType));
+
+    int colIndex = 1;
+    if (m_visible_cols[1])
+    {
+        SetCellValue(rowIndex, colIndex, wxString::Format(L"%d ", item.minerals));
+        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        colIndex++;
+    }
+    if (m_visible_cols[2])
+    {
+        SetCellValue(rowIndex, colIndex, wxString::Format(L"%d ", item.gas));
+        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        colIndex++;
+    }
+    if (m_visible_cols[3])
+    {
+        SetCellValue(rowIndex, colIndex, wxString::Format(L"%d ", item.larvae));
+        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        colIndex++;
+    }
+    if (m_visible_cols[4])
+    {
+        SetCellValue(rowIndex, colIndex, wxString::Format(L"%.2f ", item.mineralIncomeRate));
+        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        colIndex++;
+    }
+    if (m_visible_cols[5])
+    {
+        SetCellValue(rowIndex, colIndex, wxString::Format(L"%.2f ", item.gasIncomeRate));
+        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        colIndex++;
+    }
+    if (m_visible_cols[6])
+    {
+        SetCellValue(rowIndex, colIndex, wxString::Format(L"%d ", item.workers));
+        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        colIndex++;
+    }
+    if (m_visible_cols[7])
+    {
+        SetCellValue(rowIndex, colIndex, wxString::Format(L"%d / %d ", item.supply, item.supplyCap));
+        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        colIndex++;
+    }
 
     wxString name = " " + item.name;
     if (item.itemType == GridItem::tMilestone)
@@ -103,14 +262,9 @@ void GridOutput::DrawRow(size_t rowIndex, GridItem item)
         name += "\n Units: " + item.unitsCompleted;
         name += "\n Research: " + item.researchCompleted;
     }
-    SetCellValue(rowIndex, 8, name);
+    SetCellValue(rowIndex, colIndex, name);
+    SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
 
-    SetCellAlignment(rowIndex, 8, wxALIGN_LEFT, wxALIGN_CENTER);
+    SetCellAlignment(rowIndex, colIndex, wxALIGN_LEFT, wxALIGN_CENTER);
     SetRowSize(rowIndex, GetDefaultRowSize() * (item.itemType == GridItem::tMilestone ? 4 : 1));
-
-    for (size_t i = 0; i <= 8; i++)
-    {
-       SetCellBackgroundColour(rowIndex, i, COLORFUL.at(item.itemType));
-    }
-    
 }

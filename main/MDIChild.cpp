@@ -316,7 +316,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	bSizer10->Add(m_visualOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
 	m_visualOutput->Hide();
 
-	m_gridOutput = new GridOutput(this, wxID_ANY);
+	m_gridOutput = new GridOutput(this, wxID_ANY, m_engine->GetRaceInfo()->GetData().m_hasLarvae);
 	bSizer10->Add(m_gridOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
 	m_gridOutput->Hide();
 
