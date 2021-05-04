@@ -201,6 +201,7 @@
     <ClCompile Include="SC2\SC2Version.cpp" />
     <ClCompile Include="SC2\TargetMinMax.cpp" />
     <ClCompile Include="ChartPanel.cpp" />
+    <ClCompile Include="OutputPrintout.cpp" />
     <ClCompile Include="TimeTextCtrl.cpp" />
     <ClCompile Include="TimeValidator.cpp" />
   </ItemGroup>
@@ -246,6 +247,7 @@
     <ClInclude Include="ChartItem.h" />
     <ClInclude Include="MDIChild.h" />
     <ClInclude Include="MDIParent.h" />
+    <ClInclude Include="OutputPrintout.h" />
     <ClInclude Include="RaceChoiceDlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SC2Engine.h" />

@@ -1,12 +1,14 @@
 #include "stdafx.h"
 
 #include <wx/xml/xml.h>
+#include <wx/print.h>
 
 #include "bitmaps/save.xpm"
 
 #include "MDIChild.h"
 #include "MDIParent.h"
 #include "ChartPanel.h"
+#include "OutputPrintout.h"
 #include "Core/HashFunction.h"
 #include "AStar/ASEngine.h"
 #include "AStar/ASBuildStateNode.h"
@@ -41,6 +43,7 @@
 #define wxID_COMPLETIONLIKELIHOOD		(wxID_HIGHEST + 12)
 #define wxID_EXPORT_SVG					(wxID_HIGHEST + 13)
 #define wxID_LEVEL						(wxID_HIGHEST + 14)
+#define wxID_PRINT	    				(wxID_HIGHEST + 15)
 
 unsigned MyChild::ms_numChildren = 0;
 
@@ -55,6 +58,7 @@ BEGIN_EVENT_TABLE(MyChild, wxMDIChildFrame)
 	EVT_MENU(wxID_SAVE, MyChild::OnSave)
 	EVT_MENU(wxID_SAVEAS, MyChild::OnSaveAs)
 	EVT_MENU(wxID_EXPORT_SVG, MyChild::OnExportSVG)
+	EVT_MENU(wxID_PRINT, MyChild::OnPrintButtonClicked)
 
 	EVT_SIZE(MyChild::OnSize)
 	EVT_MOVE(MyChild::OnMove)
@@ -95,6 +99,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_btnRemoveWaypoint(NULL)
 	, m_btnStart(NULL)
 	, m_btnExportSVG(NULL)
+	, m_btnPrint(NULL)
 	, m_staticCompletionLikelihood(NULL)
 	, m_txtCompletionLikelihood(NULL)
 	, m_listVillages(NULL)
@@ -305,6 +310,10 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	bSizer4->AddSpacer(6);
 	bSizer4->Add(m_outputControlsSizer, 0, wxEXPAND, 0);
 
+	bSizer4->AddSpacer(6);
+	m_btnPrint = new wxButton(this, wxID_PRINT, wxT("Print"), wxDefaultPosition, wxDefaultSize, 0);
+	bSizer4->Add(m_btnPrint, 0, wxALL, CONTROL_BORDER);
+
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
 	m_txtOutput = new wxTextCtrl(this, wxID_OUTPUT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxHSCROLL|wxTE_RICH2|wxTE_AUTO_URL);
@@ -412,6 +421,9 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 
 	Connect(wxID_EXPORT_SVG, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(MyChild::OnExportSVG));
+
+	Connect(wxID_PRINT, wxEVT_COMMAND_BUTTON_CLICKED,
+		wxCommandEventHandler(MyChild::OnPrintButtonClicked));
 
 	m_txtMaxTime->Connect(wxEVT_KILL_FOCUS, wxCommandEventHandler(MyChild::OnMaxTime), 0, this);
 	m_txtScoutingWorkerTime->Connect(wxEVT_KILL_FOCUS, wxCommandEventHandler(MyChild::OnScoutingWorkerTime), 0, this);
@@ -1125,6 +1137,40 @@ bool MyChild::DoSaveAs()
 
 	return true;
 }
+
+void MyChild::OnPrintButtonClicked(wxCommandEvent& WXUNUSED(event))
+{
+	wxPrintData* g_printData = NULL;
+	wxPageSetupDialogData* g_pageSetupData = NULL;
+
+	g_printData = new wxPrintData;
+	g_pageSetupData = new wxPageSetupDialogData;
+
+	// copy over initial paper size from print record
+	(*g_pageSetupData) = *g_printData;
+
+	// Set some initial page margins in mm.
+	g_pageSetupData->SetMarginTopLeft(wxPoint(300, 300));
+	g_pageSetupData->SetMarginBottomRight(wxPoint(300, 300));
+
+
+	// Pass two printout objects: for preview, and possible printing.
+	wxPrintDialogData printDialogData(*g_printData);
+	wxPrintPreview* preview =
+		new wxPrintPreview(new OutputPrintout(m_gridOutput), new OutputPrintout(m_gridOutput), &printDialogData);
+	if (!preview->IsOk()) {
+		delete preview;
+		wxLogError("There was a problem previewing.\nPerhaps your current printer is not set correctly?");
+		return;
+	}
+
+	wxPreviewFrame* preview_frame =
+		new wxPreviewFrame(preview, m_gridOutput, "Print Preview", wxPoint(0, 0), wxSize(1200, 650));
+	preview_frame->Centre(wxBOTH);
+	preview_frame->InitializeWithModality(wxPreviewFrame_AppModal);
+	preview_frame->Show();
+}
+
 
 void MyChild::OnExportSVG(wxCommandEvent& WXUNUSED(event))
 {
