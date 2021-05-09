@@ -307,12 +307,12 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_btnExportSVG->Hide();
 	m_outputControlsSizer->Add(m_btnExportSVG, 0, wxALL, CONTROL_BORDER);
 
-	bSizer4->AddSpacer(6);
-	bSizer4->Add(m_outputControlsSizer, 0, wxEXPAND, 0);
+	m_btnPrint = new wxButton(this, wxID_PRINT, wxT("Print"), wxDefaultPosition, wxDefaultSize, 0);
+	m_btnPrint->Hide();
+	m_outputControlsSizer->Add(m_btnPrint, 0, wxALL, CONTROL_BORDER);
 
 	bSizer4->AddSpacer(6);
-	m_btnPrint = new wxButton(this, wxID_PRINT, wxT("Print"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer4->Add(m_btnPrint, 0, wxALL, CONTROL_BORDER);
+	bSizer4->Add(m_outputControlsSizer, 0, wxEXPAND, 0);
 
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
@@ -522,6 +522,7 @@ void MyChild::UpdateOutputFormat()
 		m_gridOutput->Hide();
 		m_visualOutput->Hide();
 		m_btnExportSVG->Hide();
+		m_btnPrint->Hide();
 		m_outputControlsSizer->Hide(m_gridOptionsSizer);
 		switch (m_choiceOutput->GetCurrentSelection())
 		{
@@ -534,6 +535,7 @@ void MyChild::UpdateOutputFormat()
 			m_gridOutput->Show();
 			m_gridOutput->SetLevel(m_choiceLevel->GetCurrentSelection());
 			m_outputControlsSizer->Show(m_gridOptionsSizer);
+			m_btnPrint->Show();
 			break;
 		case 2:
 			m_engine->SetOutput(new CSC2OutputChart());
