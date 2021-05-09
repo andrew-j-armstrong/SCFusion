@@ -32,8 +32,10 @@ bool OutputPrintout::OnPrintPage(int page)
         gridHeight += rowSizes.GetSize(i);
     }
 
-    float scale = (float)pageWidth / (float)gridWidth;
-    int gridViewHeight = (int)((float)pageHeight / scale);
+    float scale = 1;
+    if (gridWidth > 0) scale = (float)pageWidth / (float)gridWidth;
+    int gridViewHeight = 1200;
+    if (scale > 0) gridViewHeight = (int)((float)pageHeight / scale);
 
     int startRow = 0;
     int endRow = 0;
@@ -114,7 +116,8 @@ int OutputPrintout::GetPageCount()
 void OutputPrintout::GetPageInfo(int* minPage, int* maxPage, int* selPageFrom, int* selPageTo)
 {
     int pages = GetPageCount();
-    
+    if (pages < 1) pages = 1;
+
     *minPage = 1;
     *maxPage = pages;
     *selPageFrom = 1;
