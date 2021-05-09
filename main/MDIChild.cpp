@@ -309,6 +309,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 
 	m_btnPrint = new wxButton(this, wxID_PRINT, wxT("Print"), wxDefaultPosition, wxDefaultSize, 0);
 	m_btnPrint->Hide();
+	m_btnPrint->Disable();
 	m_outputControlsSizer->Add(m_btnPrint, 0, wxALL, CONTROL_BORDER);
 
 	bSizer4->AddSpacer(6);
@@ -536,6 +537,7 @@ void MyChild::UpdateOutputFormat()
 			m_gridOutput->SetLevel(m_choiceLevel->GetCurrentSelection());
 			m_outputControlsSizer->Show(m_gridOptionsSizer);
 			m_btnPrint->Show();
+			m_btnPrint->Enable(m_gridOutput->GetNumberRows() > 0);
 			break;
 		case 2:
 			m_engine->SetOutput(new CSC2OutputChart());
@@ -1090,6 +1092,7 @@ void MyChild::GetBestGameGridData()
 	vector<GridItem> data;
 	m_engine->GetBestGameGridData(data, m_pgResult);
 	m_gridOutput->SetData(data);
+	m_btnPrint->Enable(m_gridOutput->GetNumberRows() > 0);
 }
 
 void MyChild::OnSave(wxCommandEvent& WXUNUSED(event))
