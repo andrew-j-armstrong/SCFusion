@@ -1,12 +1,14 @@
 #include "stdafx.h"
 
 #include <wx/xml/xml.h>
+#include <wx/print.h>
 
 #include "bitmaps/save.xpm"
 
 #include "MDIChild.h"
 #include "MDIParent.h"
-#include "VisualPanel.h"
+#include "ChartPanel.h"
+#include "OutputPrintout.h"
 #include "Core/HashFunction.h"
 #include "AStar/ASEngine.h"
 #include "AStar/ASBuildStateNode.h"
@@ -40,6 +42,8 @@
 #define wxID_OUTPUT						(wxID_HIGHEST + 11)
 #define wxID_COMPLETIONLIKELIHOOD		(wxID_HIGHEST + 12)
 #define wxID_EXPORT_SVG					(wxID_HIGHEST + 13)
+#define wxID_LEVEL						(wxID_HIGHEST + 14)
+#define wxID_PRINT	    				(wxID_HIGHEST + 15)
 
 unsigned MyChild::ms_numChildren = 0;
 
@@ -54,6 +58,7 @@ BEGIN_EVENT_TABLE(MyChild, wxMDIChildFrame)
 	EVT_MENU(wxID_SAVE, MyChild::OnSave)
 	EVT_MENU(wxID_SAVEAS, MyChild::OnSaveAs)
 	EVT_MENU(wxID_EXPORT_SVG, MyChild::OnExportSVG)
+	EVT_MENU(wxID_PRINT, MyChild::OnPrintButtonClicked)
 
 	EVT_SIZE(MyChild::OnSize)
 	EVT_MOVE(MyChild::OnMove)
@@ -94,13 +99,16 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_btnRemoveWaypoint(NULL)
 	, m_btnStart(NULL)
 	, m_btnExportSVG(NULL)
+	, m_btnPrint(NULL)
 	, m_staticCompletionLikelihood(NULL)
 	, m_txtCompletionLikelihood(NULL)
 	, m_listVillages(NULL)
 	, m_staticText1(NULL)
 	, m_choiceOutput(NULL)
+	, m_choiceLevel(NULL)
 	, m_txtOutput(NULL)
 	, m_visualOutput(NULL)
+	, m_gridOutput(NULL)
 	, m_txtMaxTime(NULL)
 	, m_choiceInitialBuildOrder(NULL)
 	, m_txtInitialBuildOrder(NULL)
@@ -109,6 +117,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	, m_txtMaxAPM(NULL)
 	, m_modified(false)
 	, m_buildOrderNumber(++ms_numChildren)
+	, m_gridOptionsSizer(NULL)
 {
 	wxIcon icon(xpmIcon);
 	SetIcon(icon);
@@ -253,39 +262,58 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 
 	wxBoxSizer *bSizer4 = new wxBoxSizer(wxVERTICAL);
 
-	wxBoxSizer *bSizer41 = new wxBoxSizer(wxHORIZONTAL);
+	m_outputControlsSizer = new wxBoxSizer(wxHORIZONTAL);
 
 	m_btnStart = new wxButton(this, wxID_APPLY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer41->Add(m_btnStart, 0, wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_btnStart, 0, wxALL, CONTROL_BORDER);
 
 	m_staticCompletionLikelihood = new wxStaticText(this, wxID_ANY, wxT("Completion Likelihood:"), wxDefaultPosition, wxDefaultSize, 0);
-	bSizer41->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_staticCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
 	m_txtCompletionLikelihood = new wxTextCtrl(this, wxID_COMPLETIONLIKELIHOOD, wxT("0.00 %"), wxDefaultPosition, wxSize(60, -1), wxTE_READONLY | wxTE_RIGHT);
-	bSizer41->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_txtCompletionLikelihood, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
-	bSizer41->AddSpacer(12);
+	m_outputControlsSizer->AddSpacer(12);
 	m_staticText1 = new wxStaticText(this, wxID_ANY, wxT("Output Format:"), wxDefaultPosition, wxDefaultSize, 0);
 	m_staticText1->Wrap(-1);
-	bSizer41->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_staticText1, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
 
 	wxArrayString arrOutputChoices;
 	arrOutputChoices.Add(wxT("Minimal"));
-	arrOutputChoices.Add(wxT("Simple"));
-	arrOutputChoices.Add(wxT("Detailed"));
-	arrOutputChoices.Add(wxT("Full"));
-	arrOutputChoices.Add(wxT("Plain Gantt"));
-	arrOutputChoices.Add(wxT("Colorful Gantt"));
+	arrOutputChoices.Add(wxT("Grid"));
+	arrOutputChoices.Add(wxT("Chart"));
 	m_choiceOutput = new wxChoice(this, wxID_OUTPUTFORMAT, wxDefaultPosition, wxDefaultSize, arrOutputChoices, 0);
 	m_choiceOutput->SetSelection(1);
-	bSizer41->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_choiceOutput, 0, wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->AddSpacer(12);
+
+	m_gridOptionsSizer = new wxBoxSizer(wxHORIZONTAL);
+
+	wxStaticText* levelText = new wxStaticText(this, wxID_ANY, wxT("Grid Level:"), wxDefaultPosition, wxDefaultSize, 0);
+	levelText->Wrap(-1);
+	m_gridOptionsSizer->Add(levelText, 0, wxALIGN_CENTER_VERTICAL | wxALL, CONTROL_BORDER);
+
+	wxArrayString arrLevelChoices;
+	arrLevelChoices.Add(wxT("Simple"));
+	arrLevelChoices.Add(wxT("Detailed"));
+	arrLevelChoices.Add(wxT("Full"));
+	m_choiceLevel = new wxChoice(this, wxID_LEVEL, wxDefaultPosition, wxDefaultSize, arrLevelChoices, 0);
+	m_choiceLevel->SetSelection(0);
+	m_gridOptionsSizer->Add(m_choiceLevel, 0, wxALL, CONTROL_BORDER);
+
+	m_outputControlsSizer->Add(m_gridOptionsSizer, 0, wxEXPAND, 0);
 
 	m_btnExportSVG = new wxButton(this, wxID_EXPORT_SVG, wxT("Export SVG"), wxDefaultPosition, wxDefaultSize, 0);
 	m_btnExportSVG->Hide();
-	bSizer41->Add(m_btnExportSVG, 0, wxALL, CONTROL_BORDER);
+	m_outputControlsSizer->Add(m_btnExportSVG, 0, wxALL, CONTROL_BORDER);
+
+	m_btnPrint = new wxButton(this, wxID_PRINT, wxT("Print"), wxDefaultPosition, wxDefaultSize, 0);
+	m_btnPrint->Hide();
+	m_btnPrint->Disable();
+	m_outputControlsSizer->Add(m_btnPrint, 0, wxALL, CONTROL_BORDER);
 
 	bSizer4->AddSpacer(6);
-	bSizer4->Add(bSizer41, 0, wxEXPAND, 0);
+	bSizer4->Add(m_outputControlsSizer, 0, wxEXPAND, 0);
 
 	wxBoxSizer *bSizer10 = new wxBoxSizer(wxHORIZONTAL);
 
@@ -294,9 +322,13 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	//m_txtOutput->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DLIGHT));
 	bSizer10->Add(m_txtOutput, 1, wxEXPAND|wxALL, CONTROL_BORDER);
 
-	m_visualOutput = new VisualPanel(this, wxID_ANY);
+	m_visualOutput = new ChartPanel(this, wxID_ANY);
 	bSizer10->Add(m_visualOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
 	m_visualOutput->Hide();
+
+	m_gridOutput = new GridOutput(this, wxID_ANY, m_engine->GetRaceInfo()->GetData().m_hasLarvae);
+	bSizer10->Add(m_gridOutput, 1, wxEXPAND | wxALL, CONTROL_BORDER);
+	m_gridOutput->Hide();
 
 	m_pgResult = new wxPropertyGrid(this, -1, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED | wxPG_LIMITED_EDITING);
 	m_pgResult->SetMinSize(wxSize(230,-1));
@@ -382,11 +414,17 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	Connect(wxID_OUTPUTFORMAT, wxEVT_COMMAND_CHOICE_SELECTED, 
 		wxCommandEventHandler(MyChild::UpdateOutputFormat));
 
+	Connect(wxID_LEVEL, wxEVT_COMMAND_CHOICE_SELECTED,
+		wxCommandEventHandler(MyChild::UpdateOutputLevel));
+
 	Connect(wxID_INITIALBUILDORDER_CHOICE, wxEVT_COMMAND_CHOICE_SELECTED, 
 		wxCommandEventHandler(MyChild::UpdateInitialBuildOrder));
 
 	Connect(wxID_EXPORT_SVG, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(MyChild::OnExportSVG));
+
+	Connect(wxID_PRINT, wxEVT_COMMAND_BUTTON_CLICKED,
+		wxCommandEventHandler(MyChild::OnPrintButtonClicked));
 
 	m_txtMaxTime->Connect(wxEVT_KILL_FOCUS, wxCommandEventHandler(MyChild::OnMaxTime), 0, this);
 	m_txtScoutingWorkerTime->Connect(wxEVT_KILL_FOCUS, wxCommandEventHandler(MyChild::OnScoutingWorkerTime), 0, this);
@@ -394,6 +432,7 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 
 	UpdateScoutingCheckboxes();
 	UpdateOutputFormat();
+	UpdateOutputLevel();
 	UpdateTitle();
 	Maximize();
 	m_btnStart->SetFocus();
@@ -471,56 +510,59 @@ void MyChild::UpdateScoutingCheckboxes()
 	}
 }
 
-void MyChild::UpdateOutputFormat(wxCommandEvent &event)
+void MyChild::UpdateOutputFormat(wxCommandEvent& event)
 {
 	UpdateOutputFormat();
 }
 
 void MyChild::UpdateOutputFormat()
 {
-	if(m_engine)
+	if (m_engine)
 	{
+		m_txtOutput->Hide();
+		m_gridOutput->Hide();
+		m_visualOutput->Hide();
 		m_btnExportSVG->Hide();
-		switch(m_choiceOutput->GetCurrentSelection())
+		m_btnPrint->Hide();
+		m_outputControlsSizer->Hide(m_gridOptionsSizer);
+		switch (m_choiceOutput->GetCurrentSelection())
 		{
 		case 0:
 			m_engine->SetOutput(new CSC2OutputMinimal());
-			m_visualOutput->Hide();
 			m_txtOutput->Show();
 			break;
 		case 1:
-			m_engine->SetOutput(new CSC2OutputSimple());
-			m_visualOutput->Hide();
-			m_txtOutput->Show();
+			m_engine->SetOutput(new CSC2OutputGrid());
+			m_gridOutput->Show();
+			m_gridOutput->SetLevel(m_choiceLevel->GetCurrentSelection());
+			m_outputControlsSizer->Show(m_gridOptionsSizer);
+			m_btnPrint->Show();
+			m_btnPrint->Enable(m_gridOutput->GetNumberRows() > 0);
 			break;
 		case 2:
-			m_engine->SetOutput(new CSC2OutputDetailed());
-			m_visualOutput->Hide();
-			m_txtOutput->Show();
-			break;
-		case 3:
-			m_engine->SetOutput(new CSC2OutputFull());
-			m_visualOutput->Hide();
-			m_txtOutput->Show();
-			break;
-		case 4:
-			m_engine->SetOutput(new CSC2OutputVisual());
-			m_visualOutput->SetPlainOutput();
-			m_visualOutput->Show();
-			m_txtOutput->Hide();
-			m_btnExportSVG->Show();
-			break;
-		case 5:
-			m_engine->SetOutput(new CSC2OutputVisual());
+			m_engine->SetOutput(new CSC2OutputChart());
 			m_visualOutput->SetColorfulOutput();
 			m_visualOutput->Show();
-			m_txtOutput->Hide();
 			m_btnExportSVG->Show();
 			break;
 		}
 		this->Layout();
 	}
 
+	RefreshOutput();
+}
+
+void MyChild::UpdateOutputLevel(wxCommandEvent& event)
+{
+	UpdateOutputLevel();
+}
+
+void MyChild::UpdateOutputLevel()
+{
+	if (m_engine)
+	{
+		m_gridOutput->SetLevel(m_choiceLevel->GetCurrentSelection());
+	}
 	RefreshOutput();
 }
 
@@ -983,7 +1025,11 @@ void MyChild::OnTimer(wxTimerEvent& event)
 
 void MyChild::RefreshOutput()
 {
-	if (m_choiceOutput->GetCurrentSelection() == 4 || m_choiceOutput->GetCurrentSelection() == 5) {
+	if (m_choiceOutput->GetCurrentSelection() == 1)
+	{
+		GetBestGameGridData();
+	}
+	else if (m_choiceOutput->GetCurrentSelection() == 2) {
 		DrawBestGame();
 	}
 	else
@@ -1026,7 +1072,7 @@ void MyChild::PrintBestGame()
 	}
 }
 
-bool compareRowStartTime(vector<VisualItem> a, vector<VisualItem> b)
+bool compareRowStartTime(vector<ChartItem> a, vector<ChartItem> b)
 {
 	if (a.size() == 0) return false;
 	if (b.size() == 0) return true;
@@ -1035,11 +1081,18 @@ bool compareRowStartTime(vector<VisualItem> a, vector<VisualItem> b)
 
 void MyChild::DrawBestGame()
 {
-	vector<vector<VisualItem>> visualItems;
-	m_engine->DrawBestGame(visualItems, m_pgResult);
-	if (visualItems.size() > 3)	sort(visualItems.begin() + 2, visualItems.end(), compareRowStartTime);
-	m_visualOutput->SetVisualItems(visualItems);
-	m_visualOutput->Refresh();
+	vector<vector<ChartItem>> chartItems;
+	m_engine->DrawBestGame(chartItems, m_pgResult);
+	if (chartItems.size() > 3)	sort(chartItems.begin() + 2, chartItems.end(), compareRowStartTime);
+	m_visualOutput->SetChartItems(chartItems);
+}
+
+void MyChild::GetBestGameGridData()
+{
+	vector<GridItem> data;
+	m_engine->GetBestGameGridData(data, m_pgResult);
+	m_gridOutput->SetData(data);
+	m_btnPrint->Enable(m_gridOutput->GetNumberRows() > 0);
 }
 
 void MyChild::OnSave(wxCommandEvent& WXUNUSED(event))
@@ -1089,6 +1142,40 @@ bool MyChild::DoSaveAs()
 
 	return true;
 }
+
+void MyChild::OnPrintButtonClicked(wxCommandEvent& WXUNUSED(event))
+{
+	wxPrintData* g_printData = NULL;
+	wxPageSetupDialogData* g_pageSetupData = NULL;
+
+	g_printData = new wxPrintData;
+	g_pageSetupData = new wxPageSetupDialogData;
+
+	// copy over initial paper size from print record
+	(*g_pageSetupData) = *g_printData;
+
+	// Set some initial page margins in mm.
+	g_pageSetupData->SetMarginTopLeft(wxPoint(300, 300));
+	g_pageSetupData->SetMarginBottomRight(wxPoint(300, 300));
+
+
+	// Pass two printout objects: for preview, and possible printing.
+	wxPrintDialogData printDialogData(*g_printData);
+	wxPrintPreview* preview =
+		new wxPrintPreview(new OutputPrintout(m_gridOutput), new OutputPrintout(m_gridOutput), &printDialogData);
+	if (!preview->IsOk()) {
+		delete preview;
+		wxLogError("There was a problem previewing.\nPerhaps your current printer is not set correctly?");
+		return;
+	}
+
+	wxPreviewFrame* preview_frame =
+		new wxPreviewFrame(preview, m_gridOutput, "Print Preview", wxPoint(0, 0), wxSize(1200, 650));
+	preview_frame->Centre(wxBOTH);
+	preview_frame->InitializeWithModality(wxPreviewFrame_AppModal);
+	preview_frame->Show();
+}
+
 
 void MyChild::OnExportSVG(wxCommandEvent& WXUNUSED(event))
 {

@@ -3598,6 +3598,7 @@
         <Building>
           <Name>Creep Tumor</Name>
           <InitialStatus time="11">Busy</InitialStatus>
+          <IsVisual>False</IsVisual>
         </Building>
       </Buildings>
       <Units>

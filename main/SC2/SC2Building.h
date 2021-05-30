@@ -18,6 +18,7 @@ public:
 	size_t GetGameStartCount() const { return m_gameStartCount; }
 	bool IsBase() const { return m_isBase; }
 	bool IsGeyserBuilding() const { return m_isGeyserBuilding; }
+	bool IsVisual() const { return m_isVisual; }
 	size_t GetProvidedSupply() const { return m_providedSupply; }
 	double GetStartingEnergy() const { return m_startingEnergy; }
 	double GetMaxEnergy() const { return m_maxEnergy; }
@@ -43,6 +44,7 @@ protected:
 	size_t m_gameStartCount;
 	bool m_isBase;
 	bool m_isGeyserBuilding;
+	bool m_isVisual;
 	size_t m_providedSupply;
 	double m_startingEnergy;
 	double m_maxEnergy;

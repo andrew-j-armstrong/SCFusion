@@ -1,11 +1,11 @@
-#include "VisualPanel.h"
+#include "ChartPanel.h"
 #include <map>
 #include <wx/dcsvg.h>
 
-BEGIN_EVENT_TABLE(VisualPanel, wxScrolledWindow)
+BEGIN_EVENT_TABLE(ChartPanel, wxScrolledWindow)
 END_EVENT_TABLE()
 
-VisualPanel::VisualPanel(wxFrame* parent, wxWindowID id) :
+ChartPanel::ChartPanel(wxFrame* parent, wxWindowID id) :
     wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME)
 {
     SetBackgroundColour(wxColour(255, 255, 255));
@@ -23,53 +23,53 @@ const int STATUS_HEIGHT = 5;
 const int DOUBLE_QUEUE_ITEM_HEIGHT = ROW_HEIGHT / 2;
 const int doubleQueueMarginCorrection = (ITEM_HEIGHT - ROW_HEIGHT) / 2;
 
-const std::map<VisualItem::VisualItemType, wxColor> COLORFUL = {
-   {VisualItem::tDefault, wxColor(204, 204, 204)},
-   {VisualItem::tBase, wxColor(153, 204, 255)},
-   {VisualItem::tGas, wxColor(153, 204, 153)},
-   {VisualItem::tSupply, wxColor(255, 204, 153)},
-   {VisualItem::tStatus, wxColor(102, 229, 204)},
-   {VisualItem::tMilitary, wxColor(255, 153, 153)},
-   {VisualItem::tMilitaryUnit, wxColor(255, 204, 204)},
-   {VisualItem::tWorker, wxColor(204, 229, 255)},
-   {VisualItem::tResearch, wxColor(229, 204, 255)},
+const std::map<ChartItem::ChartItemType, wxColor> COLORFUL = {
+   {ChartItem::tDefault, wxColor(204, 204, 204)},
+   {ChartItem::tBase, wxColor(153, 204, 255)},
+   {ChartItem::tGas, wxColor(153, 204, 153)},
+   {ChartItem::tSupply, wxColor(255, 204, 153)},
+   {ChartItem::tStatus, wxColor(102, 229, 204)},
+   {ChartItem::tMilitary, wxColor(255, 153, 153)},
+   {ChartItem::tMilitaryUnit, wxColor(255, 204, 204)},
+   {ChartItem::tWorker, wxColor(204, 229, 255)},
+   {ChartItem::tResearch, wxColor(229, 204, 255)},
 };
 
-const std::map<VisualItem::VisualItemType, wxColor> PLAIN = {
-   {VisualItem::tDefault, wxColor(153, 204, 255)},
-   {VisualItem::tBase, wxColor(153, 204, 255)},
-   {VisualItem::tGas, wxColor(153, 204, 255)},
-   {VisualItem::tSupply, wxColor(153, 204, 255)},
-   {VisualItem::tStatus, wxColor(153, 204, 255)},
-   {VisualItem::tMilitary, wxColor(153, 204, 255)},
-   {VisualItem::tMilitaryUnit, wxColor(153, 204, 255)},
-   {VisualItem::tWorker, wxColor(153, 204, 255)},
-   {VisualItem::tResearch, wxColor(153, 204, 255)},
+const std::map<ChartItem::ChartItemType, wxColor> PLAIN = {
+   {ChartItem::tDefault, wxColor(153, 204, 255)},
+   {ChartItem::tBase, wxColor(153, 204, 255)},
+   {ChartItem::tGas, wxColor(153, 204, 255)},
+   {ChartItem::tSupply, wxColor(153, 204, 255)},
+   {ChartItem::tStatus, wxColor(153, 204, 255)},
+   {ChartItem::tMilitary, wxColor(153, 204, 255)},
+   {ChartItem::tMilitaryUnit, wxColor(153, 204, 255)},
+   {ChartItem::tWorker, wxColor(153, 204, 255)},
+   {ChartItem::tResearch, wxColor(153, 204, 255)},
 };
 
-bool compareStartTime(VisualItem a, VisualItem b)
+bool compareStartTime(ChartItem a, ChartItem b)
 {
     return a.startTime < b.startTime;
 }
 
 // store data needed for redraws
-void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
+void ChartPanel::SetChartItems(vector<vector<ChartItem>> chartItems)
 {
     int maxEndTime = 0;
 
     // split stray items (not occupying a building) on multiple rows to avoid overlapping
-    m_stray_visual_items.clear();
+    m_stray_chart_items.clear();
     m_milestones.clear();
-    if (visualItems.size() > 0)
+    if (chartItems.size() > 0)
     {
-        vector<VisualItem> strayRow = visualItems[0];
+        vector<ChartItem> strayRow = chartItems[0];
         sort(strayRow.begin(), strayRow.end(), compareStartTime);
         for (size_t i = 0; i < strayRow.size(); i++)
         {
             // track max endTime
             if (strayRow[i].endTime > maxEndTime) maxEndTime = strayRow[i].endTime;
 
-            if (strayRow[i].itemType == VisualItem::tMilestone)
+            if (strayRow[i].itemType == ChartItem::tMilestone)
             {
                 m_milestones.push_back(strayRow[i]);
             }
@@ -77,15 +77,15 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
             {
                 bool fitted = false;
                 size_t n = 0;
-                while (!fitted && n < m_stray_visual_items.size())
+                while (!fitted && n < m_stray_chart_items.size())
                 {
-                    if (m_stray_visual_items[n].back().endTime > strayRow[i].startTime || m_stray_visual_items[n].back().startTime + 10 > strayRow[i].startTime)
+                    if (m_stray_chart_items[n].back().endTime > strayRow[i].startTime || m_stray_chart_items[n].back().startTime + 10 > strayRow[i].startTime)
                     {
                         n++;
                     }
                     else
                     {
-                        m_stray_visual_items[n].push_back(strayRow[i]);
+                        m_stray_chart_items[n].push_back(strayRow[i]);
                         fitted = true;
                     }
                 }
@@ -93,42 +93,43 @@ void VisualPanel::SetVisualItems(vector<vector<VisualItem>> visualItems)
                 if (!fitted)
                 {
                     // add new row for stray item
-                    vector<VisualItem> row;
+                    vector<ChartItem> row;
                     row.push_back(strayRow[i]);
-                    m_stray_visual_items.push_back(row);
+                    m_stray_chart_items.push_back(row);
                 }
             }
         }
 
-        visualItems[0].clear();
+        chartItems[0].clear();
     }
 
-    m_visual_items = visualItems;
-    m_height = (m_visual_items.size() + m_stray_visual_items.size()) * ROW_HEIGHT + 30;
+    m_chart_items = chartItems;
+    m_height = (m_chart_items.size() + m_stray_chart_items.size()) * ROW_HEIGHT + 30;
     
-    for (size_t i = 0; i < m_visual_items.size(); i++)
+    for (size_t i = 0; i < m_chart_items.size(); i++)
     {
-        if (m_visual_items[i].size() && m_visual_items[i].back().endTime > maxEndTime) maxEndTime = m_visual_items[i].back().endTime;
+        if (m_chart_items[i].size() && m_chart_items[i].back().endTime > maxEndTime) maxEndTime = m_chart_items[i].back().endTime;
     }
     m_width = (maxEndTime + 3) * PIXELS_PER_SECOND;
 
     wxPoint scrolled = GetViewStart();
     SetScrollbars(10, 10, (int)m_width/10, (int)m_height/10, scrolled.x, scrolled.y);
+    Refresh();
 }
 
-wxColor VisualPanel::GetBrushColorByType(VisualItem::VisualItemType itemType)
+wxColor ChartPanel::GetBrushColorByType(ChartItem::ChartItemType itemType)
 {
     return m_colorful ? COLORFUL.at(itemType) : PLAIN.at(itemType);
 }
 
-bool VisualPanel::ExportSVG(wxString filename)
+bool ChartPanel::ExportSVG(wxString filename)
 {
     wxSVGFileDC svgDC(filename, m_width, m_height);
     OnDraw(svgDC);
     return svgDC.IsOk();
 }
 
-void VisualPanel::OnDraw(wxDC& dc)
+void ChartPanel::OnDraw(wxDC& dc)
 {
     // Draw grid
     dc.SetPen(wxPen(wxColor(230, 230, 230), 1));
@@ -161,9 +162,9 @@ void VisualPanel::OnDraw(wxDC& dc)
     dc.SetTextForeground(wxColor(0, 0, 0));
 
     // Draw stray items first
-    for (size_t i = 0; i < m_stray_visual_items.size(); i++)
+    for (size_t i = 0; i < m_stray_chart_items.size(); i++)
     {
-        for (auto item : m_stray_visual_items[i])
+        for (auto item : m_stray_chart_items[i])
         {
             dc.SetBrush(GetBrushColorByType(item.itemType));
             dc.DrawRectangle(
@@ -177,13 +178,13 @@ void VisualPanel::OnDraw(wxDC& dc)
     }
 
     // Draw items from buildings
-    for (size_t i = 0; i < m_visual_items.size(); i++)
+    for (size_t i = 0; i < m_chart_items.size(); i++)
     {
-        size_t offset = i + m_stray_visual_items.size() - 1;
-        for (auto item : m_visual_items[i])
+        size_t offset = i + m_stray_chart_items.size() - 1;
+        for (auto item : m_chart_items[i])
         {
             dc.SetBrush(GetBrushColorByType(item.itemType));
-            if (item.itemType == VisualItem::tStatus)
+            if (item.itemType == ChartItem::tStatus)
             {
                 dc.DrawRectangle(
                     item.startTime * PIXELS_PER_SECOND,
@@ -194,7 +195,7 @@ void VisualPanel::OnDraw(wxDC& dc)
             }
             else
             {
-                if (item.queueType == VisualItem::qSingle)
+                if (item.queueType == ChartItem::qSingle)
                 {
                     dc.DrawRectangle(
                         item.startTime * PIXELS_PER_SECOND,
@@ -208,26 +209,26 @@ void VisualPanel::OnDraw(wxDC& dc)
                 {
                     dc.DrawRectangle(
                         item.startTime * PIXELS_PER_SECOND,
-                        offset * ROW_HEIGHT + OFFSET_TOP + (item.queueType == VisualItem::qDoublePrimary ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection,
+                        offset * ROW_HEIGHT + OFFSET_TOP + (item.queueType == ChartItem::qDoublePrimary ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection,
                         (item.endTime - item.startTime) * PIXELS_PER_SECOND - 1,
                         DOUBLE_QUEUE_ITEM_HEIGHT - 1
                     );
                     dc.DrawText(
                         item.name,
                         item.startTime * PIXELS_PER_SECOND + LABEL_OFFSET_LEFT,
-                        offset * ROW_HEIGHT + OFFSET_TOP + (item.queueType == VisualItem::qDoublePrimary ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection - 1);
+                        offset * ROW_HEIGHT + OFFSET_TOP + (item.queueType == ChartItem::qDoublePrimary ? 0 : DOUBLE_QUEUE_ITEM_HEIGHT) + doubleQueueMarginCorrection - 1);
                 }
             }
         }
     }
 }
 
-void VisualPanel::SetColorfulOutput()
+void ChartPanel::SetColorfulOutput()
 {
     m_colorful = true;
 }
 
-void VisualPanel::SetPlainOutput()
+void ChartPanel::SetPlainOutput()
 {
     m_colorful = false;
 }
