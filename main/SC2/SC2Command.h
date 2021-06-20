@@ -12,7 +12,7 @@
 #include "SC2Unit.h"
 #include "SC2Research.h"
 #include "SC2RaceData.h"
-#include "VisualItem.h"
+#include "ChartItem.h"
 
 class CSC2Command
 {
@@ -28,6 +28,9 @@ public:
 	virtual bool RequiresGeyser() const = 0;
 	virtual bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const = 0;
 	virtual bool IsBuildWorkerCommand() const = 0;
+	virtual bool IsApplyVisualStatusCommand() const = 0;
+	virtual bool IsResearchCommand() const { return false; }
+	virtual bool IsWaitCommand() const { return false; }
 	virtual size_t GetProvidedSupply() const = 0;
 	virtual size_t GetRequiredSupply() const = 0;
 	virtual SC2BuildingFlags GetBuildingRequirementFlags() const = 0;
@@ -40,10 +43,10 @@ public:
 	virtual bool WillConsumeSource() const = 0;
 	virtual double GetMorphSourceDuration() const = 0;
 
-	virtual bool WillBuildBuilding() const = 0;
-	virtual bool WillBuildUnit() const = 0;
-	virtual size_t GetBuildBuildingTypeID() const = 0;
-	virtual size_t GetBuildUnitTypeID() const = 0;
+	virtual bool WillBuildBuilding() const { return false; }
+	virtual bool WillBuildUnit() const { return false; }
+	virtual size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
+	virtual size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	virtual bool HasPrerequisits(const CSC2State &state) const = 0;
 	virtual bool HasRequirements(const CSC2State &state) const = 0;
@@ -85,6 +88,8 @@ public:
 	bool WillBuildGeyserBuilding() const { return false; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsApplyVisualStatusCommand() const { return false; }
+	bool IsWaitCommand() const { return true; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
 	bool RequiresGeyser() const { return false; }
@@ -97,11 +102,6 @@ public:
 	size_t GetSourceID(const CSC2State &state) const { wxASSERT(false); return 0; }
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
-
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	bool HasPrerequisits(const CSC2State &state) const { return true; }
 	bool HasRequirements(const CSC2State &state) const { return true; }
@@ -141,6 +141,7 @@ public:
 	bool RequiresGeyser() const { return true; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsApplyVisualStatusCommand() const { return false; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -152,11 +153,6 @@ public:
 	size_t GetSourceID(const CSC2State &state) const { wxASSERT(false); return 0; }
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
-
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -191,6 +187,7 @@ public:
 	bool RequiresGeyser() const { return false; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return m_spawnBase || m_buildBuilding->GetProvidedSupply() > 0 || m_buildBuilding->IsBase() || m_buildBuilding->GetMaxLarvaeCount() > 0; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsApplyVisualStatusCommand() const { return false; }
 	size_t GetProvidedSupply() const { return m_buildBuilding->GetProvidedSupply(); }
 	size_t GetRequiredSupply() const { return 0; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -204,9 +201,7 @@ public:
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
 	bool WillBuildBuilding() const { return true; }
-	bool WillBuildUnit() const { return false; }
 	size_t GetBuildBuildingTypeID() const { return m_buildBuildingTypeID; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -260,6 +255,7 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return m_spawnBase; }
 	bool IsBuildWorkerCommand() const { return m_buildUnit && m_buildUnit->IsWorker(); }
+	bool IsApplyVisualStatusCommand() const;
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -272,9 +268,9 @@ public:
 	bool WillConsumeSource() const { return false; }
 	double GetMorphSourceDuration() const { return 0.0; }
 
-	bool WillBuildBuilding() const { return m_buildBuilding ? true : false; }
+	bool WillBuildBuilding() const { return m_buildBuilding || m_morphSourceBuilding ? true : false; }
 	bool WillBuildUnit() const { return m_buildUnit ? true : false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(m_buildBuilding); return m_buildBuildingTypeID; }
+	size_t GetBuildBuildingTypeID() const { wxASSERT(m_buildBuilding || m_morphSourceBuilding); return m_buildBuilding ? m_buildBuildingTypeID : m_morphSourceBuildingTypeID; }
 	size_t GetBuildUnitTypeID() const { wxASSERT(m_buildUnit); return m_buildUnitTypeID; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
@@ -365,6 +361,7 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return true; }
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsApplyVisualStatusCommand() const { return false; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return (SC2BuildingFlags)0; }
@@ -376,11 +373,6 @@ public:
 	size_t GetSourceID(const CSC2State &state) const { wxASSERT(false); return 0; }
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
-
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -418,7 +410,8 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return m_buildUnit->GetProvidedSupply() > 0 || m_buildUnit->IsWorker(); }
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return m_buildUnit && m_buildUnit->IsWorker(); }
-	VisualItem::QueueType GetQueueType() const { return m_queueType; }
+	bool IsApplyVisualStatusCommand() const { return false; }
+	ChartItem::QueueType GetQueueType() const { return m_queueType; }
 	size_t GetProvidedSupply() const { return m_buildUnit->GetProvidedSupply(); }
 	size_t GetRequiredSupply() const { return m_buildUnit->GetSupplyCost(); }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -431,10 +424,8 @@ public:
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
+	bool WillBuildUnit() const { return true; }
+	size_t GetBuildUnitTypeID() const { wxASSERT(m_buildUnit); return m_buildUnitTypeID; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -471,7 +462,7 @@ protected:
 	size_t m_buildUnitCount;
 	double m_buildUnitCompletionTime;
 	bool m_unitOccupiesBuilding;
-	VisualItem::QueueType m_queueType;
+	ChartItem::QueueType m_queueType;
 };
 
 class CSC2UnitAbilityCommand : public CSC2XMLCommand
@@ -488,6 +479,7 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return m_buildUnit && m_buildUnit->IsWorker(); }
+	bool IsApplyVisualStatusCommand() const { return false; }
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -500,11 +492,8 @@ public:
 	bool WillConsumeSource() const { return false; }
 	double GetMorphSourceDuration() const { return 0.0; }
 
-
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
+	bool WillBuildUnit() const { return m_buildUnit || m_morphSourceUnit ? true : false; }
+	size_t GetBuildUnitTypeID() const { wxASSERT(m_buildUnit || m_morphSourceUnit); return m_buildUnit ? m_buildUnitTypeID : m_morphSourceUnitTypeID; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -583,9 +572,11 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const { return false; }
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsApplyVisualStatusCommand() const { return false; }
+	bool IsResearchCommand() const { return true; }
 	size_t GetProvidedSupply() const { return 0; }
 	size_t GetRequiredSupply() const { return 0; }
-	VisualItem::QueueType GetQueueType() const { return m_queueType; }
+	ChartItem::QueueType GetQueueType() const { return m_queueType; }
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
 	SC2UnitFlags GetUnitRequirementFlags() const { return (SC2UnitFlags)0; }
 	SC2ResearchFlags GetResearchRequirementFlags() const { return m_researchRequirements; }
@@ -595,11 +586,6 @@ public:
 	size_t GetSourceID(const CSC2State &state) const { return m_sourceBuildingTypeID; }
 	bool WillConsumeSource() const { return false; }
 	double GetMorphSourceDuration() const { return 0.0; }
-
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -625,7 +611,7 @@ protected:
 	size_t m_applySourceBuildingStatusID;
 	SC2BuildingStatusFlags m_applySourceBuildingStatus;
 	double m_applySourceBuildingStatusDuration;
-	VisualItem::QueueType m_queueType;
+	ChartItem::QueueType m_queueType;
 
 	double m_mineralCost;
 	double m_gasCost;
@@ -650,6 +636,7 @@ public:
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return false; }
 	bool IsBuildWorkerCommand() const { return false; }
+	bool IsApplyVisualStatusCommand() const { return false; }
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -661,11 +648,6 @@ public:
 	size_t GetSourceID(const CSC2State &state) const { wxASSERT(false); return 0; }
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
-
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -700,7 +682,8 @@ public:
 	bool RequiresGeyser() const { return false; }
 	bool IsMacroAbility(SC2BuildingFlags buildings, SC2UnitFlags units, SC2ResearchFlags research) const;
 	bool WillSpawnBase() const { return false; }
-	bool IsBuildWorkerCommand() const { return false; }
+	bool IsBuildWorkerCommand() const { return m_willBuildWorker; }
+	bool IsApplyVisualStatusCommand() const { return false; }
 	size_t GetProvidedSupply() const;
 	size_t GetRequiredSupply() const;
 	SC2BuildingFlags GetBuildingRequirementFlags() const { return m_buildingRequirements; }
@@ -713,10 +696,10 @@ public:
 	bool WillConsumeSource() const { wxASSERT(false); return false; }
 	double GetMorphSourceDuration() const { wxASSERT(false); return 0.0; }
 
-	bool WillBuildBuilding() const { return false; }
-	bool WillBuildUnit() const { return false; }
-	size_t GetBuildBuildingTypeID() const { wxASSERT(false); return 0; }
-	size_t GetBuildUnitTypeID() const { wxASSERT(false); return 0; }
+	bool WillBuildBuilding() const;
+	bool WillBuildUnit() const;
+	size_t GetBuildBuildingTypeID() const;
+	size_t GetBuildUnitTypeID() const;
 
 	bool LoadXML(const wxXmlNode *xmlCommand);
 	bool ResolveIDs(const CSC2RaceData &raceData, const CVector<const CSC2Command *> &commands);
@@ -733,6 +716,8 @@ protected:
 	SC2BuildingFlags m_buildingRequirements;
 	SC2UnitFlags m_unitRequirements;
 	SC2ResearchFlags m_researchRequirements;
+	bool m_willBuildUnit;
+	bool m_willBuildWorker;
 	
 	std::vector<wxString> m_commandMultiNames;
 	CVector<const CSC2Command *> m_commandMulti;

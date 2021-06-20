@@ -6,6 +6,7 @@ CSC2Building::CSC2Building()
 	, m_gameStartCount(0)
 	, m_isBase(false)
 	, m_isGeyserBuilding(false)
+	, m_isVisual(true)
 	, m_providedSupply(0)
 	, m_startingEnergy(0.0)
 	, m_maxEnergy(0.0)
@@ -25,7 +26,6 @@ CSC2Building::CSC2Building()
 	, m_gameStartStatusList()
 	, m_gameStartStatusDurations()
 	, m_gameStartProductionBoost(1.0)
-	, m_doubleQueue(false)
 {
 }
 
@@ -56,10 +56,17 @@ bool CSC2Building::LoadXML(const wxXmlNode *xmlBuilding)
 		}
 		else if (child->GetName() == wxT("IsGeyserBuilding"))
 		{
-			if(content == "True")
+			if (content == "True")
 				m_isGeyserBuilding = true;
 			else
 				m_isGeyserBuilding = false;
+		}
+		else if (child->GetName() == wxT("IsVisual"))
+		{
+			if (content == "False")
+				m_isVisual = false;
+			else
+				m_isVisual = true;
 		}
 		else if (child->GetName() == wxT("StartingEnergy"))
 		{
@@ -120,10 +127,6 @@ bool CSC2Building::LoadXML(const wxXmlNode *xmlBuilding)
 			child->GetAttribute(wxT("time"), wxT("0.0")).ToCDouble(&gameStartStatusDuration);
 			m_gameStartStatusDurations.push_back(gameStartStatusDuration);
 			m_gameStartStatusNames.push_back(content);
-		}
-		else if (child->GetName() == wxT("DoubleQueue"))
-		{
-			m_doubleQueue = content == "True";
 		}
 		else
 		{

@@ -106,7 +106,7 @@ MyFrame::MyFrame()
 	LoadVersions();
 
 #if wxUSE_TOOLBAR
-	CreateToolBar(wxNO_BORDER | wxTB_FLAT | wxTB_HORIZONTAL);
+	CreateToolBar(wxTB_DEFAULT_STYLE);
 	InitToolBar(GetToolBar());
 #endif // wxUSE_TOOLBAR
 
@@ -142,12 +142,12 @@ wxMenuBar *MyFrame::CreateMainMenubar()
 {
 	wxMenu *menuFile = new wxMenu;
 
-	menuFile->Append(wxID_NEW_PROTOSS, "&New Protoss Build Order\tCtrl-P", "Create a new Protoss build order");
-	menuFile->Append(wxID_NEW_TERRAN, "&New Terran Build Order\tCtrl-T", "Create a new Terran build order");
-	menuFile->Append(wxID_NEW_ZERG, "&New Zerg Build Order\tCtrl-Z", "Create a new Zerg build order");
+	menuFile->Append(wxID_NEW_PROTOSS, "New &Protoss Build Order\tCtrl-P", "Create a new Protoss build order");
+	menuFile->Append(wxID_NEW_TERRAN, "New &Terran Build Order\tCtrl-T", "Create a new Terran build order");
+	menuFile->Append(wxID_NEW_ZERG, "New &Zerg Build Order\tCtrl-Z", "Create a new Zerg build order");
 	menuFile->Append(wxID_OPEN, "&Open Build Order\tCtrl-O", "Open a build order from a file");
 	menuFile->AppendSeparator();
-	menuFile->Append(wxID_EXIT, "&Exit\tAlt-X", "Quit the program");
+	menuFile->Append(wxID_EXIT, "E&xit\tAlt-X", "Quit the program");
 
 	wxMenu *menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT, "&About\tF1");
@@ -192,7 +192,7 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 {
 	(void)wxMessageBox("Super Fusion\n"
-		"v2.1.1\n"
+		"v2.2.0\n"
 		"Author: Andrew J. Armstrong\n"
 		"Maintainer: Mihai Raducanu"
 		, "About Super Fusion");
@@ -512,9 +512,9 @@ void MyFrame::InitToolBar(wxToolBar* toolBar)
 
 	DoVersionSelected();
 
-	toolBar->AddTool(wxID_NEW_PROTOSS, "New Protoss", bitmaps[0], "New Protoss");
-	toolBar->AddTool(wxID_NEW_TERRAN, "New Terran", bitmaps[1], "New Terran");
-	toolBar->AddTool(wxID_NEW_ZERG, "New Zerg", bitmaps[2], "New Zerg");
+	toolBar->AddTool(wxID_NEW_PROTOSS, "New Protoss", bitmaps[0], "New Protoss build order");
+	toolBar->AddTool(wxID_NEW_TERRAN, "New Terran", bitmaps[1], "New Terran build order");
+	toolBar->AddTool(wxID_NEW_ZERG, "New Zerg", bitmaps[2], "New Zerg build order");
 	toolBar->AddTool(wxID_OPEN, "Open", bitmaps[3], "Open file");
 	toolBar->AddTool(wxID_SAVE, "Save", bitmaps[4], "Save file");
 	toolBar->AddSeparator();

@@ -177,6 +177,7 @@
     <ClCompile Include="GA\GAPopulation.cpp" />
     <ClCompile Include="GA\GASequenceChromosome.cpp" />
     <ClCompile Include="GA\GAStringFitnessCalc.cpp" />
+    <ClCompile Include="GridOutput.cpp" />
     <ClCompile Include="MDIChild.cpp" />
     <ClCompile Include="MDIParent.cpp" />
     <ClCompile Include="RaceChoiceDlg.cpp" />
@@ -199,8 +200,8 @@
     <ClCompile Include="SC2\SC2Unit.cpp" />
     <ClCompile Include="SC2\SC2Version.cpp" />
     <ClCompile Include="SC2\TargetMinMax.cpp" />
-    <ClCompile Include="VisualItem.cpp" />
-    <ClCompile Include="VisualPanel.cpp" />
+    <ClCompile Include="ChartPanel.cpp" />
+    <ClCompile Include="OutputPrintout.cpp" />
     <ClCompile Include="TimeTextCtrl.cpp" />
     <ClCompile Include="TimeValidator.cpp" />
   </ItemGroup>
@@ -241,9 +242,12 @@
     <ClInclude Include="GA\GAStringFitnessCalc.h" />
     <ClInclude Include="GA\GAValueArrayChromosome.h" />
     <ClInclude Include="GA\GAVillage.h" />
-    <ClInclude Include="VisualItem.h" />
+    <ClInclude Include="GridItem.h" />
+    <ClInclude Include="GridOutput.h" />
+    <ClInclude Include="ChartItem.h" />
     <ClInclude Include="MDIChild.h" />
     <ClInclude Include="MDIParent.h" />
+    <ClInclude Include="OutputPrintout.h" />
     <ClInclude Include="RaceChoiceDlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SC2Engine.h" />
@@ -271,7 +275,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TimeTextCtrl.h" />
     <ClInclude Include="TimeValidator.h" />
-    <ClInclude Include="VisualPanel.h" />
+    <ClInclude Include="ChartPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\WinSparkle\Release\WinSparkle.dll">
@@ -331,6 +335,7 @@
     </CopyFileToFolders>
     <None Include="bitmaps\copy.xpm" />
     <None Include="bitmaps\cut.xpm" />
+    <None Include="bitmaps\gantt.xpm" />
     <None Include="bitmaps\help.xpm" />
     <None Include="bitmaps\new.xpm" />
     <None Include="bitmaps\open.xpm" />

@@ -1523,6 +1523,22 @@ bool CSC2BuildingAbilityCommand::IsMacroAbility(SC2BuildingFlags buildings, SC2U
 		;
 }
 
+bool CSC2BuildingAbilityCommand::IsApplyVisualStatusCommand() const
+{
+	for (size_t i = 0; i < m_applyTargetBuildingStatusNames.size(); i++)
+	{
+		for (size_t j = 0; j < m_raceData.m_buildingStatuses.size(); j++)
+		{
+			if (m_applyTargetBuildingStatusNames[i] == m_raceData.m_buildingStatuses[j]->GetName() && m_raceData.m_buildingStatuses[j]->IsVisual())
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 size_t CSC2BuildingAbilityCommand::GetProvidedSupply() const
 {
 	size_t providedSupply = 0, requiredSupply = 0;
@@ -1781,7 +1797,7 @@ CSC2BuildUnitCommand::CSC2BuildUnitCommand(const CSC2RaceData &raceData)
 	, m_buildUnit(NULL)
 	, m_buildUnitCount(1)
 	, m_unitOccupiesBuilding(false)
-	, m_queueType(VisualItem::qSingle)
+	, m_queueType(ChartItem::qSingle)
 {
 }
 
@@ -1855,9 +1871,9 @@ bool CSC2BuildUnitCommand::LoadXML(const wxXmlNode *xmlCommand)
 		else if (child->GetName() == wxT("Queue"))
 		{
 			if (content == "Primary")
-				m_queueType = VisualItem::qDoublePrimary;
+				m_queueType = ChartItem::qDoublePrimary;
 			else if (content == "Secondary")
-				m_queueType = VisualItem::qDoubleSecondary;
+				m_queueType = ChartItem::qDoubleSecondary;
 		}
 		else if (child->GetName() == wxT("MineralCost"))
 		{
@@ -2955,7 +2971,7 @@ CSC2ResearchCommand::CSC2ResearchCommand(const CSC2RaceData &raceData)
 	, m_completeResearchName()
 	, m_completeResearchID(0)
 	, m_completeResearch(NULL)
-	, m_queueType(VisualItem::qSingle)
+	, m_queueType(ChartItem::qSingle)
 {
 }
 
@@ -3016,9 +3032,9 @@ bool CSC2ResearchCommand::LoadXML(const wxXmlNode *xmlCommand)
 		else if (child->GetName() == wxT("Queue"))
 		{
 			if (content == "Primary")
-				m_queueType = VisualItem::qDoublePrimary;
+				m_queueType = ChartItem::qDoublePrimary;
 			else if (content == "Secondary")
-				m_queueType = VisualItem::qDoubleSecondary;
+				m_queueType = ChartItem::qDoubleSecondary;
 		}
 		else if (child->GetName() == wxT("MineralCost"))
 		{
@@ -3465,6 +3481,8 @@ CSC2MultiCommand::CSC2MultiCommand(const CSC2RaceData &raceData)
 	, m_willBuildGasBuilding(false)
 	, m_commandMultiNames()
 	, m_commandMulti()
+	, m_willBuildUnit(false)
+	, m_willBuildWorker(false)
 {
 }
 
@@ -3536,6 +3554,8 @@ bool CSC2MultiCommand::ResolveIDs(const CSC2RaceData &raceData, const CVector<co
 				m_buildingRequirements &= commands[j]->GetBuildingRequirementFlags();
 				m_unitRequirements &= commands[j]->GetUnitRequirementFlags();
 				m_researchRequirements &= commands[j]->GetResearchRequirementFlags();
+				m_willBuildUnit |= commands[j]->WillBuildUnit();
+				m_willBuildWorker |= commands[j]->IsBuildWorkerCommand();
 				if(commands[j]->GetMineralCost() < m_minimumMineralCost)
 					m_minimumMineralCost = commands[j]->GetMineralCost();
 				if(commands[j]->GetGasCost() < m_minimumGasCost)
@@ -3639,4 +3659,24 @@ size_t CSC2MultiCommand::GetRequiredSupply() const
 	}
 
 	return minRequiredSupply;
+}
+
+bool CSC2MultiCommand::WillBuildBuilding() const
+{
+	return m_commandMulti[0]->WillBuildBuilding();
+}
+
+bool CSC2MultiCommand::WillBuildUnit() const
+{
+	return m_commandMulti[0]->WillBuildUnit();
+}
+
+size_t CSC2MultiCommand::GetBuildBuildingTypeID() const
+{
+	return m_commandMulti[0]->GetBuildBuildingTypeID();
+}
+
+size_t CSC2MultiCommand::GetBuildUnitTypeID() const
+{
+	return m_commandMulti[0]->GetBuildUnitTypeID();
 }

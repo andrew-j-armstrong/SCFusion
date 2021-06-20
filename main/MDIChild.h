@@ -11,7 +11,8 @@
 #include "GA/GAEngine.h"
 #include "SC2Engine.h"
 #include "TimeValidator.h"
-#include "VisualPanel.h"
+#include "ChartPanel.h"
+#include "GridOutput.h"
 
 //template<typename TTarget, typename TState, typename TCommand, typename TEvent>
 class MyChild : public wxMDIChildFrame
@@ -28,6 +29,7 @@ public:
 
 	bool DoSave();
 	bool DoSaveAs();
+	bool DoExportSVG();
 
 	const wxString &GetFileName() const { return m_fileName; }
 
@@ -48,15 +50,19 @@ private:
 	void OnOutputURL(wxTextUrlEvent &event);
 	void OnSave(wxCommandEvent& event);
 	void OnSaveAs(wxCommandEvent& event);
+	void OnExportSVG(wxCommandEvent& event);
+	void OnPrintButtonClicked(wxCommandEvent& event);
 
 	void AddWaypoint(wxCommandEvent & WXUNUSED(event));
 	void RemoveWaypoint(wxCommandEvent & WXUNUSED(event));
 	void Start(wxCommandEvent & WXUNUSED(event));
 	void UpdateOutputFormat(wxCommandEvent & WXUNUSED(event));
+	void UpdateOutputLevel(wxCommandEvent& WXUNUSED(event));
 	void UpdateInitialBuildOrder(wxCommandEvent & WXUNUSED(event));
 
 	void UpdateScoutingCheckboxes();
 	void UpdateOutputFormat();
+	void UpdateOutputLevel();
 
 private:
 	wxString m_fileName;
@@ -71,13 +77,17 @@ private:
 	wxButton* m_btnAddWaypoint;
 	wxButton* m_btnRemoveWaypoint;
 	wxButton* m_btnStart;
+	wxButton* m_btnExportSVG;
+	wxButton* m_btnPrint;
 	wxStaticText* m_staticCompletionLikelihood;
 	wxTextCtrl* m_txtCompletionLikelihood;
 	wxListCtrl* m_listVillages;
 	wxStaticText* m_staticText1;
 	wxChoice* m_choiceOutput;
+	wxChoice* m_choiceLevel;
 	wxTextCtrl* m_txtOutput;
-	VisualPanel* m_visualOutput;
+	ChartPanel* m_visualOutput;
+	GridOutput* m_gridOutput;
 	wxTimer* m_timer;
 
 	wxTextCtrl *m_txtMaxTime;
@@ -115,8 +125,12 @@ private:
 	void RefreshOutput();
 	void PrintBestGame();
 	void DrawBestGame();
+	void GetBestGameGridData();
 
 private:
+	wxBoxSizer* m_gridOptionsSizer;
+	wxBoxSizer* m_outputControlsSizer;
+
 	void OnActivate(wxActivateEvent& event);
 
 	void OnClose(wxCommandEvent& event);
@@ -140,8 +154,6 @@ private:
 	bool WriteToFile(wxString fileName);
 
 	void AddWaypoint();
-
-	void TestStuff();
 
 	void SetModified(bool modified = true);
 	void UpdateTitle();

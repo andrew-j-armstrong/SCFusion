@@ -18,6 +18,7 @@ public:
 	size_t GetGameStartCount() const { return m_gameStartCount; }
 	bool IsBase() const { return m_isBase; }
 	bool IsGeyserBuilding() const { return m_isGeyserBuilding; }
+	bool IsVisual() const { return m_isVisual; }
 	size_t GetProvidedSupply() const { return m_providedSupply; }
 	double GetStartingEnergy() const { return m_startingEnergy; }
 	double GetMaxEnergy() const { return m_maxEnergy; }
@@ -35,7 +36,6 @@ public:
 	const CVector<size_t> &GetGameStartStatusList() const { return m_gameStartStatusList; }
 	const CVector<double> &GetGameStartStatusDurations() const { return m_gameStartStatusDurations; }
 	double GetGameStartProductionBoost() const { return m_gameStartProductionBoost; }
-	bool IsDoubleQueue() const { return m_doubleQueue; }
 
 	bool ResolveIDs(const CVector<CSC2BuildingStatus *> &buildingStatuses);
 
@@ -44,6 +44,7 @@ protected:
 	size_t m_gameStartCount;
 	bool m_isBase;
 	bool m_isGeyserBuilding;
+	bool m_isVisual;
 	size_t m_providedSupply;
 	double m_startingEnergy;
 	double m_maxEnergy;
@@ -63,5 +64,4 @@ protected:
 	CVector<size_t> m_gameStartStatusList;
 	CVector<double> m_gameStartStatusDurations;
 	double m_gameStartProductionBoost;
-	bool m_doubleQueue;
 };

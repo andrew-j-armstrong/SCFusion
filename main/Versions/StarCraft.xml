@@ -1529,11 +1529,9 @@
         </Building>
         <Building>
           <Name>Barracks With Reactor</Name>
-          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Barracks With Tech Lab</Name>
-          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Flying Barracks</Name>
@@ -1577,11 +1575,9 @@
         </Building>
         <Building>
           <Name>Factory With Reactor</Name>
-          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Factory With Tech Lab</Name>
-          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Flying Factory</Name>
@@ -1594,11 +1590,9 @@
         </Building>
         <Building>
           <Name>Starport With Reactor</Name>
-          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Starport With Tech Lab</Name>
-          <DoubleQueue>True</DoubleQueue>
         </Building>
         <Building>
           <Name>Flying Starport</Name>
@@ -3604,6 +3598,7 @@
         <Building>
           <Name>Creep Tumor</Name>
           <InitialStatus time="11">Busy</InitialStatus>
+          <IsVisual>False</IsVisual>
         </Building>
       </Buildings>
       <Units>

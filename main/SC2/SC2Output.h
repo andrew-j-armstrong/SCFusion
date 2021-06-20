@@ -4,7 +4,8 @@
 #include "SC2Waypoint.h"
 #include "SC2State.h"
 #include "SC2Event.h"
-#include "VisualItem.h"
+#include "ChartItem.h"
+#include "GridItem.h"
 
 class CSC2Output
 {
@@ -46,67 +47,11 @@ protected:
 	wxString m_output;
 };
 
-class CSC2OutputSimple : public CSC2Output
+class CSC2OutputChart : public CSC2Output
 {
 public:
-	CSC2OutputSimple() : m_lastCommandWaitDuration(0.0) {}
-	~CSC2OutputSimple() {}
-
-	void ProcessCommand(const CSC2Command *command, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessEvent(const CSC2Event &event, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-
-	void Reset() { m_output.clear(); m_lastCommandWaitDuration = 0.0; }
-
-	void GetOutput(wxString &output) const override { output = m_output; }
-
-protected:
-	wxString m_output;
-	wxString m_lastSummary;
-	double m_lastCommandWaitDuration;
-};
-
-class CSC2OutputDetailed : public CSC2Output
-{
-public:
-	CSC2OutputDetailed() {}
-	~CSC2OutputDetailed() {}
-
-	void ProcessCommand(const CSC2Command *command, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessEvent(const CSC2Event &event, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-
-	void Reset() { m_output.clear(); }
-
-	void GetOutput(wxString &output) const override { output = m_output; }
-
-protected:
-	wxString m_output;
-};
-
-class CSC2OutputFull : public CSC2Output
-{
-public:
-	CSC2OutputFull() {}
-	~CSC2OutputFull() {}
-
-	void ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state) override;
-	void ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state) override;
-
-	void Reset() { m_output.clear(); }
-
-	void GetOutput(wxString& output) const override { output = m_output; }
-
-protected:
-	wxString m_output;
-};
-
-class CSC2OutputVisual : public CSC2Output
-{
-public:
-	CSC2OutputVisual() {}
-	~CSC2OutputVisual() {}
+	CSC2OutputChart() {}
+	~CSC2OutputChart() {}
 
 	void ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state) override;
 	void ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state) override;
@@ -115,46 +60,40 @@ public:
 	void Reset()
 	{
 		m_output.clear();
-		m_visual_items.clear();
+		m_chart_items.clear();
 	}
 
 	void GetOutput(wxString& output) const override { output = m_output; }
-	void GetVisualItems(vector<vector<VisualItem>>& visualItems) const { visualItems = m_visual_items; }
+	void GetChartItems(vector<vector<ChartItem>>& chartItems) const { chartItems = m_chart_items; }
 
-	void AddVisualItem(size_t buildingId, VisualItem item);
+	void AddChartItem(size_t buildingId, ChartItem item);
 
 protected:
 	wxString m_output;
-	vector<vector<VisualItem>> m_visual_items;
+	vector<vector<ChartItem>> m_chart_items;
 };
 
-/*
-class CSC2OutputCustom : public CSC2Output
+class CSC2OutputGrid : public CSC2Output
 {
 public:
-	CSC2OutputCustom() {}
-	~CSC2OutputCustom() {}
+	CSC2OutputGrid() {}
+	~CSC2OutputGrid() {}
 
-	void ProcessCommand(const CSC2Command *command, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessEvent(const CSC2Event &event, const CSC2Waypoint &waypoint, const CSC2State &state) override;
-	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint &waypoint, const CSC2State &state) override;
+	void ProcessCommand(const CSC2Command* command, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+	void ProcessEvent(const CSC2Event& event, const CSC2Waypoint& waypoint, const CSC2State& state) override;
+	void ProcessWaypointComplete(bool succeeded, size_t waypointIndex, const CSC2Waypoint& waypoint, const CSC2State& state) override;
 
-	void GetOutput(wxString &output) const override { output = m_output; }
-
-	class CFormat
+	void Reset()
 	{
-	public:
-		CFormat();
-		~CFormat();
-
-	protected:
-		CVector<bool> m_bulkUpCommand;
+		m_data.clear();
 	};
 
+	void GetOutput(wxString& output) const override { output = m_output; }
+
+	void GetData(vector<GridItem>& data) const { data = m_data; }
+
 protected:
+	vector<GridItem> m_data;
 	wxString m_output;
-	CSC2State m_lastState;
-	CSC2Command *m_lastCommand;
-	size_t m_lastCommandCount;
+
 };
-*/
