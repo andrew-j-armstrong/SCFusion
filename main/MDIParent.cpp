@@ -192,7 +192,7 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 {
 	(void)wxMessageBox("Super Fusion\n"
-		"v2.2.0\n"
+		"v2.2.1\n"
 		"Author: Andrew J. Armstrong\n"
 		"Maintainer: Mihai Raducanu"
 		, "About Super Fusion");

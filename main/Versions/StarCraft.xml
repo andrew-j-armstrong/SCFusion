@@ -3,7 +3,7 @@
   <XMLFileVersion>1.1</XMLFileVersion>
   <GameShortDescription>StarCraft</GameShortDescription>
   <GameLongDescription>Starcraft II: Legacy of the Void</GameLongDescription>
-  <MinVersion>5.0.6</MinVersion>
+  <MinVersion>5.0.9</MinVersion>
   <Races>
     <Race>
       <Name>Protoss</Name>
@@ -761,9 +761,9 @@
           <BuildingRequirement>Stargate</BuildingRequirement>
           <SourceBuilding>Stargate</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="37">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="37" occupiesSourceBuilding="True">Void Ray</UnitComplete>
-          <MineralCost>200</MineralCost>
+          <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="43" occupiesSourceBuilding="True">Void Ray</UnitComplete>
+          <MineralCost>250</MineralCost>
           <GasCost>150</GasCost>
         </Command>
         <Command category="BuildUnit">
