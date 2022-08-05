@@ -3,7 +3,7 @@
   <XMLFileVersion>1.1</XMLFileVersion>
   <GameShortDescription>StarCraft</GameShortDescription>
   <GameLongDescription>Starcraft II: Legacy of the Void</GameLongDescription>
-  <MinVersion>5.0.9</MinVersion>
+  <MinVersion>5.0.10</MinVersion>
   <Races>
     <Race>
       <Name>Protoss</Name>
@@ -819,8 +819,6 @@
           <SourceUnit>High Templar</SourceUnit>
           <TargetUnit consume="True">High Templar</TargetUnit>
           <MorphSourceUnit time="8.57">Archon</MorphSourceUnit>
-		      <MineralCost>100</MineralCost>
-		      <GasCost>300</GasCost>
         </Command>
         <Command category="UnitAbility">
           <Name>Build Archon From 1 High Templar &amp; 1 Dark Templar</Name>
@@ -828,8 +826,6 @@
           <SourceUnit>High Templar</SourceUnit>
           <TargetUnit consume="True">Dark Templar</TargetUnit>
           <MorphSourceUnit time="8.57">Archon</MorphSourceUnit>
-          <MineralCost>175</MineralCost>
-		      <GasCost>275</GasCost>
         </Command>
         <Command category="UnitAbility">
           <Name>Build Archon From 2 Dark Templar</Name>
@@ -837,8 +833,6 @@
           <SourceUnit>Dark Templar</SourceUnit>
           <TargetUnit consume="True">Dark Templar</TargetUnit>
           <MorphSourceUnit time="8.57">Archon</MorphSourceUnit>
-          <MineralCost>250</MineralCost>
-		      <GasCost>250</GasCost>
         </Command>
 
         <!-- Research -->
