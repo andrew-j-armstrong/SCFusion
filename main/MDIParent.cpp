@@ -22,24 +22,18 @@
 #include "bitmaps/help.xpm"
 
 #include "RaceChoiceDlg.h"
-#include "SC2/SC2Version.h"
+#include "Factorio/FVersion.h"
 
 #include "winsparkle.h"
 
-#define wxID_NEW_PROTOSS			(wxID_HIGHEST + 1)
-#define wxID_NEW_TERRAN				(wxID_HIGHEST + 2)
-#define wxID_NEW_ZERG				(wxID_HIGHEST + 3)
-#define wxID_CHECKFORUPDATES		(wxID_HIGHEST + 4)
-#define wxID_TOOLBAR_GAME			(wxID_HIGHEST + 7)
-#define wxID_TOOLBAR_VERSION		(wxID_HIGHEST + 8)
-#define wxID_REPORT_ISSUE		    (wxID_HIGHEST + 9)
+#define wxID_CHECKFORUPDATES		(wxID_HIGHEST + 1)
+#define wxID_TOOLBAR_GAME			(wxID_HIGHEST + 4)
+#define wxID_TOOLBAR_VERSION		(wxID_HIGHEST + 5)
+#define wxID_REPORT_ISSUE		    (wxID_HIGHEST + 6)
 
 BEGIN_EVENT_TABLE(MyFrame, wxMDIParentFrame)
 	EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
 	EVT_MENU(wxID_REPORT_ISSUE, MyFrame::OnReportIssue)
-	EVT_MENU(wxID_NEW_PROTOSS, MyFrame::OnNewProtoss)
-	EVT_MENU(wxID_NEW_TERRAN, MyFrame::OnNewTerran)
-	EVT_MENU(wxID_NEW_ZERG, MyFrame::OnNewZerg)
 	EVT_MENU(wxID_NEW, MyFrame::OnNewWindow)
 	EVT_MENU(wxID_OPEN, MyFrame::OnOpen)
 	EVT_MENU(wxID_SAVE, MyFrame::OnSave)
@@ -55,11 +49,11 @@ BEGIN_EVENT_TABLE(MyFrame, wxMDIParentFrame)
 	EVT_CLOSE(MyFrame::OnClose)
 END_EVENT_TABLE()
 
-#include "SC2Engine.h"
+#include "FEngine.h"
 
 // Define my frame constructor
 MyFrame::MyFrame()
-: wxMDIParentFrame(NULL, wxID_ANY, "Super Fusion", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxMAXIMIZE)
+: wxMDIParentFrame(NULL, wxID_ANY, "Super Fusion for Factorio", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxMAXIMIZE)
 , m_version(NULL)
 {
 	wxIcon icon(SF32Icon);
@@ -112,14 +106,11 @@ MyFrame::MyFrame()
 
 #if wxUSE_ACCEL
 	// Accelerators
-	wxAcceleratorEntry entries[6];
+	wxAcceleratorEntry entries[3];
 	entries[0].Set(wxACCEL_CTRL, (int) 'N', wxID_NEW);
 	entries[1].Set(wxACCEL_CTRL, (int) 'O', wxID_OPEN);
 	entries[2].Set(wxACCEL_CTRL, (int) 'X', wxID_EXIT);
-	entries[3].Set(wxACCEL_CTRL, (int) 'P', wxID_NEW_PROTOSS);
-	entries[4].Set(wxACCEL_CTRL, (int) 'T', wxID_NEW_TERRAN);
-	entries[5].Set(wxACCEL_CTRL, (int) 'Z', wxID_NEW_ZERG);
-	wxAcceleratorTable accel(6, entries);
+	wxAcceleratorTable accel(3, entries);
 	SetAcceleratorTable(accel);
 #endif // wxUSE_ACCEL
 
@@ -142,9 +133,6 @@ wxMenuBar *MyFrame::CreateMainMenubar()
 {
 	wxMenu *menuFile = new wxMenu;
 
-	menuFile->Append(wxID_NEW_PROTOSS, "New &Protoss Build Order\tCtrl-P", "Create a new Protoss build order");
-	menuFile->Append(wxID_NEW_TERRAN, "New &Terran Build Order\tCtrl-T", "Create a new Terran build order");
-	menuFile->Append(wxID_NEW_ZERG, "New &Zerg Build Order\tCtrl-Z", "Create a new Zerg build order");
 	menuFile->Append(wxID_OPEN, "&Open Build Order\tCtrl-O", "Open a build order from a file");
 	menuFile->AppendSeparator();
 	menuFile->Append(wxID_EXIT, "E&xit\tAlt-X", "Quit the program");
@@ -264,7 +252,7 @@ void MyFrame::OnOpen(wxCommandEvent& WXUNUSED(event))
 		return;
 	}
 
-	const CSC2Version *version = NULL;
+	const FVersion *version = NULL;
 	for(wxVersionOrderedMap::const_iterator iterVersion = versionMap->begin(); iterVersion != versionMap->end(); ++iterVersion)
 	{
 		if(iterVersion->second->GetMinGameVersion() < node->GetNodeContent())
@@ -282,7 +270,7 @@ void MyFrame::OnOpen(wxCommandEvent& WXUNUSED(event))
 	}
 
 	MyChild *subframe;
-	if(node->GetNodeContent() == wxT("Protoss"))
+	/*if(node->GetNodeContent() == wxT("Protoss"))
 	{
 		const CSC2RaceInfo *protossInfo = version->GetRace(wxT("Protoss"));
 		subframe = new MyChild(this, new CSC2Engine(version, eProtoss, protossInfo), Protoss_xpm, fileName);
@@ -301,7 +289,7 @@ void MyFrame::OnOpen(wxCommandEvent& WXUNUSED(event))
 	{
 		wxMessageBox(wxString::Format("Unknown race '%s'", node->GetNodeContent()));
 		return;
-	}
+	}*/
 
 	node = node->GetNext();
 
@@ -362,56 +350,8 @@ void MyFrame::OnSaveAs(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnNewWindow(wxCommandEvent& WXUNUSED(event) )
 {
-	// create and show another child frame
-	CRaceChoiceDlg *dlg = new CRaceChoiceDlg(this);
-
-	if(wxID_OK != dlg->ShowModal())
-		return;
-
 	MyChild *subframe;
-	if(dlg->GetValue() == wxT("Protoss"))
-	{
-		const CSC2RaceInfo *protossInfo = m_version->GetRace(wxT("Protoss"));
-		subframe = new MyChild(this, new CSC2Engine(m_version, eProtoss, protossInfo), Protoss_xpm);
-	}
-	else if(dlg->GetValue() == wxT("Terran"))
-	{
-		const CSC2RaceInfo *terranInfo = m_version->GetRace(wxT("Terran"));
-		subframe = new MyChild(this, new CSC2Engine(m_version, eTerran, terranInfo), Terran_xpm);
-	}
-	else if(dlg->GetValue() == wxT("Zerg"))
-	{
-		const CSC2RaceInfo *zergInfo = m_version->GetRace(wxT("Zerg"));
-		subframe = new MyChild(this, new CSC2Engine(m_version, eZerg, zergInfo), Zerg_xpm);
-	}
-	else
-		return;
-
-	dlg->Destroy();
-	subframe->Show(true);
-}
-
-void MyFrame::OnNewProtoss(wxCommandEvent& WXUNUSED(event) )
-{
-	const CSC2RaceInfo *protossInfo = m_version->GetRace(wxT("Protoss"));
-
-	MyChild *subframe = new MyChild(this, new CSC2Engine(m_version, eProtoss, protossInfo), Protoss_xpm);
-	subframe->Show(true);
-}
-
-void MyFrame::OnNewTerran(wxCommandEvent& WXUNUSED(event) )
-{
-	const CSC2RaceInfo *terranInfo = m_version->GetRace(wxT("Terran"));
-
-	MyChild *subframe = new MyChild(this, new CSC2Engine(m_version, eTerran, terranInfo), Terran_xpm);
-	subframe->Show(true);
-}
-
-void MyFrame::OnNewZerg(wxCommandEvent& WXUNUSED(event) )
-{
-	const CSC2RaceInfo *zergInfo = m_version->GetRace(wxT("Zerg"));
-
-	MyChild *subframe = new MyChild(this, new CSC2Engine(m_version, eZerg, zergInfo), Zerg_xpm);
+	subframe = new MyChild(this, new FEngine(m_version), Protoss_xpm);
 	subframe->Show(true);
 }
 
@@ -457,7 +397,7 @@ void MyFrame::LoadVersions()
 
 	for(size_t i=0; i < arrFiles.size(); i++)
 	{
-		CSC2Version *version = new CSC2Version();
+		FVersion *version = new FVersion();
 		if(!version->Load(arrFiles[i]))
 		{
 			wxMessageBox(wxString::Format(wxT("Error loading version from file \"%s\"."), arrFiles[i]));
@@ -512,9 +452,6 @@ void MyFrame::InitToolBar(wxToolBar* toolBar)
 
 	DoVersionSelected();
 
-	toolBar->AddTool(wxID_NEW_PROTOSS, "New Protoss", bitmaps[0], "New Protoss build order");
-	toolBar->AddTool(wxID_NEW_TERRAN, "New Terran", bitmaps[1], "New Terran build order");
-	toolBar->AddTool(wxID_NEW_ZERG, "New Zerg", bitmaps[2], "New Zerg build order");
 	toolBar->AddTool(wxID_OPEN, "Open", bitmaps[3], "Open file");
 	toolBar->AddTool(wxID_SAVE, "Save", bitmaps[4], "Save file");
 	toolBar->AddSeparator();

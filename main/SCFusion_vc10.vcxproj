@@ -20,13 +20,13 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -173,6 +173,14 @@
     <ClCompile Include="Core\ThreadPool.cpp" />
     <ClCompile Include="Core\Tokeniser.cpp" />
     <ClCompile Include="Core\Vector.cpp" />
+    <ClCompile Include="Factorio\FBuildingRecipe.cpp" />
+    <ClCompile Include="Factorio\FEvent.cpp" />
+    <ClCompile Include="Factorio\FGameData.cpp" />
+    <ClCompile Include="Factorio\FItem.cpp" />
+    <ClCompile Include="Factorio\FItemType.cpp" />
+    <ClCompile Include="Factorio\FState.cpp" />
+    <ClCompile Include="Factorio\FVersion.cpp" />
+    <ClCompile Include="Factorio\FRecipe.cpp" />
     <ClCompile Include="GA\GAConfiguration.cpp" />
     <ClCompile Include="GA\GAPopulation.cpp" />
     <ClCompile Include="GA\GASequenceChromosome.cpp" />
@@ -233,6 +241,16 @@
     <ClInclude Include="Core\ThreadPool.h" />
     <ClInclude Include="Core\Tokeniser.h" />
     <ClInclude Include="Core\Vector.h" />
+    <ClInclude Include="Factorio\FBuildingRecipe.h" />
+    <ClInclude Include="Factorio\FBuilding.h" />
+    <ClInclude Include="Factorio\FDefines.h" />
+    <ClInclude Include="Factorio\FEvent.h" />
+    <ClInclude Include="Factorio\FGameData.h" />
+    <ClInclude Include="Factorio\FItem.h" />
+    <ClInclude Include="Factorio\FState.h" />
+    <ClInclude Include="Factorio\FVersion.h" />
+    <ClInclude Include="Factorio\FItemType.h" />
+    <ClInclude Include="Factorio\FRecipe.h" />
     <ClInclude Include="GA\GAChromosomeFitness.h" />
     <ClInclude Include="GA\GAConfiguration.h" />
     <ClInclude Include="GA\GAEngine.h" />
@@ -245,6 +263,7 @@
     <ClInclude Include="GridItem.h" />
     <ClInclude Include="GridOutput.h" />
     <ClInclude Include="ChartItem.h" />
+    <ClInclude Include="FEngine.h" />
     <ClInclude Include="MDIChild.h" />
     <ClInclude Include="MDIParent.h" />
     <ClInclude Include="OutputPrintout.h" />
@@ -363,7 +382,7 @@
     <ResourceCompile Include="SCFusion.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Versions\StarCraft.xml" />
+    <Xml Include="Versions\Factorio.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

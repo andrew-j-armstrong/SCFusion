@@ -29,6 +29,9 @@
     <Filter Include="WinSparkle">
       <UniqueIdentifier>{0af19e10-4727-4022-97b7-31a686a2de07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Factorio">
+      <UniqueIdentifier>{34964717-655b-497d-bbc4-a697e192f73c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\FastRand.cpp">
@@ -78,9 +81,6 @@
     </ClCompile>
     <ClCompile Include="GA\GAStringFitnessCalc.cpp">
       <Filter>Genetic Algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="SC2Engine.cpp">
-      <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="SC2\GameCalcs.cpp">
       <Filter>SC2</Filter>
@@ -156,6 +156,33 @@
     </ClCompile>
     <ClCompile Include="OutputPrintout.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Factorio\FVersion.cpp">
+      <Filter>Factorio</Filter>
+    </ClCompile>
+    <ClCompile Include="Factorio\FItem.cpp">
+      <Filter>Factorio</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2Engine.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Factorio\FState.cpp">
+      <Filter>Factorio</Filter>
+    </ClCompile>
+    <ClCompile Include="Factorio\FItemType.cpp">
+      <Filter>Factorio</Filter>
+    </ClCompile>
+    <ClCompile Include="Factorio\FRecipe.cpp">
+      <Filter>Factorio</Filter>
+    </ClCompile>
+    <ClCompile Include="Factorio\FGameData.cpp">
+      <Filter>Factorio</Filter>
+    </ClCompile>
+    <ClCompile Include="Factorio\FEvent.cpp">
+      <Filter>Factorio</Filter>
+    </ClCompile>
+    <ClCompile Include="Factorio\FBuildingRecipe.cpp">
+      <Filter>Factorio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -255,9 +282,6 @@
     </ClInclude>
     <ClInclude Include="GA\GAPopulationSort.h">
       <Filter>Genetic Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="SC2Engine.h">
-      <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="SC2\FitnessValue.h">
       <Filter>SC2</Filter>
@@ -365,6 +389,42 @@
     <ClInclude Include="OutputPrintout.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Factorio\FVersion.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FItem.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2Engine.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="FEngine.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FState.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FDefines.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FItemType.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FRecipe.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FBuilding.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FGameData.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FEvent.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
+    <ClInclude Include="Factorio\FBuildingRecipe.h">
+      <Filter>Factorio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="bitmaps\copy.xpm">
@@ -437,7 +497,7 @@
     <ResourceCompile Include="SCFusion.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Versions\StarCraft.xml">
+    <Xml Include="Versions\Factorio.xml">
       <Filter>Versions</Filter>
     </Xml>
   </ItemGroup>

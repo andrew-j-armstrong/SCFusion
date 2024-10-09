@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Data>
+	<XMLFileVersion>1.0</XMLFileVersion>
+	<GameShortDescription>Factorio</GameShortDescription>
+	<GameLongDescription>Factorio</GameLongDescription>
+	<MinVersion>1.1.0</MinVersion>
+	<Items>
+		<Item>
+			<Name>Coal</Name>
+			<StackSize>50</StackSize>
+			<BurnEnergy>4000</BurnEnergy>
+		</Item>
+		<Item>
+			<Name>Stone</Name>
+			<StackSize>50</StackSize>
+		</Item>
+		<Item>
+			<Name>Iron Ore</Name>
+			<StackSize>50</StackSize>
+		</Item>
+		<Item>
+			<Name>Copper Ore</Name>
+			<StackSize>50</StackSize>
+		</Item>
+		<Item>
+			<Name>Wood</Name>
+			<StackSize>100</StackSize>
+		</Item>
+		<Item>
+			<Name>Water</Name>
+			<Type>Fluid</Type>
+		</Item>
+		<Item>
+			<Name>Iron Plate</Name>
+			<StackSize>100</StackSize>
+		</Item>
+		<Item>
+			<Name>Copper Plate</Name>
+			<StackSize>100</StackSize>
+		</Item>
+		<Item>
+			<Name>Iron Gear Wheel</Name>
+			<StackSize>100</StackSize>
+		</Item>
+		<Item>
+			<Name>Burner Mining Drill</Name>
+			<StackSize>50</StackSize>
+		</Item>
+		<Item>
+			<Name>Stone Furnace</Name>
+			<StackSize>50</StackSize>
+		</Item>
+	</Items>
+	<Recipes>
+		<Recipe>
+			<Item>Coal</Item>
+			<Time>1</Time>
+			<Mining>True</Mining>
+		</Recipe>
+		<Recipe>
+			<Item>Stone</Item>
+			<Time>1</Time>
+			<Mining>True</Mining>
+		</Recipe>
+		<Recipe>
+			<Item>Iron Ore</Item>
+			<Time>1</Time>
+			<Mining>True</Mining>
+		</Recipe>
+		<Recipe>
+			<Item>Copper Ore</Item>
+			<Time>1</Time>
+			<Mining>True</Mining>
+		</Recipe>
+		<Recipe>
+			<Item count="4">Wood</Item>
+			<Time>1</Time>
+			<Mining>True</Mining>
+		</Recipe>
+		<Recipe>
+			<Item>Iron Plate</Item>
+			<Ingredient>Iron Ore</Ingredient>
+			<Time>3.2</Time>
+		</Recipe>
+		<Recipe>
+			<Name>Iron Ore/Plate</Name>
+			<Item>Iron Plate</Item>
+			<Time>4</Time>
+		</Recipe>
+		<Recipe>
+			<Name>Copper Ore/Plate</Name>
+			<Item>Copper Plate</Item>
+			<Time>4</Time>
+		</Recipe>
+		<Recipe>
+			<Item>Iron Gear Wheel</Item>
+			<Ingredient count="2">Iron Plate</Ingredient>
+			<Time>0.5</Time>
+			<Crafting>True</Crafting>
+		</Recipe>
+		<Recipe>
+			<Item>Stone Furnace</Item>
+			<Ingredient count="5">Stone</Ingredient>
+			<Time>0.5</Time>
+			<Crafting>True</Crafting>
+		</Recipe>
+		<Recipe>
+			<Item>Burner Mining Drill</Item>
+			<Ingredient count="3">Iron Gear Wheel</Ingredient>
+			<Ingredient count="3">Iron Plate</Ingredient>
+			<Ingredient count="1">Stone Furnace</Ingredient>
+			<Time>2</Time>
+			<Crafting>True</Crafting>
+		</Recipe>
+	</Recipes>
+	<Buildings>
+		<Building>
+			<Name>2x Coal Miners Combo</Name>
+			<RequiredItem count="2">Burner Mining Drill</RequiredItem>
+			<Recipe>Coal</Recipe>
+			<Speed>0.5</Speed>
+			<OutputStacks>2</OutputStacks>
+			<BurnerConsumption>300</BurnerConsumption>
+		</Building>
+		<Building>
+			<Name>Burner Miner - Stone Furnace Combo</Name>
+			<RequiredItem>Burner Mining Drill</RequiredItem>
+			<RequiredItem>Stone Furnace</RequiredItem>
+			<Recipe>Iron Ore/Plate</Recipe>
+			<Recipe>Copper Ore/Plate</Recipe>
+			<BurnerConsumption>240</BurnerConsumption>
+		</Building>
+		<Building>
+			<RequiredItem>Stone Miner</RequiredItem>
+			<Recipe>Stone</Recipe>
+			<Speed>0.25</Speed>
+			<BurnerConsumption>150</BurnerConsumption>
+		</Building>
+	</Buildings>
+</Data>

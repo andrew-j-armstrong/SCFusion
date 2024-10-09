@@ -4,7 +4,7 @@
 #include <map>
 #include <wx/hashmap.h>
 
-#include "SC2/SC2Version.h"
+#include "Factorio/FVersion.h"
 
 // Define a new frame
 class MyFrame : public wxMDIParentFrame
@@ -22,9 +22,6 @@ private:
 	void OnAbout(wxCommandEvent& event);
 	void OnReportIssue(wxCommandEvent& event);
 	void OnNewWindow(wxCommandEvent& event);
-	void OnNewProtoss(wxCommandEvent& event);
-	void OnNewTerran(wxCommandEvent& event);
-	void OnNewZerg(wxCommandEvent& event);
 	void OnOpen(wxCommandEvent& event);
 	void OnSave(wxCommandEvent& event);
 	void OnSaveAs(wxCommandEvent& event);
@@ -46,13 +43,13 @@ private:
 
 	void LoadVersions();
 
-	typedef std::map<wxString, CSC2Version *> wxVersionOrderedMap;
+	typedef std::map<wxString, FVersion *> wxVersionOrderedMap;
 	WX_DECLARE_HASH_MAP(wxString, wxVersionOrderedMap *, wxStringHash, wxStringEqual, wxGameHashTable);
 
 	wxGameHashTable m_gamesByShortDescription;
 	wxGameHashTable m_gamesByLongDescription;
 
-	CSC2Version *m_version;
+	FVersion *m_version;
 	wxChoice *m_choiceGame;
 	wxChoice *m_choiceVersion;
 };
