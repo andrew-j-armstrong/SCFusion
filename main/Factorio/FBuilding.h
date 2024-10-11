@@ -13,6 +13,8 @@ public:
 	bool Load(const wxXmlNode* node, const std::map<wxString, size_t>& itemIdMap, const std::map<wxString, size_t>& recipeIdMap);
 
 	const wxString& GetName() const { return m_name; }
+	const double& GetSpeed() const { return m_speed; }
+	const double& GeBurnerConsumption() const { return m_burnerConsumption; }
 
 protected:
 	size_t m_id;
@@ -22,6 +24,6 @@ protected:
 	std::vector<size_t> m_recipeIds; // Recipes available for this building
 	double m_speed; // final recipe time = recipe time / building speed
 	size_t m_outputStacks;
-	size_t m_burnerConsumption;
+	double m_burnerConsumption; // in kW
 };
 

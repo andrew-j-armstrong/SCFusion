@@ -19,13 +19,13 @@ public:
 	const wxString& GetName() const { return m_name; }
 	const EFItemType& GetType() const { return m_type; }
 	const size_t& GetStackSize() const { return m_stackSize; }
-	const size_t& GetBurnEnergy() const { return m_burnEnergy; }
+	const double& GetBurnEnergy() const { return m_burnEnergy; }
 
 protected:
 	size_t m_id;
 	wxString m_name;
 	EFItemType m_type;
 	size_t m_stackSize;
-	size_t m_burnEnergy;
+	double m_burnEnergy;
 };
 

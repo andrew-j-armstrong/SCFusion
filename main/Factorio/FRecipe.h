@@ -16,7 +16,7 @@ public:
 	const std::vector<size_t>& GetItemIds() const { return m_itemIds; }
 	const std::vector<size_t>& GetItemCounts() const { return m_itemCounts; }
 	const double& GetTime() const { return m_time; }
-	const std::vector<size_t>& GetIngredientNames() const { return m_ingredientIds; }
+	const std::vector<size_t>& GetIngredienIds() const { return m_ingredientIds; }
 	const std::vector<size_t>& GetIngredientCounts() const { return m_ingredientCounts; }
 	const bool& CanBeCrafted() const { return m_crafting; }
 	const bool& CanBeMined() const { return m_crafting; }

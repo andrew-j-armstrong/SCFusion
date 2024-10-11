@@ -3,7 +3,7 @@
 CFGameData::CFGameData()
 	: m_items()
 	, m_itemIdMap()
-	, m_burnableItemIds()
+	, m_burnableItems()
 	, m_recipes()
 	, m_recipeIdMap()
 	, m_buildings()
@@ -37,7 +37,7 @@ bool CFGameData::LoadItems(const wxXmlNode* node)
 
 			if (item->GetBurnEnergy() > 0)
 			{
-				m_burnableItemIds.push_back(id);
+				m_burnableItems.push_back(item);
 			}
 		}
 		else

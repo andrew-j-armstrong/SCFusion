@@ -4,6 +4,7 @@
 #include "FItem.h"
 #include "FRecipe.h"
 #include "FBuilding.h"
+#include "FBuildingRecipe.h"
 
 class CFGameData
 {
@@ -19,12 +20,15 @@ public:
 protected:
 	std::vector<CFItem*> m_items;
 	std::map<wxString, size_t> m_itemIdMap;
-	std::vector<size_t> m_burnableItemIds;
+	std::vector<CFItem*> m_burnableItems;
 
 	std::vector<CFRecipe*> m_recipes;
 	std::map<wxString, size_t> m_recipeIdMap;
 
 	std::vector<CFBuilding*> m_buildings;
 	std::map<wxString, size_t> m_buildingIdMap;
+
+	std::vector<CFBuildingRecipe*> m_buildingRecipes;
+	std::map<wxString, size_t> m_buildingRecipeIdMap;
 };
 
