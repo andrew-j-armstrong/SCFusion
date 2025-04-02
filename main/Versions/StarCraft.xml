@@ -3,7 +3,7 @@
   <XMLFileVersion>1.1</XMLFileVersion>
   <GameShortDescription>StarCraft</GameShortDescription>
   <GameLongDescription>Starcraft II: Legacy of the Void</GameLongDescription>
-  <MinVersion>5.0.10</MinVersion>
+  <MinVersion>5.0.11</MinVersion>
   <Races>
     <Race>
       <Name>Protoss</Name>
@@ -592,8 +592,8 @@
           <BuildingRequirement>Cybernetics Core</BuildingRequirement>
           <SourceBuilding>Gateway</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="26">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="26" occupiesSourceBuilding="True">Sentry</UnitComplete>
+          <AppliesSourceBuildingStatus duration="23">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="23" occupiesSourceBuilding="True">Sentry</UnitComplete>
           <MineralCost>50</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -842,8 +842,8 @@
           <BuildingRequirement>Forge</BuildingRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="129">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="129" occupiesSourceBuilding="True">Ground Weapons 1</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="122">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="122" occupiesSourceBuilding="True">Ground Weapons 1</ResearchComplete>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -855,8 +855,8 @@
           <ResearchRequirement>Ground Weapons 1</ResearchRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="154">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="154" occupiesSourceBuilding="Forge">Ground Weapons 2</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="145">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="145" occupiesSourceBuilding="Forge">Ground Weapons 2</ResearchComplete>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -868,8 +868,8 @@
           <ResearchRequirement>Ground Weapons 2</ResearchRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="179">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="179" occupiesSourceBuilding="True">Ground Weapons 3</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="168">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="168" occupiesSourceBuilding="True">Ground Weapons 3</ResearchComplete>
           <MineralCost>200</MineralCost>
           <GasCost>200</GasCost>
         </Command>
@@ -879,8 +879,8 @@
           <BuildingRequirement>Forge</BuildingRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="129">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="129" occupiesSourceBuilding="True">Ground Armor 1</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="122">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="122" occupiesSourceBuilding="True">Ground Armor 1</ResearchComplete>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -892,8 +892,8 @@
           <ResearchRequirement>Ground Armor 1</ResearchRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="154">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="154" occupiesSourceBuilding="True">Ground Armor 2</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="145">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="145" occupiesSourceBuilding="True">Ground Armor 2</ResearchComplete>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -905,8 +905,8 @@
           <ResearchRequirement>Ground Armor 2</ResearchRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="179">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="179" occupiesSourceBuilding="True">Ground Armor 3</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="168">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="168" occupiesSourceBuilding="True">Ground Armor 3</ResearchComplete>
           <MineralCost>200</MineralCost>
           <GasCost>200</GasCost>
         </Command>
@@ -916,8 +916,8 @@
           <BuildingRequirement>Forge</BuildingRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="129">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="129" occupiesSourceBuilding="True">Shields 1</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="122">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="122" occupiesSourceBuilding="True">Shields 1</ResearchComplete>
           <MineralCost>150</MineralCost>
           <GasCost>150</GasCost>
         </Command>
@@ -929,8 +929,8 @@
           <ResearchRequirement>Shields 1</ResearchRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="154">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="154" occupiesSourceBuilding="True">Shields 2</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="145">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="145" occupiesSourceBuilding="True">Shields 2</ResearchComplete>
           <MineralCost>225</MineralCost>
           <GasCost>225</GasCost>
         </Command>
@@ -942,8 +942,8 @@
           <ResearchRequirement>Shields 2</ResearchRequirement>
           <SourceBuilding>Forge</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="179">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="179" occupiesSourceBuilding="True">Shields 3</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="168">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="168" occupiesSourceBuilding="True">Shields 3</ResearchComplete>
           <MineralCost>300</MineralCost>
           <GasCost>300</GasCost>
         </Command>
@@ -1723,9 +1723,6 @@
           <Name>Personal Cloaking</Name>
         </Research>
         <Research>
-          <Name>Enhanced Shockwaves</Name>
-        </Research>
-        <Research>
           <Name>Infernal Pre-Igniter</Name>
         </Research>
         <Research>
@@ -1769,9 +1766,6 @@
         <Research>
           <Name>Vehicle &amp; Ship Plating 3</Name>
           <DeprecateResearch>Vehicle &amp; Ship Plating 2</DeprecateResearch>
-        </Research>
-        <Research>
-          <Name>Corvid Reactor</Name>
         </Research>
         <Research>
           <Name>Cloaking Field</Name>
@@ -2707,7 +2701,7 @@
           <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
           <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <GasCost>125</GasCost>
         </Command>
         <Command category="BuildUnit">
           <Name>Build Liberator From Starport With Reactor 1</Name>
@@ -2719,7 +2713,7 @@
           <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
           <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <GasCost>125</GasCost>
         </Command>
         <Command category="BuildUnit">
           <Name>Build Liberator From Starport With Reactor 2</Name>
@@ -2731,7 +2725,7 @@
           <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
           <Queue>Secondary</Queue>
           <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <GasCost>125</GasCost>
         </Command>
         <Command category="BuildUnit">
           <Name>Build Liberator From Starport With Tech Lab</Name>
@@ -2742,18 +2736,18 @@
           <UnitComplete time="43" occupiesSourceBuilding="True">Liberator</UnitComplete>
           <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <GasCost>125</GasCost>
         </Command>
         <Command category="BuildUnit">
           <Name>Build Raven</Name>
           <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
           <SourceBuilding>Starport With Tech Lab</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="43">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="43" occupiesSourceBuilding="True">Raven</UnitComplete>
+          <AppliesSourceBuildingStatus duration="34">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="34" occupiesSourceBuilding="True">Raven</UnitComplete>
           <Queue>Primary</Queue>
           <MineralCost>100</MineralCost>
-          <GasCost>200</GasCost>
+          <GasCost>150</GasCost>
         </Command>
         <Command category="BuildUnit">
           <Name>Build Banshee</Name>
@@ -2926,16 +2920,6 @@
           <GasCost>150</GasCost>
         </Command>
         <Command category="Research">
-          <Name>Research Enhanced Shockwaves</Name>
-          <BuildingRequirement>Ghost Academy</BuildingRequirement>
-          <SourceBuilding>Ghost Academy</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="79">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="79" occupiesSourceBuilding="True">Enhanced Shockwaves</ResearchComplete>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
-        </Command>
-        <Command category="Research">
           <Name>Research Infernal Pre-Igniter</Name>
           <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
           <SourceBuilding>Factory With Tech Lab</SourceBuilding>
@@ -3078,17 +3062,6 @@
           <GasCost>250</GasCost>
         </Command>
         <Command category="Research">
-          <Name>Research Corvid Reactor</Name>
-          <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
-          <SourceBuilding>Starport With Tech Lab</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="79">Addon Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="79" occupiesSourceBuilding="True">Corvid Reactor</ResearchComplete>
-          <Queue>Secondary</Queue>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
-        </Command>
-        <Command category="Research">
           <Name>Research Cloaking Field</Name>
           <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
           <SourceBuilding>Starport With Tech Lab</SourceBuilding>
@@ -3104,11 +3077,11 @@
           <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
           <SourceBuilding>Starport With Tech Lab</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="121">Addon Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="121" occupiesSourceBuilding="True">Hyperflight Rotors</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="100">Addon Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="100" occupiesSourceBuilding="True">Hyperflight Rotors</ResearchComplete>
           <Queue>Secondary</Queue>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <MineralCost>125</MineralCost>
+          <GasCost>125</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Weapon Refit</Name>
@@ -3420,10 +3393,6 @@
           <Research>Personal Cloaking</Research>
         </Target>
         <Target category="Research">
-          <Name>Enhanced Shockwaves</Name>
-          <Research>Enhanced Shockwaves</Research>
-        </Target>
-        <Target category="Research">
           <Name>Infernal Pre-Igniter</Name>
           <Research>Infernal Pre-Igniter</Research>
         </Target>
@@ -3474,10 +3443,6 @@
         <Target category="Research">
           <Name>Vehicle &amp; Ship Plating 3</Name>
           <Research>Vehicle &amp; Ship Plating 3</Research>
-        </Target>
-        <Target category="Research">
-          <Name>Corvid Reactor</Name>
-          <Research>Corvid Reactor</Research>
         </Target>
         <Target category="Research">
           <Name>Cloaking Field</Name>
@@ -4124,7 +4089,7 @@
           <Name>Morph Ravager</Name>
           <BuildingRequirement>Roach Warren</BuildingRequirement>
           <SourceUnit>Roach</SourceUnit>
-          <MorphSourceUnit time="9">Ravager</MorphSourceUnit>
+          <MorphSourceUnit time="12">Ravager</MorphSourceUnit>
           <MineralCost>25</MineralCost>
           <GasCost>75</GasCost>
         </Command>
