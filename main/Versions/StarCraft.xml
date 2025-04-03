@@ -3,7 +3,7 @@
   <XMLFileVersion>1.1</XMLFileVersion>
   <GameShortDescription>StarCraft</GameShortDescription>
   <GameLongDescription>Starcraft II: Legacy of the Void</GameLongDescription>
-  <MinVersion>5.0.11</MinVersion>
+  <MinVersion>5.0.12</MinVersion>
   <Races>
     <Race>
       <Name>Protoss</Name>
@@ -137,7 +137,7 @@
         </Unit>
         <Unit>
           <Name>Disruptor</Name>
-          <SupplyCost>3</SupplyCost>
+          <SupplyCost>4</SupplyCost>
         </Unit>
         <Unit>
           <Name>Phoenix</Name>
@@ -167,11 +167,8 @@
         </Unit>
         <Unit>
           <Name>Mothership</Name>
-          <SupplyCost>8</SupplyCost>
+          <SupplyCost>6</SupplyCost>
           <IsUnique>True</IsUnique>
-          <StartingEnergy>50</StartingEnergy>
-          <MaxEnergy>200</MaxEnergy>
-          <EnergyRechargeRate>0.7875</EnergyRechargeRate>
         </Unit>
       </Units>
       <Research>
@@ -806,10 +803,10 @@
           <BuildingRequirement>Fleet Beacon</BuildingRequirement>
           <SourceBuilding>Nexus</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="114">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="114" occupiesSourceBuilding="True">Mothership</UnitComplete>
-          <MineralCost>400</MineralCost>
-          <GasCost>400</GasCost>
+          <AppliesSourceBuildingStatus duration="79">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="79" occupiesSourceBuilding="True">Mothership</UnitComplete>
+          <MineralCost>300</MineralCost>
+          <GasCost>300</GasCost>
         </Command>
 
         <!-- Unit Abilities -->
@@ -931,8 +928,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="145">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="145" occupiesSourceBuilding="True">Shields 2</ResearchComplete>
-          <MineralCost>225</MineralCost>
-          <GasCost>225</GasCost>
+          <MineralCost>200</MineralCost>
+          <GasCost>200</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Shields 3</Name>
@@ -944,8 +941,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="168">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="168" occupiesSourceBuilding="True">Shields 3</ResearchComplete>
-          <MineralCost>300</MineralCost>
-          <GasCost>300</GasCost>
+          <MineralCost>250</MineralCost>
+          <GasCost>250</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Air Weapons 1</Name>
@@ -992,8 +989,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="129">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="129" occupiesSourceBuilding="True">Air Armor 1</ResearchComplete>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Air Armor 2</Name>
@@ -1005,8 +1002,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="154">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="154" occupiesSourceBuilding="True">Air Armor 2</ResearchComplete>
-          <MineralCost>225</MineralCost>
-          <GasCost>225</GasCost>
+          <MineralCost>175</MineralCost>
+          <GasCost>175</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Air Armor 3</Name>
@@ -1018,8 +1015,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="179">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="179" occupiesSourceBuilding="True">Air Armor 3</ResearchComplete>
-          <MineralCost>300</MineralCost>
-          <GasCost>300</GasCost>
+          <MineralCost>250</MineralCost>
+          <GasCost>250</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Warp Gate Transformation</Name>
@@ -1644,7 +1641,7 @@
         </Unit>
         <Unit>
           <Name>Cyclone</Name>
-          <SupplyCost>3</SupplyCost>
+          <SupplyCost>2</SupplyCost>
           <StartingEnergy>50</StartingEnergy>
           <MaxEnergy>200</MaxEnergy>
           <EnergyRechargeRate>0.7875</EnergyRechargeRate>
@@ -1732,7 +1729,7 @@
           <Name>Smart Servos</Name>
         </Research>
         <Research>
-          <Name>Mag-Field Accelerator</Name>
+          <Name>Hurricane Engines</Name>
         </Research>
         <Research>
           <Name>Vehicle Weapons 1</Name>
@@ -1779,10 +1776,13 @@
         <Research>
           <Name>Advanced Ballistics</Name>
         </Research>
-        <Research>
-          <Name>Rapid Reignition System</Name>
-        </Research>
-      </Research>
+		<Research>
+		  <Name>Caduceus Reactor</Name>
+		</Research>
+		<Research>
+		  <Name>Interference Matrix</Name>
+		</Research>
+	  </Research>
 
       <Commands>
         <!-- Move Workers -->
@@ -2582,14 +2582,14 @@
         </Command>
         <Command category="BuildUnit">
           <Name>Build Cyclone</Name>
-          <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
-          <SourceBuilding>Factory With Tech Lab</SourceBuilding>
+          <BuildingRequirement>Factory</BuildingRequirement>
+          <SourceBuilding>Factory</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
           <Queue>Primary</Queue>
-          <MineralCost>150</MineralCost>
-          <GasCost>100</GasCost>
+          <MineralCost>125</MineralCost>
+          <GasCost>50</GasCost>
         </Command>
         <Command category="BuildUnit">
           <Name>Build Thor</Name>
@@ -2955,12 +2955,12 @@
           <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
-          <Name>Research Mag-Field Accelerator</Name>
+          <Name>Research Hurricane Engines</Name>
           <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
           <SourceBuilding>Factory With Tech Lab</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="100">Addon Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="100" occupiesSourceBuilding="True">Mag-Field Accelerator</ResearchComplete>
+          <ResearchComplete time="100" occupiesSourceBuilding="True">Hurricane Engines</ResearchComplete>
           <Queue>Secondary</Queue>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
@@ -3084,6 +3084,17 @@
           <GasCost>125</GasCost>
         </Command>
         <Command category="Research">
+          <Name>Research Interference Matrix</Name>
+          <BuildingRequirement>Starport With Tech Lab</BuildingRequirement>
+          <SourceBuilding>Starport With Tech Lab</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="57">Addon Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="57" occupiesSourceBuilding="True">Interference Matrix</ResearchComplete>
+          <Queue>Secondary</Queue>
+          <MineralCost>50</MineralCost>
+          <GasCost>50</GasCost>
+        </Command>
+        <Command category="Research">
           <Name>Research Weapon Refit</Name>
           <BuildingRequirement>Fusion Core</BuildingRequirement>
           <SourceBuilding>Fusion Core</SourceBuilding>
@@ -3104,12 +3115,12 @@
           <GasCost>150</GasCost>
         </Command>
         <Command category="Research">
-          <Name>Research Rapid Reignition System</Name>
+          <Name>Research Caduceus Reactor</Name>
           <BuildingRequirement>Fusion Core</BuildingRequirement>
           <SourceBuilding>Fusion Core</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="57">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="57" occupiesSourceBuilding="True">Rapid Reignition System</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="54">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="54" occupiesSourceBuilding="True">Caduceus Reactor</ResearchComplete>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -3405,8 +3416,8 @@
           <Research>Smart Servos</Research>
         </Target>
         <Target category="Research">
-          <Name>Mag-Field Accelerator</Name>
-          <Research>Mag-Field Accelerator</Research>
+          <Name>Hurricane Engines</Name>
+          <Research>Hurricane Engines</Research>
         </Target>
         <Target category="Research">
           <Name>Vehicle Weapons 1</Name>
@@ -3460,10 +3471,14 @@
           <Name>Advanced Ballistics</Name>
           <Research>Advanced Ballistics</Research>
         </Target>
-        <Target category="Research">
-          <Name>Rapid Reignition System</Name>
-          <Research>Rapid Reignition System</Research>
-        </Target>
+		  <Target category="Research">
+			  <Name>Caduceus Reactor</Name>
+			  <Research>Caduceus Reactor</Research>
+		  </Target>
+		  <Target category="Research">
+			  <Name>Interference Matrix</Name>
+			  <Research>Interference Matrix</Research>
+		  </Target>
 
       </Targets>
     </Race>
@@ -3632,7 +3647,7 @@
           <Name>Infestor</Name>
           <SupplyCost>2</SupplyCost>
           <MaxEnergy>200</MaxEnergy>
-          <StartingEnergy>50</StartingEnergy>
+          <StartingEnergy>75</StartingEnergy>
           <EnergyRechargeRate>0.7875</EnergyRechargeRate>
         </Unit>
         <Unit>
@@ -3705,9 +3720,6 @@
         </Research>
         <Research>
           <Name>Neural Parasite</Name>
-        </Research>
-        <Research>
-          <Name>Pathogen Glands</Name>
         </Research>
         <Research>
           <Name>Muscular Augments</Name>
@@ -4072,7 +4084,7 @@
           <BuildingRequirement>Ultralisk Cavern</BuildingRequirement>
           <ConsumesLarva>True</ConsumesLarva>
           <UnitComplete time="39">Ultralisk</UnitComplete>
-          <MineralCost>300</MineralCost>
+          <MineralCost>275</MineralCost>
           <GasCost>200</GasCost>
         </Command>
 
@@ -4246,10 +4258,10 @@
           <BuildingRequirement>Lair</BuildingRequirement>
           <SourceBuilding>Baneling Nest</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="79">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="79" occupiesSourceBuilding="True">Centrifugal Hooks</ResearchComplete>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <AppliesSourceBuildingStatus duration="71">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="71" occupiesSourceBuilding="True">Centrifugal Hooks</ResearchComplete>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Melee Attacks Level 1</Name>
@@ -4338,8 +4350,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="136">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="136" occupiesSourceBuilding="True">Ground Carapace Level 2</ResearchComplete>
-          <MineralCost>225</MineralCost>
-          <GasCost>225</GasCost>
+          <MineralCost>200</MineralCost>
+          <GasCost>200</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Ground Carapace Level 3</Name>
@@ -4350,8 +4362,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="157">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="157" occupiesSourceBuilding="True">Ground Carapace Level 3</ResearchComplete>
-          <MineralCost>300</MineralCost>
-          <GasCost>300</GasCost>
+          <MineralCost>250</MineralCost>
+          <GasCost>250</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Tunneling Claws</Name>
@@ -4386,23 +4398,13 @@
           <GasCost>150</GasCost>
         </Command>
         <Command category="Research">
-          <Name>Research Pathogen Glands</Name>
-          <BuildingRequirement>Infestation Pit</BuildingRequirement>
-          <SourceBuilding>Infestation Pit</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="57">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="57" occupiesSourceBuilding="True">Pathogen Glands</ResearchComplete>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
-        </Command>
-        <Command category="Research">
           <Name>Research Muscular Augments At Hydralisk Den</Name>
           <BuildingRequirement>Hydralisk Den</BuildingRequirement>
           <BuildingRequirement>Lair</BuildingRequirement>
           <SourceBuilding>Hydralisk Den</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="71">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="71" occupiesSourceBuilding="True">Muscular Augments</ResearchComplete>
+          <AppliesSourceBuildingStatus duration="64">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="64" occupiesSourceBuilding="True">Muscular Augments</ResearchComplete>
           <MineralCost>100</MineralCost>
           <GasCost>100</GasCost>
         </Command>
@@ -4411,10 +4413,10 @@
           <BuildingRequirement>Hydralisk Den</BuildingRequirement>
           <SourceBuilding>Hydralisk Den</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="71">Busy</AppliesSourceBuildingStatus>
-          <ResearchComplete time="71" occupiesSourceBuilding="True">Grooved Spines</ResearchComplete>
-          <MineralCost>100</MineralCost>
-          <GasCost>100</GasCost>
+          <AppliesSourceBuildingStatus duration="50">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="50" occupiesSourceBuilding="True">Grooved Spines</ResearchComplete>
+          <MineralCost>75</MineralCost>
+          <GasCost>75</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Adaptive Talons At Lurker Den</Name>
@@ -4424,8 +4426,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="57">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="57" occupiesSourceBuilding="True">Adaptive Talons</ResearchComplete>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Seismic Spines At Lurker Den</Name>
@@ -4497,8 +4499,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="114">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="114" occupiesSourceBuilding="True">Flyer Carapace Level 1</ResearchComplete>
-          <MineralCost>150</MineralCost>
-          <GasCost>150</GasCost>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Flyer Carapace Level 2 At Spire</Name>
@@ -4509,8 +4511,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="136">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="136" occupiesSourceBuilding="True">Flyer Carapace Level 2</ResearchComplete>
-          <MineralCost>225</MineralCost>
-          <GasCost>225</GasCost>
+          <MineralCost>175</MineralCost>
+          <GasCost>175</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Flyer Carapace Level 3 At Spire</Name>
@@ -4521,8 +4523,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="157">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="157" occupiesSourceBuilding="True">Flyer Carapace Level 3</ResearchComplete>
-          <MineralCost>300</MineralCost>
-          <GasCost>300</GasCost>
+          <MineralCost>250</MineralCost>
+          <GasCost>250</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Flyer Attacks Level 1 At Greater Spire</Name>
@@ -4879,10 +4881,6 @@
         <Target category="Research">
           <Name>Neural Parasite</Name>
           <Research>Neural Parasite</Research>
-        </Target>
-        <Target category="Research">
-          <Name>Pathogen Glands</Name>
-          <Research>Pathogen Glands</Research>
         </Target>
         <Target category="Research">
           <Name>Muscular Augments</Name>
