@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Upgrade for [Patch v5.0.13](https://news.blizzard.com/en-us/article/24078322/starcraft-ii-5-0-13-patch-notes)
+
+#### Armory
+* Cost reduced from 150/100 to 150/50.
+
+#### Engineering Bay
+* Infantry weapons/armor upgrades cost reduced from 100/175/250 to 100/150/200.
+
+#### Observer
+* Build time reduced from 21.4 to 17.9 seconds.
+
 ### Upgrade for [Patch v5.0.12](https://news.blizzard.com/en-us/article/24009150/starcraft-ii-5-0-12-patch-notes)
 
 #### Cyclone

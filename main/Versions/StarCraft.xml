@@ -3,7 +3,7 @@
   <XMLFileVersion>1.1</XMLFileVersion>
   <GameShortDescription>StarCraft</GameShortDescription>
   <GameLongDescription>Starcraft II: Legacy of the Void</GameLongDescription>
-  <MinVersion>5.0.12</MinVersion>
+  <MinVersion>5.0.13</MinVersion>
   <Races>
     <Race>
       <Name>Protoss</Name>
@@ -701,8 +701,8 @@
           <BuildingRequirement>Robotics Facility</BuildingRequirement>
           <SourceBuilding>Robotics Facility</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="21">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="21" occupiesSourceBuilding="True">Observer</UnitComplete>
+          <AppliesSourceBuildingStatus duration="18">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="18" occupiesSourceBuilding="True">Observer</UnitComplete>
           <MineralCost>25</MineralCost>
           <GasCost>75</GasCost>
         </Command>
@@ -1954,7 +1954,7 @@
           <OccupyWorker time="46.0">True</OccupyWorker>
           <WorkerTravelTime>10.0</WorkerTravelTime>
           <MineralCost>150</MineralCost>
-          <GasCost>100</GasCost>
+          <GasCost>50</GasCost>
         </Command>
         <Command category="BuildBuilding">
           <Name>Build Starport</Name>
@@ -2840,8 +2840,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="136">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="136" occupiesSourceBuilding="True">Infantry Weapons 2</ResearchComplete>
-          <MineralCost>175</MineralCost>
-          <GasCost>175</GasCost>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Infantry Weapons 3</Name>
@@ -2852,8 +2852,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="157">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="157" occupiesSourceBuilding="True">Infantry Weapons 3</ResearchComplete>
-          <MineralCost>250</MineralCost>
-          <GasCost>250</GasCost>
+          <MineralCost>200</MineralCost>
+          <GasCost>200</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Infantry Armor 1</Name>
@@ -2874,8 +2874,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="136">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="136" occupiesSourceBuilding="True">Infantry Armor 2</ResearchComplete>
-          <MineralCost>175</MineralCost>
-          <GasCost>175</GasCost>
+          <MineralCost>150</MineralCost>
+          <GasCost>150</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Infantry Armor 3</Name>
@@ -2886,8 +2886,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="157">Busy</AppliesSourceBuildingStatus>
           <ResearchComplete time="157" occupiesSourceBuilding="True">Infantry Armor 3</ResearchComplete>
-          <MineralCost>250</MineralCost>
-          <GasCost>250</GasCost>
+          <MineralCost>200</MineralCost>
+          <GasCost>200</GasCost>
         </Command>
         <Command category="Research">
           <Name>Research Neosteel Armor</Name>
