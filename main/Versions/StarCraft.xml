@@ -1642,9 +1642,6 @@
         <Unit>
           <Name>Cyclone</Name>
           <SupplyCost>2</SupplyCost>
-          <StartingEnergy>50</StartingEnergy>
-          <MaxEnergy>200</MaxEnergy>
-          <EnergyRechargeRate>0.7875</EnergyRechargeRate>
         </Unit>
         <Unit>
           <Name>Thor</Name>
@@ -1718,6 +1715,9 @@
         </Research>
         <Research>
           <Name>Personal Cloaking</Name>
+        </Research>
+        <Research>
+          <Name>Enhanced Shockwaves</Name>
         </Research>
         <Research>
           <Name>Infernal Pre-Igniter</Name>
@@ -2580,10 +2580,44 @@
           <MineralCost>150</MineralCost>
           <GasCost>125</GasCost>
         </Command>
-        <Command category="BuildUnit">
-          <Name>Build Cyclone</Name>
+		<Command category="BuildUnit">
+          <Name>Build Cyclone From Naked Factory</Name>
           <BuildingRequirement>Factory</BuildingRequirement>
           <SourceBuilding>Factory</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
+          <MineralCost>125</MineralCost>
+          <GasCost>50</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Cyclone From Factory With Reactor 1</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
+          <BuildingRequirement>Factory With Reactor</BuildingRequirement>
+          <SourceBuilding>Factory With Reactor</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
+          <Queue>Primary</Queue>
+          <MineralCost>125</MineralCost>
+          <GasCost>50</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Cyclone From Factory With Reactor 2</Name>
+          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
+          <BuildingRequirement>Factory With Reactor</BuildingRequirement>
+          <SourceBuilding>Factory With Reactor</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="32">Addon Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
+          <Queue>Secondary</Queue>
+          <MineralCost>125</MineralCost>
+          <GasCost>50</GasCost>
+        </Command>
+        <Command category="BuildUnit">
+          <Name>Build Cyclone From Factory With Tech Lab</Name>
+          <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
+          <SourceBuilding>Factory With Tech Lab</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
@@ -3157,6 +3191,11 @@
           <SubCommand>Build Widow Mine From Factory With Reactor 2</SubCommand>
         </Command>
         <Command category="Multi">
+          <Name>Build Cyclone From Factory With Reactor</Name>
+          <SubCommand>Build Cyclone From Factory With Reactor 1</SubCommand>
+          <SubCommand>Build Cyclone From Factory With Reactor 2</SubCommand>
+        </Command>
+        <Command category="Multi">
           <Name>Build Viking From Starport With Reactor</Name>
           <SubCommand>Build Viking From Starport With Reactor 1</SubCommand>
           <SubCommand>Build Viking From Starport With Reactor 2</SubCommand>
@@ -3616,6 +3655,10 @@
           <MaxEnergy>200</MaxEnergy>
           <StartingEnergy>50</StartingEnergy>
           <EnergyRechargeRate>0.7875</EnergyRechargeRate>
+        </Unit>
+		<Unit>
+          <Name>Transport Overlord</Name>
+          <ProvidedSupply>8</ProvidedSupply>
         </Unit>
         <Unit>
           <Name>Changeling</Name>
@@ -4112,6 +4155,14 @@
           <MorphSourceUnit time="12">Overseer</MorphSourceUnit>
           <MineralCost>50</MineralCost>
           <GasCost>50</GasCost>
+        </Command>
+		<Command category="UnitAbility">
+          <Name>Mutate Ventral Sacs</Name>
+          <BuildingRequirement>Lair</BuildingRequirement>
+          <SourceUnit>Overlord</SourceUnit>
+          <MorphSourceUnit time="15">Transport Overlord</MorphSourceUnit>
+          <MineralCost>25</MineralCost>
+          <GasCost>25</GasCost>
         </Command>
         <Command category="UnitAbility">
           <Name>Spawn Changeling</Name>
@@ -4739,6 +4790,10 @@
         <Target category="UnitCount">
           <Name>Overseer</Name>
           <AddUnitCount>Overseer</AddUnitCount>
+        </Target>
+		<Target category="UnitCount">
+          <Name>Transport Overlord</Name>
+          <AddUnitCount>Transport Overlord</AddUnitCount>
         </Target>
         <Target category="UnitCount">
           <Name>Changeling</Name>
