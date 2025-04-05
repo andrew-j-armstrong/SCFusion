@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Upgrade for [Patch v5.0.14](https://news.blizzard.com/en-us/article/24162754/starcraft-ii-5-0-14-patch-notes)
+
+#### Nexus
+* Battery Overcharge removed.
+* New ability: Energy Recharge (50 Energy / 60 second cooldown). 
+
+#### Stalker
+* Train time from Gateway reduced from 30 to 27 seconds.
+
+#### Tempest
+* Supply Cost reduced from 5 to 4.
+
+#### Immortal
+* Cost reduced from 275/100 to 250/100.
+
+#### Mothership
+* Cost increased from 300/300 to 400/400.
+* Supply cost increased from 6 to 8.
+
+#### Cyclone
+* Reverted to patch 5.0.11 Cyclone.
+
+#### Sensor Tower
+* Cost reduced from 125/100 to 100/50.
+
+#### Ghost
+* Supply cost increased from 2 to 3.
+
+#### Queen
+* Cost increased from 150/0 to 175/0.
+
+#### Hatchery
+* Cost reduced from 300/0 to 275/0.
+
+#### Hydralisk
+* New research: Nanomuscular Swell (researches new Lunge ability). Cost: 100/100, 64 seconds. Requires Hive.
+
 ### Upgrade for [Patch v5.0.13](https://news.blizzard.com/en-us/article/24078322/starcraft-ii-5-0-13-patch-notes)
 
 #### Armory
