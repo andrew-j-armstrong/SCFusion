@@ -1785,12 +1785,12 @@
         <Research>
           <Name>Advanced Ballistics</Name>
         </Research>
-		<Research>
-		  <Name>Caduceus Reactor</Name>
-		</Research>
-		<Research>
-		  <Name>Interference Matrix</Name>
-		</Research>
+        <Research>
+          <Name>Caduceus Reactor</Name>
+        </Research>
+        <Research>
+          <Name>Interference Matrix</Name>
+        </Research>
 	  </Research>
 
       <Commands>
