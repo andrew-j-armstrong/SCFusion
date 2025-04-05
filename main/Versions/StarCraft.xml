@@ -803,8 +803,8 @@
           <BuildingRequirement>Fleet Beacon</BuildingRequirement>
           <SourceBuilding>Nexus</SourceBuilding>
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="79">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="79" occupiesSourceBuilding="True">Mothership</UnitComplete>
+          <AppliesSourceBuildingStatus duration="89">Busy</AppliesSourceBuildingStatus>
+          <UnitComplete time="89" occupiesSourceBuilding="True">Mothership</UnitComplete>
           <MineralCost>400</MineralCost>
           <GasCost>400</GasCost>
         </Command>
