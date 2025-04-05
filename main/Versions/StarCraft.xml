@@ -1270,6 +1270,12 @@
           <EnergyRequired>50</EnergyRequired>
         </Target>
 
+        <Target category="BuildingAbility">
+          <Name>Energy Recharges Available</Name>
+          <SourceBuilding>Nexus</SourceBuilding>
+          <EnergyRequired>50</EnergyRequired>
+        </Target>
+
         <Target category="BuildingStatusDuration">
           <Name>Constant Probe Production</Name>
           <DisplayInResults>False</DisplayInResults>
@@ -1642,9 +1648,6 @@
         <Unit>
           <Name>Cyclone</Name>
           <SupplyCost>3</SupplyCost>
-          <StartingEnergy>50</StartingEnergy>
-          <MaxEnergy>200</MaxEnergy>
-          <EnergyRechargeRate>0.7875</EnergyRechargeRate>
         </Unit>
         <Unit>
           <Name>Thor</Name>
@@ -1730,6 +1733,9 @@
         </Research>
         <Research>
           <Name>Smart Servos</Name>
+        </Research>
+        <Research>
+          <Name>Mag-Field Accelerator</Name>
         </Research>
         <Research>
           <Name>Hurricane Engines</Name>
@@ -2590,43 +2596,8 @@
           <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
           <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
           <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
-          <MineralCost>125</MineralCost>
-          <GasCost>50</GasCost>
-        </Command>
-        <Command category="BuildUnit">
-          <Name>Build Cyclone From Factory With Reactor 1</Name>
-          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
-          <BuildingRequirement>Factory With Reactor</BuildingRequirement>
-          <SourceBuilding>Factory With Reactor</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
-          <Queue>Primary</Queue>
           <MineralCost>150</MineralCost>
           <GasCost>100</GasCost>
-        </Command>
-        <Command category="BuildUnit">
-          <Name>Build Cyclone From Factory With Reactor 2</Name>
-          <AvailableToGeneticAlgorithm>False</AvailableToGeneticAlgorithm>
-          <BuildingRequirement>Factory With Reactor</BuildingRequirement>
-          <SourceBuilding>Factory With Reactor</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="32">Addon Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
-          <Queue>Secondary</Queue>
-          <MineralCost>125</MineralCost>
-          <GasCost>50</GasCost>
-        </Command>
-        <Command category="BuildUnit">
-          <Name>Build Cyclone From Factory With Tech Lab</Name>
-          <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
-          <SourceBuilding>Factory With Tech Lab</SourceBuilding>
-          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
-          <AppliesSourceBuildingStatus duration="32">Busy</AppliesSourceBuildingStatus>
-          <UnitComplete time="32" occupiesSourceBuilding="True">Cyclone</UnitComplete>
-          <Queue>Primary</Queue>
-          <MineralCost>125</MineralCost>
-          <GasCost>50</GasCost>
         </Command>
         <Command category="BuildUnit">
           <Name>Build Thor</Name>
@@ -2992,6 +2963,17 @@
           <GasCost>100</GasCost>
         </Command>
         <Command category="Research">
+          <Name>Research Mag-Field Accelerator</Name>
+          <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
+          <SourceBuilding>Factory With Tech Lab</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Addon Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="100">Addon Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="100" occupiesSourceBuilding="True">Mag-Field Accelerator</ResearchComplete>
+          <Queue>Secondary</Queue>
+          <MineralCost>100</MineralCost>
+          <GasCost>100</GasCost>
+        </Command>
+        <Command category="Research">
           <Name>Research Hurricane Engines</Name>
           <BuildingRequirement>Factory With Tech Lab</BuildingRequirement>
           <SourceBuilding>Factory With Tech Lab</SourceBuilding>
@@ -3192,11 +3174,6 @@
           <Name>Build Widow Mine From Factory With Reactor</Name>
           <SubCommand>Build Widow Mine From Factory With Reactor 1</SubCommand>
           <SubCommand>Build Widow Mine From Factory With Reactor 2</SubCommand>
-        </Command>
-        <Command category="Multi">
-          <Name>Build Cyclone From Factory With Reactor</Name>
-          <SubCommand>Build Cyclone From Factory With Reactor 1</SubCommand>
-          <SubCommand>Build Cyclone From Factory With Reactor 2</SubCommand>
         </Command>
         <Command category="Multi">
           <Name>Build Viking From Starport With Reactor</Name>
@@ -3456,6 +3433,10 @@
         <Target category="Research">
           <Name>Smart Servos</Name>
           <Research>Smart Servos</Research>
+        </Target>
+        <Target category="Research">
+          <Name>Mag-Field Accelerator</Name>
+          <Research>Mag-Field Accelerator</Research>
         </Target>
         <Target category="Research">
           <Name>Hurricane Engines</Name>
