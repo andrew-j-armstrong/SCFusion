@@ -3752,6 +3752,9 @@
           <Name>Grooved Spines</Name>
         </Research>
         <Research>
+          <Name>Nanomuscular Swell</Name>
+        </Research>
+        <Research>
           <Name>Adaptive Talons</Name>
         </Research>
         <Research>
@@ -4451,6 +4454,17 @@
           <GasCost>75</GasCost>
         </Command>
         <Command category="Research">
+          <Name>Research Nanomuscular Swell At Hydralisk Den</Name>
+          <BuildingRequirement>Hydralisk Den</BuildingRequirement>
+          <BuildingRequirement>Hive</BuildingRequirement>
+          <SourceBuilding>Hydralisk Den</SourceBuilding>
+          <RequiresSourceBuildingStatusAbsent>Busy</RequiresSourceBuildingStatusAbsent>
+          <AppliesSourceBuildingStatus duration="64">Busy</AppliesSourceBuildingStatus>
+          <ResearchComplete time="64" occupiesSourceBuilding="True">Nanomuscular Swell</ResearchComplete>
+          <MineralCost>75</MineralCost>
+          <GasCost>75</GasCost>
+        </Command>
+        <Command category="Research">
           <Name>Research Adaptive Talons At Lurker Den</Name>
           <BuildingRequirement>Lurker Den</BuildingRequirement>
           <BuildingRequirement>Hive</BuildingRequirement>
@@ -4925,6 +4939,10 @@
         <Target category="Research">
           <Name>Grooved Spines</Name>
           <Research>Grooved Spines</Research>
+        </Target>
+        <Target category="Research">
+          <Name>Nanomuscular Swell</Name>
+          <Research>Nanomuscular Swell</Research>
         </Target>
         <Target category="Research">
           <Name>Adaptive Talons</Name>
