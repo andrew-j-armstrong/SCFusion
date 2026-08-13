@@ -77,5 +77,7 @@ protected:
 	SC2ResearchFlags m_researchMinRequirements;
 	SC2ResearchFlags m_researchMaxRequirements;
 
-	WX_DECLARE_HASH_MAP(const CSC2Target *, size_t, wxPointerHash, wxPointerEqual, wxHashMapSC2TargetToCount);
+	// The typedef keeps wx's macro from expanding to `const const` (GCC objects; fair enough)
+	typedef const CSC2Target *CSC2TargetConstPtr;
+	WX_DECLARE_HASH_MAP(CSC2TargetConstPtr, size_t, wxPointerHash, wxPointerEqual, wxHashMapSC2TargetToCount);
 };

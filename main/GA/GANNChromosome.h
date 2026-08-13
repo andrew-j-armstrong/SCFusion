@@ -59,8 +59,8 @@ protected:
 	size_t m_outputCount;
 
 	bool ShouldMutate() const { return rand_sse() < m_mutationCutOff; }
-	double GetFactor() const { return m_minFactor + (rand_sse() * (m_maxFactor - m_minFactor)) / RAND_MAX + (rand_sse() * (m_maxFactor - m_minFactor)) / (RAND_MAX * RAND_MAX); }
-	double GetAdjustment() const { return m_minAdjustment + (rand_sse() * (m_maxAdjustment - m_minAdjustment)) / RAND_MAX + (rand_sse() * (m_maxAdjustment - m_minAdjustment)) / (RAND_MAX * RAND_MAX); }
+	double GetFactor() const { return m_minFactor + (rand_sse() * (m_maxFactor - m_minFactor)) / RAND_SSE_MAX + (rand_sse() * (m_maxFactor - m_minFactor)) / (RAND_SSE_MAX * RAND_SSE_MAX); }
+	double GetAdjustment() const { return m_minAdjustment + (rand_sse() * (m_maxAdjustment - m_minAdjustment)) / RAND_SSE_MAX + (rand_sse() * (m_maxAdjustment - m_minAdjustment)) / (RAND_SSE_MAX * RAND_SSE_MAX); }
 
 	double m_minValue, m_maxValue;
 	short m_mutationCutOff;

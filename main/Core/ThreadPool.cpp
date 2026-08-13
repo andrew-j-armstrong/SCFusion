@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Core/ThreadPool.h"
 #include "Core/Lock.h"
+#include "Core/MemoryPoolManager.h"
+
+#include <chrono>
 
 CThreadPool m_threadPool;
 
@@ -9,104 +12,121 @@ CThreadPool *CThreadPool::Get()
 	return &m_threadPool;
 }
 
-CThreadPool::CThreadPool()
+// A worker: one thread, its own little mailbox, and dreams of build orders.
+class CThreadPool::CWorker
 {
-	m_semaphore = CreateSemaphore(NULL, 1, 1, NULL);
-}
+public:
+	std::thread m_thread;
+	std::mutex m_mutex;
+	std::condition_variable m_cv;
+	void (*m_Func)(void *) = nullptr;
+	void *m_parameter = nullptr;
+	CThreadTaskPtr m_task;
+	bool m_hasWork = false;
+	bool m_exit = false;
+};
 
 CThreadPool::~CThreadPool()
 {
-	while(m_busyThreads.size() > 0)
-		Sleep(200); // Just have to keep waiting for it
-
-	while(m_availableThreads.size() > 0)
+	// Politely wait for anyone still crunching numbers
+	for(;;)
 	{
-		CThreadInfo *info = NULL;
 		{
-			CLock lock(m_semaphore);
-			if(m_availableThreads.size() > 0)
-			{
-				info = m_availableThreads.pop();
-				info->m_Func = NULL;
-				SetEvent(info->m_eventHandle);
-			}
+			CLock lock(m_mutex);
+			if(m_busyCount == 0)
+				break;
 		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	}
 
-		if(info)
+	std::vector<CWorker *> workers;
+	{
+		CLock lock(m_mutex);
+		workers.swap(m_availableWorkers);
+	}
+
+	for(CWorker *worker : workers)
+	{
 		{
-			WaitForSingleObject(info->m_threadHandle, INFINITE);
-			CloseHandle(info->m_threadHandle);
-			delete info;
+			CLock lock(worker->m_mutex);
+			worker->m_exit = true;
 		}
+		worker->m_cv.notify_one();
+		worker->m_thread.join();
+		delete worker;
 	}
 }
 
-HANDLE CThreadPool::StartThread(void (*Func)(void *), void *parameter)
+CThreadTaskPtr CThreadPool::StartThread(void (*Func)(void *), void *parameter)
 {
-	CLock lock(m_semaphore);
+	CThreadTaskPtr task = std::make_shared<CThreadTask>();
+	CWorker *worker;
 
-	CThreadInfo *info;
-	if(m_availableThreads.size() <= 0)
 	{
-		info = new CThreadInfo();
-		info->m_eventHandle = CreateEvent(NULL, FALSE, FALSE, NULL);
-		info->m_threadHandle = CreateThread(NULL, 0, ThreadExecute, info, 0, NULL);
-		SetThreadPriority(info->m_threadHandle, THREAD_PRIORITY_BELOW_NORMAL);
-	}
-	else
-	{
-		info = m_availableThreads.pop();
-	}
+		CLock lock(m_mutex);
 
-	info->m_dummyHandle = CreateSemaphore(NULL, 0, 1, NULL); // Calling code's responsibility to close it
-
-	m_busyThreads.push_back(info);
-	info->m_Func = Func;
-	info->m_parameter = parameter;
-	SetEvent(info->m_eventHandle);
-
-	return info->m_dummyHandle;
-}
-
-void CThreadPool::SetAvailable(HANDLE threadHandle)
-{
-	CLock lock(m_semaphore);
-
-	CThreadInfo *info;
-
-	for(size_t i=0; i < m_busyThreads.size(); i++)
-	{
-		if(m_busyThreads[i]->m_threadHandle == threadHandle)
+		if(m_availableWorkers.empty())
 		{
-			info = m_busyThreads[i];
-			m_busyThreads.erase(i);
-			break;
+			worker = new CWorker();
+			worker->m_thread = std::thread(WorkerLoop, worker);
 		}
+		else
+		{
+			worker = m_availableWorkers.back();
+			m_availableWorkers.pop_back();
+		}
+
+		m_busyCount++;
 	}
 
-	m_availableThreads.push_back(info);
+	{
+		CLock lock(worker->m_mutex);
+		worker->m_Func = Func;
+		worker->m_parameter = parameter;
+		worker->m_task = task;
+		worker->m_hasWork = true;
+	}
+	worker->m_cv.notify_one();
+
+	return task;
 }
 
-DWORD WINAPI CThreadPool::ThreadExecute(LPVOID input)
+void CThreadPool::SetAvailable(CWorker *worker)
 {
+	CLock lock(m_mutex);
+	m_availableWorkers.push_back(worker);
+	m_busyCount--;
+}
+
+void CThreadPool::WorkerLoop(CWorker *worker)
+{
+	// Every thread gets its own private memory-pool empire.
 	CMemoryPoolManager::InitialiseSingleton();
 	CMemPoolNodePoolManager::Get()->InitialiseThread();
 
-	CThreadInfo *info = (CThreadInfo *)input;
-
-	while(true)
+	for(;;)
 	{
-		WaitForSingleObject(info->m_eventHandle, INFINITE);
+		void (*Func)(void *);
+		void *parameter;
+		CThreadTaskPtr task;
 
-		if(!info->m_Func)
-			break; // ThreadPool being destroyed
+		{
+			std::unique_lock<std::mutex> lock(worker->m_mutex);
+			worker->m_cv.wait(lock, [worker]{ return worker->m_hasWork || worker->m_exit; });
 
-		info->m_Func(info->m_parameter);
+			if(worker->m_exit)
+				return;
 
-		ReleaseSemaphore(info->m_dummyHandle, 1, 0);
+			worker->m_hasWork = false;
+			Func = worker->m_Func;
+			parameter = worker->m_parameter;
+			task = std::move(worker->m_task);
+		}
 
-		CThreadPool::Get()->SetAvailable(info->m_threadHandle);
+		Func(parameter);
+
+		task->Signal();
+
+		CThreadPool::Get()->SetAvailable(worker);
 	}
-
-	return 0;
 }

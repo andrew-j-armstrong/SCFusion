@@ -1,5 +1,16 @@
 #pragma once
 
+// Equal must be defined before it can moonlight as a default template argument
+template <typename T>
+struct Equal
+{
+public:
+	bool operator()(const T &a, const T &b) const
+	{
+		return a == b;
+	}
+};
+
 template <typename Key, typename KeyRef, typename Val, typename ValRef, typename Compare = Equal<KeyRef>>
 class CHashtable;
 
@@ -12,16 +23,6 @@ unsigned long HashKey(T key)
 {
 	return (unsigned long)key;
 }
-
-template <typename T>
-struct Equal
-{
-public:
-	bool operator()(const T &a, const T &b) const
-	{
-		return a == b;
-	}
-};
 
 size_t GetNextPrimeSize(size_t nDesiredSize);
 

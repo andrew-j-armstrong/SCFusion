@@ -3,6 +3,8 @@
 
 #include <wx/wxprec.h>
 #include <wx/dir.h>
+#include <wx/filename.h>
+#include <wx/stdpaths.h>
 
 #ifndef WX_PRECOMP
 	#include <wx/wx.h>
@@ -24,7 +26,9 @@
 #include "RaceChoiceDlg.h"
 #include "SC2/SC2Version.h"
 
+#ifdef __WXMSW__
 #include "winsparkle.h"
+#endif
 
 #define wxID_NEW_PROTOSS			(wxID_HIGHEST + 1)
 #define wxID_NEW_TERRAN				(wxID_HIGHEST + 2)
@@ -45,7 +49,9 @@ BEGIN_EVENT_TABLE(MyFrame, wxMDIParentFrame)
 	EVT_MENU(wxID_SAVE, MyFrame::OnSave)
 	EVT_MENU(wxID_SAVEAS, MyFrame::OnSaveAs)
 	EVT_MENU(wxID_EXIT, MyFrame::OnQuit)
+#ifdef __WXMSW__
 	EVT_MENU(wxID_CHECKFORUPDATES, MyFrame::OnCheckForUpdates)
+#endif
 
 	EVT_MENU(wxID_CLOSE_ALL, MyFrame::OnCloseAll)
 
@@ -152,7 +158,11 @@ wxMenuBar *MyFrame::CreateMainMenubar()
 	wxMenu *menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT, "&About\tF1");
 	menuHelp->Append(wxID_REPORT_ISSUE, "&Report an Issue");
+#ifdef __WXMSW__
+	// WinSparkle auto-update; elsewhere you update the way your package
+	// manager intended, or by pulling the repo like a true build-order nerd.
 	menuHelp->Append(wxID_CHECKFORUPDATES, "Check for &Updates");
+#endif
 
 	wxMenuBar *mbar = new wxMenuBar;
 	mbar->Append(menuFile, "&File");
@@ -450,10 +460,32 @@ void MyFrame::OnSize(wxSizeEvent& event)
 
 void MyFrame::LoadVersions()
 {
-	wxDir dir("Versions");
+	// Find the game data. Windows always ran with cwd = install dir, but on
+	// Linux you might launch from anywhere, so also look next to the
+	// executable and in the dev tree (exe in build/, data in main/Versions).
+	wxString versionsDir = wxT("Versions");
+	if(!wxDir::Exists(versionsDir))
+	{
+		const wxString exeDir = wxFileName(wxStandardPaths::Get().GetExecutablePath()).GetPath();
+		const wxString candidates[] = {
+			exeDir + wxT("/Versions"),
+			exeDir + wxT("/../main/Versions"),
+		};
+		for(const wxString &candidate : candidates)
+		{
+			if(wxDir::Exists(candidate))
+			{
+				versionsDir = candidate;
+				break;
+			}
+		}
+	}
 
 	wxArrayString arrFiles;
-	wxDir::GetAllFiles(wxT("Versions"), &arrFiles, wxT("*.xml"));
+	wxDir::GetAllFiles(versionsDir, &arrFiles, wxT("*.xml"));
+
+	if(arrFiles.empty())
+		wxMessageBox(wxString::Format(wxT("No game data found in \"%s\" — no builds for you! (Run from the directory containing Versions/.)"), versionsDir));
 
 	for(size_t i=0; i < arrFiles.size(); i++)
 	{
@@ -570,5 +602,7 @@ void MyFrame::DoVersionSelected()
 
 void MyFrame::OnCheckForUpdates(wxCommandEvent& event)
 {
+#ifdef __WXMSW__
 	win_sparkle_check_update_with_ui();
+#endif
 }

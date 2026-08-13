@@ -1,0 +1,21 @@
+  8 Apply Chrono Boost To Nexus
+ 11 Build Pylon
+ 12 Build Gateway
+ 13 Build Assimilator
+ 15 Build Gateway
+ 15 Move Three Probes To Gas
+ 15 Build Cybernetics Core
+ 17 Build Pylon
+ 17 2 * Build Stalker
+ 23 Apply Chrono Boost To Gateway
+ 23 Build Stalker
+ 25 Apply Chrono Boost To Gateway
+ 25 Build Stalker
+
+Target reached:
+ 2:53.26:  241M   50G  28/ 29S
+Income:    969M  163G
+Buildings:  1 Nexus 2 Pylon 1 Assimilator 2 Gateway 1 Cybernetics Core
+Units:      20 Probe 4 Stalker
+Research:  
+

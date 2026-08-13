@@ -1,5 +1,7 @@
 wxWidgets/*
 !wxWidgets/download.txt
+!wxWidgets/wxwidgets.props
 WinSparkle/*
 !WinSparkle/download.txt
 .vs
+build/

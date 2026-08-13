@@ -1,0 +1,14 @@
+ 14 Build Hatchery
+ 14 Build Overlord
+ 15 Build Hatchery
+ 17 Build Hatchery
+ 18 Build Spawning Pool
+ 26 6 * Build Zergling
+
+Target reached:
+ 3:01.17:  445M    0G   4L  36/ 40S
+Income:   1588M    0G
+Buildings:  4 Hatchery 1 Spawning Pool
+Units:      30 Drone 2 Overlord 12 Zergling
+Research:  
+

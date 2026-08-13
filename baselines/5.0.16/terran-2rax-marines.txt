@@ -1,0 +1,16 @@
+ 12 Build Supply Depot
+ 15 2 * Build Barracks
+ 16 Build Barracks
+ 18 Build Supply Depot
+ 18 2 * Build Marine From Naked Barracks
+ 22 3 * Build Marine From Naked Barracks
+ 25 Build Supply Depot
+ 26 3 * Build Marine From Naked Barracks
+
+Target reached:
+ 2:54.54:  334M    0G  30/ 37S
+Income:   1081M    0G
+Buildings:  1 Command Center 3 Supply Depot 3 Barracks
+Units:      22 SCV 8 Marine
+Research:  
+

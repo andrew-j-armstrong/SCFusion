@@ -1,6 +1,18 @@
 #include "ChartPanel.h"
 #include <map>
 #include <wx/dcsvg.h>
+#include <wx/settings.h>
+
+// Follow the OS: light theme, dark theme, we're not here to argue.
+// (Twin of the one in GridOutput.cpp — promote to a header if it multiplies.)
+static bool IsDarkTheme()
+{
+#if wxCHECK_VERSION(3, 1, 3)
+    return wxSystemSettings::GetAppearance().IsDark();
+#else
+    return false;	// wx too old to ask; it was always light back then anyway
+#endif
+}
 
 BEGIN_EVENT_TABLE(ChartPanel, wxScrolledWindow)
 END_EVENT_TABLE()
@@ -8,7 +20,7 @@ END_EVENT_TABLE()
 ChartPanel::ChartPanel(wxFrame* parent, wxWindowID id) :
     wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxBORDER_THEME)
 {
-    SetBackgroundColour(wxColour(255, 255, 255));
+    SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW));
     SetScrollbars(10, 10, 200, 200, 0, 0);
     SetDoubleBuffered(true);
 }
@@ -23,29 +35,58 @@ const int STATUS_HEIGHT = 5;
 const int DOUBLE_QUEUE_ITEM_HEIGHT = ROW_HEIGHT / 2;
 const int doubleQueueMarginCorrection = (ITEM_HEIGHT - ROW_HEIGHT) / 2;
 
-const std::map<ChartItem::ChartItemType, wxColor> COLORFUL = {
-   {ChartItem::tDefault, wxColor(204, 204, 204)},
-   {ChartItem::tBase, wxColor(153, 204, 255)},
-   {ChartItem::tGas, wxColor(153, 204, 153)},
-   {ChartItem::tSupply, wxColor(255, 204, 153)},
-   {ChartItem::tStatus, wxColor(102, 229, 204)},
-   {ChartItem::tMilitary, wxColor(255, 153, 153)},
-   {ChartItem::tMilitaryUnit, wxColor(255, 204, 204)},
-   {ChartItem::tWorker, wxColor(204, 229, 255)},
-   {ChartItem::tResearch, wxColor(229, 204, 255)},
-};
-
-const std::map<ChartItem::ChartItemType, wxColor> PLAIN = {
-   {ChartItem::tDefault, wxColor(153, 204, 255)},
-   {ChartItem::tBase, wxColor(153, 204, 255)},
-   {ChartItem::tGas, wxColor(153, 204, 255)},
-   {ChartItem::tSupply, wxColor(153, 204, 255)},
-   {ChartItem::tStatus, wxColor(153, 204, 255)},
-   {ChartItem::tMilitary, wxColor(153, 204, 255)},
-   {ChartItem::tMilitaryUnit, wxColor(153, 204, 255)},
-   {ChartItem::tWorker, wxColor(153, 204, 255)},
-   {ChartItem::tResearch, wxColor(153, 204, 255)},
-};
+// Gantt-bar palettes: pastels for light themes, embers for dark ones.
+// (Function-local statics so wxSystemSettings isn't poked before wxApp.)
+static const std::map<ChartItem::ChartItemType, wxColor> &ChartColours(bool colorful)
+{
+    static const std::map<ChartItem::ChartItemType, wxColor> colorfulLight = {
+       {ChartItem::tDefault, wxColor(204, 204, 204)},
+       {ChartItem::tBase, wxColor(153, 204, 255)},
+       {ChartItem::tGas, wxColor(153, 204, 153)},
+       {ChartItem::tSupply, wxColor(255, 204, 153)},
+       {ChartItem::tStatus, wxColor(102, 229, 204)},
+       {ChartItem::tMilitary, wxColor(255, 153, 153)},
+       {ChartItem::tMilitaryUnit, wxColor(255, 204, 204)},
+       {ChartItem::tWorker, wxColor(204, 229, 255)},
+       {ChartItem::tResearch, wxColor(229, 204, 255)},
+    };
+    static const std::map<ChartItem::ChartItemType, wxColor> colorfulDark = {
+       {ChartItem::tDefault, wxColor(72, 72, 72)},
+       {ChartItem::tBase, wxColor(42, 84, 126)},
+       {ChartItem::tGas, wxColor(54, 96, 54)},
+       {ChartItem::tSupply, wxColor(122, 82, 42)},
+       {ChartItem::tStatus, wxColor(28, 104, 88)},
+       {ChartItem::tMilitary, wxColor(128, 52, 52)},
+       {ChartItem::tMilitaryUnit, wxColor(100, 58, 58)},
+       {ChartItem::tWorker, wxColor(52, 78, 108)},
+       {ChartItem::tResearch, wxColor(92, 68, 120)},
+    };
+    static const std::map<ChartItem::ChartItemType, wxColor> plainLight = {
+       {ChartItem::tDefault, wxColor(153, 204, 255)},
+       {ChartItem::tBase, wxColor(153, 204, 255)},
+       {ChartItem::tGas, wxColor(153, 204, 255)},
+       {ChartItem::tSupply, wxColor(153, 204, 255)},
+       {ChartItem::tStatus, wxColor(153, 204, 255)},
+       {ChartItem::tMilitary, wxColor(153, 204, 255)},
+       {ChartItem::tMilitaryUnit, wxColor(153, 204, 255)},
+       {ChartItem::tWorker, wxColor(153, 204, 255)},
+       {ChartItem::tResearch, wxColor(153, 204, 255)},
+    };
+    static const std::map<ChartItem::ChartItemType, wxColor> plainDark = {
+       {ChartItem::tDefault, wxColor(42, 84, 126)},
+       {ChartItem::tBase, wxColor(42, 84, 126)},
+       {ChartItem::tGas, wxColor(42, 84, 126)},
+       {ChartItem::tSupply, wxColor(42, 84, 126)},
+       {ChartItem::tStatus, wxColor(42, 84, 126)},
+       {ChartItem::tMilitary, wxColor(42, 84, 126)},
+       {ChartItem::tMilitaryUnit, wxColor(42, 84, 126)},
+       {ChartItem::tWorker, wxColor(42, 84, 126)},
+       {ChartItem::tResearch, wxColor(42, 84, 126)},
+    };
+    if (IsDarkTheme())
+        return colorful ? colorfulDark : plainDark;
+    return colorful ? colorfulLight : plainLight;
+}
 
 bool compareStartTime(ChartItem a, ChartItem b)
 {
@@ -119,7 +160,7 @@ void ChartPanel::SetChartItems(vector<vector<ChartItem>> chartItems)
 
 wxColor ChartPanel::GetBrushColorByType(ChartItem::ChartItemType itemType)
 {
-    return m_colorful ? COLORFUL.at(itemType) : PLAIN.at(itemType);
+    return ChartColours(m_colorful).at(itemType);
 }
 
 bool ChartPanel::ExportSVG(wxString filename)
@@ -131,9 +172,13 @@ bool ChartPanel::ExportSVG(wxString filename)
 
 void ChartPanel::OnDraw(wxDC& dc)
 {
+    const bool dark = IsDarkTheme();
+    const wxColor gridlineColour = dark ? wxColor(60, 60, 60) : wxColor(230, 230, 230);
+    const wxColor milestoneColour = dark ? wxColor(90, 90, 90) : wxColor(204, 204, 204);
+
     // Draw grid
-    dc.SetPen(wxPen(wxColor(230, 230, 230), 1));
-    dc.SetTextForeground(wxColor(153, 153, 153));
+    dc.SetPen(wxPen(gridlineColour, 1));
+    dc.SetTextForeground(wxColor(153, 153, 153));	// mid-grey: legible on both
     for (int i = 1; i <= m_width / 15 / PIXELS_PER_SECOND; i++)
     {
         dc.DrawLine(wxPoint(i * 15 * PIXELS_PER_SECOND, 20), wxPoint(i * 15 * PIXELS_PER_SECOND, m_height - 20));
@@ -144,10 +189,10 @@ void ChartPanel::OnDraw(wxDC& dc)
 
     // Draw milestones
     dc.SetTextForeground(wxColor(153, 153, 153));
-    dc.SetBrush(wxColor(230, 230, 230));
+    dc.SetBrush(gridlineColour);
     for (size_t i = 0; i < m_milestones.size(); i++)
     {
-        dc.SetPen(wxPen(wxColor(204, 204, 204), 2));
+        dc.SetPen(wxPen(milestoneColour, 2));
         dc.DrawLine(wxPoint(m_milestones[i].endTime * PIXELS_PER_SECOND - 1, 20), wxPoint(m_milestones[i].endTime * PIXELS_PER_SECOND - 1, m_height - 20));
         dc.SetPen(*wxTRANSPARENT_PEN);
         dc.DrawRectangle((m_milestones[i].endTime * PIXELS_PER_SECOND) - 18, 3, 36, 15);
@@ -156,10 +201,11 @@ void ChartPanel::OnDraw(wxDC& dc)
         dc.DrawText(wxString::Format(L"%02d:%02d", (int)(m_milestones[i].endTime / 60), (int)(m_milestones[i].endTime) % 60), m_milestones[i].endTime * PIXELS_PER_SECOND - 13, m_height - 17);
     }
 
-    // Draw items
+    // Draw items — bar labels need to contrast the bars, and the bars follow
+    // the theme, so the text does too.
     dc.SetBrush(wxColor(127, 191, 255));
     dc.SetPen(*wxTRANSPARENT_PEN);
-    dc.SetTextForeground(wxColor(0, 0, 0));
+    dc.SetTextForeground(dark ? wxColor(230, 230, 230) : wxColor(0, 0, 0));
 
     // Draw stray items first
     for (size_t i = 0; i < m_stray_chart_items.size(); i++)

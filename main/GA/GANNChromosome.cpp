@@ -275,7 +275,7 @@ CGANNChromosome::CNode::CNode(const CGANNChromosome::CNode &node, const CVector<
 CGANNChromosomeMutator::CGANNChromosomeMutator(size_t inputCount, size_t outputCount, double minValue, double maxValue, double mutationRate, double minFactor, double maxFactor, double minAdjustment, double maxAdjustment)
 	: m_inputCount(inputCount), m_outputCount(outputCount)
 	, m_minValue(minValue), m_maxValue(maxValue)
-	, m_mutationCutOff((short)(RAND_MAX * mutationRate))
+	, m_mutationCutOff((short)(RAND_SSE_MAX * mutationRate))
 	, m_minFactor(minFactor), m_maxFactor(maxFactor)
 	, m_minAdjustment(minAdjustment), m_maxAdjustment(maxAdjustment)
 {
@@ -296,12 +296,12 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 		// Always up to 3 synapses
 		for(size_t i=0; i < 3 && i < m_inputCount + chromosome.m_nodes.size(); i++)
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
-				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 			else
-				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 		}
 
 #if defined(STANDARD_SUMMATION_ONLY)
@@ -314,20 +314,20 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 #endif
 
 #if defined(STEP_HIDDEN_NODES)
-		node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+		node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #elif defined(SIGMOID_HIDDEN_NODES)
-		node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+		node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #else
 		switch(rand_sse() % 3)
 		{
 		case 0:
-			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		case 1:
-			node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		case 2:
-			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		}
 #endif
@@ -335,7 +335,7 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 		for(size_t i=0; i < chromosome.m_outputs.size(); i++)
 			chromosome.m_outputs[i]->m_nodeWeights.push_back(0.0);
 
-		chromosome.m_outputs[(rand_sse() * chromosome.m_outputs.size()) / (RAND_MAX + 1)]->m_nodeWeights[chromosome.m_nodes.size()] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+		chromosome.m_outputs[(rand_sse() * chromosome.m_outputs.size()) / (RAND_SSE_MAX + 1)]->m_nodeWeights[chromosome.m_nodes.size()] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 
 		chromosome.m_nodes.push_back(node);
 	}
@@ -343,7 +343,7 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 	// Remove nodes
 	if(chromosome.m_nodes.size() > 0 && ShouldMutate())
 	{
-		size_t deleteIndex = (rand_sse() * chromosome.m_nodes.size()) / (RAND_MAX + 1);
+		size_t deleteIndex = (rand_sse() * chromosome.m_nodes.size()) / (RAND_SSE_MAX + 1);
 
 		for(size_t i=deleteIndex+1; i < chromosome.m_nodes.size(); i++)
 		{
@@ -370,18 +370,18 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 		// Add synapses
 		if(ShouldMutate())
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
-				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 			else
-				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 		}
 
 		// Remove synapses
 		if(ShouldMutate())
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
 				node->m_inputWeights[index] = 0.0;
@@ -392,7 +392,7 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 		// Modify weights
 		if(ShouldMutate())
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
 				weight = node->m_inputWeights[index];
@@ -431,20 +431,20 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 			delete node->m_transform;
 
 #if defined(STEP_HIDDEN_NODES)
-			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #elif defined(SIGMOID_HIDDEN_NODES)
-			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #else
 			switch(rand_sse() % 3)
 			{
 			case 0:
-				node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+				node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 				break;
 			case 1:
-				node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+				node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 				break;
 			case 2:
-				node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+				node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 				break;
 			}
 #endif
@@ -459,18 +459,18 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 		// Add synapses
 		if(ShouldMutate())
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
-				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 			else
-				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 		}
 
 		// Remove synapses
 		if(ShouldMutate())
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
 				node->m_inputWeights[index] = 0.0;
@@ -481,7 +481,7 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 		// Modify weights
 		if(ShouldMutate())
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
 				weight = node->m_inputWeights[index];
@@ -520,20 +520,20 @@ bool CGANNChromosomeMutator::Mutate(CGANNChromosome &chromosome) const
 			delete node->m_transform;
 
 #if defined(STEP_HIDDEN_NODES)
-			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #elif defined(SIGMOID_HIDDEN_NODES)
-			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #else
 			switch(rand_sse() % 3)
 			{
 			case 0:
-				node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+				node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 				break;
 			case 1:
-				node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+				node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 				break;
 			case 2:
-				node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+				node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 				break;
 			}
 #endif
@@ -558,12 +558,12 @@ void CGANNChromosomeMutator::InitRandomChromosome(CGANNChromosome &chromosome) c
 		// Always up to 3 synapses
 		for(size_t i=0; i < 3 && i < m_inputCount + chromosome.m_nodes.size(); i++)
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
-				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 			else
-				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 		}
 
 #if defined(STANDARD_SUMMATION_ONLY)
@@ -576,20 +576,20 @@ void CGANNChromosomeMutator::InitRandomChromosome(CGANNChromosome &chromosome) c
 #endif
 
 #if defined(STEP_HIDDEN_NODES)
-		node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+		node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #elif defined(SIGMOID_HIDDEN_NODES)
-		node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+		node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #else
 		switch(rand_sse() % 3)
 		{
 		case 0:
-			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		case 1:
-			node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		case 2:
-			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		}
 #endif
@@ -609,12 +609,12 @@ void CGANNChromosomeMutator::InitRandomChromosome(CGANNChromosome &chromosome) c
 		// Always up to 3 synapses
 		for(size_t j=0; j < 3 && j < m_inputCount + chromosome.m_nodes.size(); j++)
 		{
-			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_MAX + 1));
+			size_t index = ((rand_sse() * (chromosome.m_nodes.size() + chromosome.m_outputs.size())) / (RAND_SSE_MAX + 1));
 
 			if(index < m_inputCount)
-				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_inputWeights[index] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 			else
-				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+				node->m_nodeWeights[index - m_inputCount] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 		}
 
 #if defined(STANDARD_SUMMATION_ONLY)
@@ -627,20 +627,20 @@ void CGANNChromosomeMutator::InitRandomChromosome(CGANNChromosome &chromosome) c
 #endif
 
 #if defined(STEP_HIDDEN_NODES)
-		node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+		node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #elif defined(SIGMOID_HIDDEN_NODES)
-		node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+		node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 #else
 		switch(rand_sse() % 3)
 		{
 		case 0:
-			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNStepTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		case 1:
-			node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNDirectTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		case 2:
-			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX);
+			node->m_transform = new CNNSigmoidTransform(m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX);
 			break;
 		}
 #endif
@@ -650,6 +650,6 @@ void CGANNChromosomeMutator::InitRandomChromosome(CGANNChromosome &chromosome) c
 
 	for(size_t i=0; i < chromosome.m_nodes.size(); i++)
 	{
-		chromosome.m_outputs[(rand_sse() * chromosome.m_outputs.size()) / (RAND_MAX + 1)]->m_nodeWeights[i] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_MAX;
+		chromosome.m_outputs[(rand_sse() * chromosome.m_outputs.size()) / (RAND_SSE_MAX + 1)]->m_nodeWeights[i] = m_minValue + (rand_sse() * (m_maxValue - m_minValue)) / RAND_SSE_MAX;
 	}
 }

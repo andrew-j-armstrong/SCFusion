@@ -53,12 +53,12 @@ public:
 	size_t CityEvolution() const { return m_evolution; }
 	size_t CityStagnationCount() const { if(!m_city) return 0; return m_city->StagnationCount(); }
 	unsigned long long CityGameCount() const { if(!m_city) return 0; return m_city->gameCount(); }
-	TFitness CityBestFitness() const { CLock lock(m_semaphore); return m_bestFitness; }
+	TFitness CityBestFitness() const { CLock lock(m_mutex); return m_bestFitness; }
 
 	size_t StagnationLimit() const { return m_stagnationLimit; }
 
-	void GetBestGame(TChromosome &game) const { CLock lock(m_semaphore); if(!m_bestGame) return; game = *m_bestGame; }
-	void GetBestGameAndFitness(TChromosome &game, TFitness &fitness) const { CLock lock(m_semaphore); if(!m_bestGame) return; game = *m_bestGame; fitness = m_bestFitness; }
+	void GetBestGame(TChromosome &game) const { CLock lock(m_mutex); if(!m_bestGame) return; game = *m_bestGame; }
+	void GetBestGameAndFitness(TChromosome &game, TFitness &fitness) const { CLock lock(m_mutex); if(!m_bestGame) return; game = *m_bestGame; fitness = m_bestFitness; }
 
 protected:
 	CGAConfiguration<TChromosome, TMutator, TFitnessCalc, TFitness> *m_config;
@@ -73,10 +73,9 @@ protected:
 
 	TChromosome *m_bestGame;
 	TFitness m_bestFitness;
-	HANDLE m_semaphore;
+	mutable std::mutex m_mutex;
 
-	HANDLE m_threadHandle;
-	DWORD m_threadId;
+	CThreadTaskPtr m_task;
 
 	bool m_bRunning;
 	bool m_bContinueRunning;
@@ -87,9 +86,8 @@ protected:
 
 template<typename TChromosome, typename TMutator, typename TFitnessCalc, typename TFitness, template<typename, typename> class TPopulationSort, bool RecalcEliteFitness>
 CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, RecalcEliteFitness>::CGAEngine()
-: m_config(0), m_city(0), m_bestGame(0), m_bestFitness(), m_threadHandle(0), m_threadId(0), m_stagnationLimit(1000), m_cityMaxPopulation(0), m_bRunning(false), m_bContinueRunning(true), m_evolution(0)
+: m_config(0), m_city(0), m_bestGame(0), m_bestFitness(), m_stagnationLimit(1000), m_cityMaxPopulation(0), m_bRunning(false), m_bContinueRunning(true), m_evolution(0)
 {
-	m_semaphore = CreateSemaphore(0, 1, 1, 0);
 }
 
 template<typename TChromosome, typename TMutator, typename TFitnessCalc, typename TFitness, template<typename, typename> class TPopulationSort, bool RecalcEliteFitness>
@@ -103,9 +101,6 @@ CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, Recalc
 
 	delete m_config;
 	delete m_bestGame;
-
-	CloseHandle(m_semaphore);
-	CloseHandle(m_threadHandle);
 }
 
 template<typename TChromosome, typename TMutator, typename TFitnessCalc, typename TFitness, template<typename, typename> class TPopulationSort, bool RecalcEliteFitness>
@@ -130,7 +125,12 @@ void CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, R
 	if(m_bRunning)
 		return;
 
-	m_threadHandle = CThreadPool::Get()->StartThread(CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, RecalcEliteFitness>::Execute, this);
+	// Flag it here, not in Execute: otherwise IsRunning() lies to anyone who
+	// asks between thread launch and thread actually waking up.
+	m_bRunning = true;
+	m_bContinueRunning = true;
+
+	m_task = CThreadPool::Get()->StartThread(CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, RecalcEliteFitness>::Execute, this);
 }
 
 template<typename TChromosome, typename TMutator, typename TFitnessCalc, typename TFitness, template<typename, typename> class TPopulationSort, bool RecalcEliteFitness>
@@ -140,7 +140,8 @@ void CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, R
 	{
 		m_bContinueRunning = false;
 
-		WaitForSingleObject(m_threadHandle, INFINITE);
+		if(m_task)
+			m_task->Wait();
 	}
 }
 
@@ -149,7 +150,7 @@ void CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, R
 {
 	m_bRunning = true;
 
-	srand_sse((unsigned int)m_threadHandle + GetTickCount());
+	srand_sse((unsigned int)(uintptr_t)this + (unsigned int)std::chrono::steady_clock::now().time_since_epoch().count());
 
 	for(size_t i=0; i < m_villages.size(); i++)
 		m_villages[i]->Start();
@@ -185,7 +186,7 @@ void CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, R
 
 		if(m_evolution % 20 == 0) // Every 20 city evolutions update the best game
 		{
-			CLock lock(m_semaphore);
+			CLock lock(m_mutex);
 			delete m_bestGame;
 			m_bestGame = new TChromosome(m_city->GetBestChromosome());
 			m_bestFitness = m_city->GetBestFitness();
@@ -200,12 +201,19 @@ void CGAEngine<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSort, R
 	for(size_t i=0; i < m_villages.size(); i++)
 		m_villages[i]->WaitForCompletion();
 
+	// Keep a final snapshot of the champion so GetBestGame() still works
+	// after the engine retires. (It used to throw the trophy away on the
+	// way out, which was fine for the GUI's rolling snapshots but rather
+	// rude to anyone asking afterwards.)
+	{
+		CLock lock(m_mutex);
+		delete m_bestGame;
+		m_bestGame = new TChromosome(m_city->GetBestChromosome());
+		m_bestFitness = m_city->GetBestFitness();
+	}
+
 	delete m_city;
 	m_city = 0;
-
-	CLock lock(m_semaphore);
-	delete m_bestGame;
-	m_bestGame = 0;
 
 	m_bRunning = false;
 };

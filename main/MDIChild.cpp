@@ -2,6 +2,7 @@
 
 #include <wx/xml/xml.h>
 #include <wx/print.h>
+#include <wx/time.h>
 
 #include "bitmaps/save.xpm"
 
@@ -10,14 +11,8 @@
 #include "ChartPanel.h"
 #include "OutputPrintout.h"
 #include "Core/HashFunction.h"
-#include "AStar/ASEngine.h"
-#include "AStar/ASBuildStateNode.h"
-#include "AStar/ASStoreStateNode.h"
-#include "AStar/ASSingleParent.h"
-#include "AStar/ASNoDuplicateManager.h"
-#include "AStar/ASHashTableStoreStateDuplicateManager.h"
-#include "AStar/ASVectorOpenListManager.h"
-#include "AStar/ASPriorityQueueOpenListManager.h"
+// (The AStar/*.h includes that used to live here were never used — the GA
+// won that argument years ago.)
 #include "SC2/SC2Version.h"
 #include "SC2/SC2FitnessCalc.h"
 #include "SC2/SC2Waypoint.h"
@@ -398,9 +393,14 @@ MyChild::MyChild(wxMDIParentFrame *parent, CSC2Engine *engine, const char * cons
 	m_listVillages->InsertItem(6, wxT("Village 5"));
 	m_listVillages->SetItem(6, 1, wxT("200"));
 
-	m_pgTarget->SetSplitterPosition(WAYPOINT_GRID_SPLIT_POSITION);
-
-	m_pgResult->SetSplitterPosition(148);
+	// Set the splitters *after* layout: wxGTK sizes windows asynchronously, so
+	// right now these grids are ~0px wide and wxPropertyGrid would rescale our
+	// 210px into a hilariously tiny label column. On Windows the window is
+	// already real here, so deferring is a no-op with extra steps.
+	CallAfter([this]() {
+		m_pgTarget->SetSplitterPosition(WAYPOINT_GRID_SPLIT_POSITION);
+		m_pgResult->SetSplitterPosition(148);
+	});
 
 	Connect(wxID_ADD, wxEVT_COMMAND_BUTTON_CLICKED, 
 		wxCommandEventHandler(MyChild::AddWaypoint));
@@ -785,7 +785,10 @@ void MyChild::AddWaypoint()
 	m_panelWaypoints.push_back(panel);
 	m_pgWaypoints.push_back(prop);
 
-	prop->SetSplitterPosition(WAYPOINT_GRID_SPLIT_POSITION);
+	// Deferred for the same wxGTK async-sizing reason as in the constructor.
+	prop->CallAfter([prop]() {
+		prop->SetSplitterPosition(WAYPOINT_GRID_SPLIT_POSITION);
+	});
 
 	UpdateRemoveButton();
 }
@@ -918,7 +921,7 @@ bool MyChild::StartEngine(CSC2Engine::EScoutingWorker scout, int scoutTime, int 
 	m_timer = new wxTimer(this, wxID_TIMER);
 	m_timer->Start(1000);
 
-	m_startTickCount = GetTickCount();
+	m_startTickCount = wxGetUTCTimeMillis().GetValue();
 
 	return true;
 }
@@ -932,7 +935,7 @@ void MyChild::StopEngine()
 	m_engine->Stop();
 }
 
-void MyChild::UpdateListBoxEntry(int nItem, size_t population, size_t evolution, size_t stagnationCount, unsigned long long gameCount, double bestFitness, DWORD timeDiff)
+void MyChild::UpdateListBoxEntry(int nItem, size_t population, size_t evolution, size_t stagnationCount, unsigned long long gameCount, double bestFitness, wxLongLong_t timeDiff)
 {
 	wxString strText;
 
@@ -968,7 +971,7 @@ void MyChild::UpdateListBoxEntry(int nItem, size_t population, size_t evolution,
 
 void MyChild::OnTimer(wxTimerEvent& event)
 {
-	DWORD timeDiff = GetTickCount() - m_startTickCount;
+	wxLongLong_t timeDiff = wxGetUTCTimeMillis().GetValue() - m_startTickCount;
 
 	size_t totalPopulation, totalEvolution, totalStagnationCount;
 	unsigned long long totalGameCount;
@@ -982,6 +985,9 @@ void MyChild::OnTimer(wxTimerEvent& event)
 	{
 		m_txtCompletionLikelihood->SetValue(wxT("> 90.0 %"));
 		m_txtCompletionLikelihood->SetBackgroundColour(wxColour(0, 255, 0));
+		// The traffic-light backgrounds are always bright, so the text goes
+		// black with them regardless of theme (idle state stays themed).
+		m_txtCompletionLikelihood->SetForegroundColour(*wxBLACK);
 	}
 	else
 	{
@@ -999,6 +1005,7 @@ void MyChild::OnTimer(wxTimerEvent& event)
 
 		m_txtCompletionLikelihood->SetValue(wxString::Format("%6.2f %%", completionPercentage));
 		m_txtCompletionLikelihood->SetBackgroundColour(wxColour(red, green, 0));
+		m_txtCompletionLikelihood->SetForegroundColour(*wxBLACK);
 	}
 
 	for(size_t i=0; i < 5; i++)

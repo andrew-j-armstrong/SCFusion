@@ -1,7 +1,7 @@
 #pragma once
 
 #include <wx/wx.h>
-#include <Wx/sizer.h>
+#include <wx/sizer.h>
 #include "ChartItem.h"
 
 using std::vector;
@@ -19,7 +19,7 @@ public:
     void SetColorfulOutput();
     void SetPlainOutput();
 
-    wxColor ChartPanel::GetBrushColorByType(ChartItem::ChartItemType itemType);
+    wxColor GetBrushColorByType(ChartItem::ChartItemType itemType);
 
     DECLARE_EVENT_TABLE()
 

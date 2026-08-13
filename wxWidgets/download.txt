@@ -1,4 +1,11 @@
-Download wxWidgets Windows binaries from https://www.wxwidgets.org/downloads/
-- Header files
-- Development files
-- Release DLLs
+Download the official wxWidgets 3.1.4 Windows binaries from
+https://github.com/wxWidgets/wxWidgets/releases/tag/v3.1.4
+and extract them into this directory (keeping the committed
+wxwidgets.props — the archives ship their own; don't let it overwrite):
+
+- wxWidgets-3.1.4-headers.7z         -> include/
+- wxMSW-3.1.4_vc14x_Dev.7z           -> lib/vc14x_dll/ (import libs, debug DLLs)
+- wxMSW-3.1.4_vc14x_ReleaseDLL.7z    -> lib/vc14x_dll/ (release DLLs)
+
+3.1.4 specifically: the project deploys wx*314u_vc14x.dll by name.
+(.github/workflows/ci.yml automates this same layout for CI.)

@@ -1,0 +1,206 @@
+
+Patch 5.0.16 has been released with map pool and economy updates, balance changes with expanding strategic variety across all three races, and overall quality of life improvements.
+
+Map Pool Update
+The map pool has been updated for 1v1,2v2,3v3, and 4v4.
+
+1v1
+At Eternity's Edge LE
+Blackrock LE
+Fear and Faith LE
+Lockdown LE
+Old Sun Temple LE
+Rainfall LE
+Rorschach LE
+Sanctuary III LE
+Washout LE
+2v2
+Fields of Death CE
+Gemgarden LE
+New Bed of Chaos LE
+Reclamation LE
+Rhoskallian LE
+Rust Bucket LE
+Sludge City
+Undercurrent LE
+Yellowjacket
+3v3
+Augustine Fall LE
+Canyon of Tribulation
+Megastructure
+Radiator LE
+Sandstorm CE
+Sentinel CE
+Ujari
+Voracity
+Whitewater Line LE
+4v4
+Concord LE
+Floodplain
+Old Estate
+Research Site JD-2
+Riptide
+Slowdive
+Tropic Shores
+Tuonela LE
+Economy
+Starting workers reduced from 12 to 8.
+Default Large Mineral patch resource count reduced from 1,800 to 1,600.
+Default Small Mineral patch resource count increased from 900 to 1,100.
+Default Vespene Geysers' resource count increased from 2,250 to 2,500.
+Total Default Gas per base increased from 4,500 to 5,000.
+Rich Vespene Gas Geyser harvest return value decreased from 8 to 6.
+Zerg
+Hatchery, Lair and Hive
+Supplies reduced from 6 to 4.
+Cost increased from 275 to 300.
+Creep
+Spread/Recede rate slowed from 0.45 to 0.55.
+Larva
+Periodic spawn rate increased from 10.7 seconds to 9.5 seconds.
+Spore Crawler
+Damage against Biological increased from 20 (+10 Biological) to 20 (+15 Biological).
+Carapace Upgrades
+Level 1 cost decreased from 150/150 to 100/100.
+Level 2 cost decreased from 200/200 to 150/150.
+Level 3 cost decreased from 250/250 to 200/200.
+Infestor
+Microbial Shroud range increased from 9 to 12.
+Microbial Shroud can now be cast without requiring an upgrade from the Infestation Pit.
+Neural Parasite on builder SCVs will only expire at structure completion.
+Now has an auto-attack weapon.
+Viper
+Abduct now considers Sieged Tanks a valid target.
+Overlord
+Speed without Pneumatized Carapace decreased from 0.9 to 0.85.
+Can now issue 'Load Nearby Units' commands.
+Overseer
+Changelings automatically inherit the current order queue of the casting Overseer.
+Changelings’ deaths are contagious to other nearby Changelings.
+Mutalisk
+Mutalisk Glaives now prioritize targets.
+Arc slop increased to 180.
+Terran
+Command Center
+Supplies provided reduced from 15 to 13.
+Ghost
+Supply increased from 2 to 3.
+Health reduced from 125 to 100.
+Attack damage changed from 10 + 10 vs Light to 15.
+Attack range increased from 6 to 7.
+Movement speed reduced from 3.94 to 3.85.
+Steady Targeting
+Damage increased from 130 + 40 vs Psionic to 170.
+Energy cost increased from 50 to 75.
+No longer cancels upon taking damage.
+Medivac
+Can now issue 'Load Nearby Units' commands.
+Subgroup Priority
+Priority order updated from (Raven, Ghost, Battlecruiser, Marine, Marauder, SiegeTank) to (Ghost, Marine+Marauder, Raven, Battlecruiser, Siegetank)
+Protoss
+Nexus
+Supplies provided reduced from 15 to 13.
+Warpgate
+Warpgate Research speeds up Gateway unit production time by 40%.
+'Transform to Warpgate' cost increased from 0/(0) to 25/(25). (Note: this is an one time cost and once purchased, the player can switch between the different gateway modes for free)
+Warp-in Time is no longer determined by 'slow power fields'.
+Warp-in Time decreased to 4 seconds (from 3.6 seconds and 11.4 seconds).
+Warpgate Cooldown Values
+Zealot: from 20 to 22
+Adept: from 20 to 22
+Stalker: from 23 to 22
+Sentry: from 23 to 22
+High Templar: from 32 to 35
+Dark Templar: from 32 to 35
+Gateway
+Post-Warpgate Production Time Values
+Zealot: 16
+Adept: 18
+Stalker: 16
+Sentry: 14
+High Templar: 26
+Dark Templar: 26
+Shield Battery
+Starts with 75 energy upon completion.
+Sentry
+Hallucinations automatically inherit the current order queue of the casting Sentry.
+High Templar
+Psi Storm total damage reduced from 110 to 100.
+Disruptor
+Now has a 'phantom attack' weapon.
+Warp Prism
+Can now issue 'Load Nearby Units' commands.
+Bug Fixes & Quality of Life Updates
+Fixed an issue where Carrier Interceptors owned due to a player casting Neural Parasite would not inherit the opponent's upgrades.
+Fixed an issue where EMP visuals did not provide clear visual indication of effect radius/affected units.
+Fixed an issue where Motherships would warp in adjacent to the Nexus rather than overtop.
+Fixed an issue where Guardian Shield visuals would persist even after loaded into a transport.
+Fixed an issue where melee units targeting builder SCVs would lose their attack order when the SCV moved through the structure.
+Fixed an issue where SCVs could not have build orders queued sequentially onto structures already being constructed by another SCV.
+Fixed an issue where Guardian Shield visuals would not update player colour post-initialization.
+Fixed an issue where the KD8 Charge could knock back immobile targets during Recall.
+Fixed an issue where the KD8 Charge lacked a placement model and AOE effect radius cursor indicator.
+Fixed an issue where the KD8 Charge would be thrown in front of a target unit rather than at the targeted cast point.
+Fixed an issue where some units' spells would not trigger Protoss shield-damage graphics (Purification Nova, Corrosive Bile, KD8 Charge).
+Fixed an issue where units with burrow move would lose their current orders when told to burrow.
+Fixed an issue where 'Zerg Rocks' were lacking polish. (Now uses correct wireframe, has a Zerg building armour icon, and uses animation state to communicate health level).
+Fixed an issue where a variation of large diagonal rocks still did not receive an attack command if certain portions of the rock were within vision but not others.
+Fixed an issue where attack commands with Adept Shades in the selection behaved erratically (eg. finishing a shade caused the attack target to be lost if the command was not issued by smart command/right click, units could unexpectedly move command etc).
+Fixed an issue where the Nexus had no indication Nexus Recall nor Energy Recharge abilities' cooldowns were global. Command card now displays charge counters and minimap displays all Nexus range radius.
+Fixed an issue where the Nexus Energy Recharge ability range radius actor would display permanently rather than when the ability was being targeted.
+Fixed an issue where Lurker Attack Spike sounds could be heard through the Fog of War.
+Fixed an issue where Lurker eggs lacked polish during creation/destruction. Eggs now take less time to appear due to faster birth animation and play a death cry to communicate when destroyed early.
+Fixed an issue where the Warp Prism would not display an unload visual model indicator.
+Fixed an issue where the Warp Prism would not display a load range radius actor when the ability was being targeted.
+Fixed an issue where the Warp Prism movement was highly variant/ sluggish if ordered to queue pickup orders or pick up units slightly out of immediate range.
+Fixed an issue where Banelings in splash range of enemy units but killed by enemy units would not spawn an audio cue indicating splash damage had been dealt, which really undermined their hard work and hurt their feelings.
+Fixed an issue where non-disguised Changelings would not play their full birth animation.
+Fixed an issue where commanding Oracles to build Stasis Wards in areas inside their range could result in slower execution than being commanded to build outside their range.
+Fixed an issue where Oracles would teleport short distances if told to build a Stasis Ward while overlapping with other air units (such as other friendly oracles).
+Fixed an issue where Stasis Wards lacked a distinct audio cue for their death.
+Fixed an issue where players attempting to attack a Stasis Ward could easily accidentally move command underneath it instead.
+Fixed an issue where Colossus could not be created/unloaded in space an air unit already was (this mostly affects the predictability of colossus drop positioning due to collision with the warp prism).
+Fixed an issue where Voidray Prismatic Alignment lacked a termination audio cue.
+Fixed an issue where Immortal Barrier lacked a termination audio cue.
+Fixed an issue where beam attack visuals would not terminate if targets were picked up by transports or teleported away (Sentry, Void Ray).
+Fixed an issue where the Sentry's beam attack visuals were misleading due to being significantly delayed during creation and termination. They should now feel much more responsive to control.
+Fixed an issue where the Cyclone basic weapon was unable to damage friendly cloaked/buried units.
+Fixed an issue where the High Templar's basic weapon's visuals and sounds were not proportionate in size/volume to its impact.
+Fixed an issue where Vespene Geysers did not update their model to tolerate shaders if players' shader graphics settings changed mid-match, allowing for re-enabling of the higher graphics option.
+Fixed an issue where Phoenix would not face their channeled Graviton target.
+Fixed an issue where killing a Viper prior to its Abduct tongue connecting with a target would not cancel the abduct.
+Fixed an issue where Nexus would still play Blinding Cloud visuals (despite no longer having Photon Overcharge).
+Fixed an issue where Planetaries lacked or had misleading visual and audio indicators (splash damage impact visuals, sound).
+Fixed an issue where Archons lacked several visual and audio indicators (birth sound, splash damage impact visuals, movement sound, attack physics).
+Fixed an issue where Disruptor Purification Nova cooldown/firing status was difficult to discern. Ability status should now be much more obvious due to increased colour states.
+Fixed an issue where friendly Disruptor Purification Nova range radius actors were displayed permanently, even if the unit was on cooldown, causing unnecessary clutter as unit count increased.
+Fixed an issue where SwarmHost range radius actors were displayed permanently, even if the unit was on cooldown, causing unnecessary clutter as unit count increased.
+Fixed an issue where SwarmHosts lacked an equipment (weapon) display indicator for the Locust.
+Fixed an issue where Microbial Shroud's appearance happened gradually and unnoticeably due to lacking a sufficient impact model for the cloud.
+Fixed an issue where Hellbat walk animation speed was faster than expected.
+Fixed an issue where casting Generate Creep would only affect a subselection of Overlords or Transport Overlords rather than both variations.
+Fixed an issue where Creep Tumors lacked placement and placeholder models when spreading themselves.
+Fixed an issue where it could be difficult to distinguish if a research structure was active (Twilight Council, Fleet Beacon, Armory, Evolution Chamber).
+Improved an issue where injecting Queens 'shuffle'. Allowed re-issuing inject during ongoing cast so orders are not offloaded to others queen. Long-range orders are invalid if another queen is nearby the target hatchery.
+Improved an issue where units with their primary attack order on a changeling would lose their order if the Changeling subsequently disguised itself.
+Improved an issue where gather orders were clunky for workers. Workers adjacent and move commanding to a geyser now update their command to a gather order if a refinement structure gets built.
+Xel'naga towers can now be selected through the Fog of War. Xel'naga Towers now show their vision range radius when selected.
+Active Creep Tumors will now take selection precedence over Inactive Tumors.
+Active Creep Tumors in a control group at the time of exhausting their charge will now transfer control group membership to the spread tumor.
+Critters and destructible neutral objects have been standardized to share similar targeting/selection/collision values. They will no longer collide with/block player structures or units.
+Larva/Eggs will no longer collide with/block player structures or units.
+Locusts that were previously uncommandable during their swoop animation are now also unselectable (if already selected they will stay selected).
+Neural Parasite will now add the target unit to the current selection if the selection only contains one infestor.
+Protoss structures now generate additional 'damaged' graphical models.
+As larva increases, they will now spread further upwards around the sides of the hatchery. Larva will still start from the bottom of the hatchery.
+Music selection for spectator players has been adjusted to feature a greater pool of suitable tracks for spectating. Duplicate entries have also been removed.
+Slightly polished Oracles' Revelation and Build animation transitions.
+High Templar and Ravagers are now less likely to aggro towards faraway targets.
+Adjusted Warp Prism and Raven visual fly height to minimize clipping inside other models and reduced Warp Prism shadow size on low graphics to minimize shadow-casting on unloaded units.
+Commands to unsiege Warp Prisms will now be issued to all Warp Prisms in the selection.
+Healing Shrine visuals/sounds have received a minor polish pass.
+The Warp Prism will now attempt to immediately siege when instructed rather than prioritizing deceleration.
+Mapmaker support tools now include proper Worker-Only-Path indicators, No-Resource footprints, air unit height modifier doodads, and variable rock reduction units.
+Mule Repair is now set to auto-cast by default (Mules with a harvest order still do not attempt to repair units).
+Fixed an issue where Auto-Turret did not receive Terran Structure Armor upgrades.
+Roach Rapid Regeneration passive icon now displays research requirement status of burrow.

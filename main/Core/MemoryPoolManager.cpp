@@ -13,4 +13,4 @@ CMemoryPoolManager::~CMemoryPoolManager()
 	}
 }
 
-CMemoryPoolManager *CMemoryPoolManager::m_singleton = NULL;
+thread_local CMemoryPoolManager *CMemoryPoolManager::m_singleton = NULL;

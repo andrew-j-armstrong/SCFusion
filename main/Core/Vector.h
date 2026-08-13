@@ -48,14 +48,14 @@ protected:
 	size_t m_capacityIndex;
 	T *m_data;
 	CMemoryPool *m_memoryPool;
-	__declspec(thread) static CMemoryPool **m_memoryPools;
+	static thread_local CMemoryPool **m_memoryPools;
 };
 
 template<typename TData>
 void initArray(TData *data, size_t from, size_t to);
 
 template<typename T>
-CMemoryPool **CVector<T>::m_memoryPools = 0;
+thread_local CMemoryPool **CVector<T>::m_memoryPools = 0;
 
 template<typename T>
 CVector<T>::CVector()

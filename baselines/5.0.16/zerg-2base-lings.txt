@@ -1,0 +1,17 @@
+ 12 Build Hatchery
+ 12 Build Spawning Pool
+ 11 Build Overlord
+ 16 2 * Build Queen
+ 21 Build Overlord
+ 28 Queen Spawn Larvae
+ 29 Queen Spawn Larvae
+ 30 Build Overlord
+ 31 6 * Build Zergling
+
+Target reached:
+ 3:27.35:  403M    0G   2L  40/ 40S
+Income:   1582M    0G
+Buildings:  2 Hatchery 1 Spawning Pool
+Units:      30 Drone 4 Overlord 12 Zergling 2 Queen
+Research:  
+

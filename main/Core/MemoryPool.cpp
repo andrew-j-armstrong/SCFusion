@@ -132,7 +132,7 @@ CMemPoolNodePoolManager *CMemPoolNodePoolManager::m_singleton = NULL;
 
 void CMemPoolNodePoolManager::InitialiseThread()
 {
-	CLock lock(m_semaphore);
+	CLock lock(m_mutex);
 
 	map<size_t, CMemoryPool *> poolMap;
 

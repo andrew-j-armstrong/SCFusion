@@ -34,8 +34,8 @@ public:
 
 	protected:
 		bool ShouldMutate() const { return rand_sse() < m_mutationCutOff; }
-		double GetFactor() const { return m_minFactor + rand_sse() * (m_maxFactor - m_minFactor) / RAND_MAX + rand_sse() * (m_maxFactor - m_minFactor) / (RAND_MAX * RAND_MAX); }
-		double GetAdjustment() const { return m_minAdjustment + rand_sse() * (m_maxAdjustment - m_minAdjustment) / RAND_MAX + rand_sse() * (m_maxAdjustment - m_minAdjustment) / (RAND_MAX * RAND_MAX); }
+		double GetFactor() const { return m_minFactor + rand_sse() * (m_maxFactor - m_minFactor) / RAND_SSE_MAX + rand_sse() * (m_maxFactor - m_minFactor) / (RAND_SSE_MAX * RAND_SSE_MAX); }
+		double GetAdjustment() const { return m_minAdjustment + rand_sse() * (m_maxAdjustment - m_minAdjustment) / RAND_SSE_MAX + rand_sse() * (m_maxAdjustment - m_minAdjustment) / (RAND_SSE_MAX * RAND_SSE_MAX); }
 
 		size_t m_length;
 		TGene m_minValue, m_maxValue;
@@ -54,8 +54,8 @@ public:
 		void InitRandomChromosome(CGAValueArrayChromosome<TGene> &chromosome) const;
 
 	protected:
-		double GetFactor() const { return m_minFactor + rand_sse() * (m_maxFactor - m_minFactor) / RAND_MAX + rand_sse() * (m_maxFactor - m_minFactor) / (RAND_MAX * RAND_MAX); }
-		double GetAdjustment() const { return m_minAdjustment + rand_sse() * (m_maxAdjustment - m_minAdjustment) / RAND_MAX + rand_sse() * (m_maxAdjustment - m_minAdjustment) / (RAND_MAX * RAND_MAX); }
+		double GetFactor() const { return m_minFactor + rand_sse() * (m_maxFactor - m_minFactor) / RAND_SSE_MAX + rand_sse() * (m_maxFactor - m_minFactor) / (RAND_SSE_MAX * RAND_SSE_MAX); }
+		double GetAdjustment() const { return m_minAdjustment + rand_sse() * (m_maxAdjustment - m_minAdjustment) / RAND_SSE_MAX + rand_sse() * (m_maxAdjustment - m_minAdjustment) / (RAND_SSE_MAX * RAND_SSE_MAX); }
 
 		size_t m_length;
 		TGene m_minValue, m_maxValue;
@@ -113,7 +113,7 @@ template<typename TGene>
 CGAValueArrayChromosome<TGene>::CGAValueArrayChromosomeMutator::CGAValueArrayChromosomeMutator(size_t length, TGene minValue, TGene maxValue, double mutationRate, double minFactor, double maxFactor, double minAdjustment, double maxAdjustment)
 : m_length(length)
 , m_minValue(minValue), m_maxValue(maxValue)
-, m_mutationCutOff((short)(RAND_MAX * mutationRate))
+, m_mutationCutOff((short)(RAND_SSE_MAX * mutationRate))
 , m_minFactor(minFactor), m_maxFactor(maxFactor)
 , m_minAdjustment(minAdjustment), m_maxAdjustment(maxAdjustment)
 {
@@ -145,7 +145,7 @@ void CGAValueArrayChromosome<TGene>::CGAValueArrayChromosomeMutator::InitRandomC
 	CVector<TGene> &value = chromosome.GetValue();
 	value.clear();
 	for(size_t i=0; i < m_length; i++)
-		value.push_back((TGene)(m_minValue + rand_sse() * (m_maxValue - m_minValue) / RAND_MAX));
+		value.push_back((TGene)(m_minValue + rand_sse() * (m_maxValue - m_minValue) / RAND_SSE_MAX));
 }
 
 
@@ -163,7 +163,7 @@ bool CGAValueArrayChromosome<TGene>::CGAValueArrayChromosomeSingleValueMutator::
 {
 	CVector<TGene> &value = chromosome.GetValue();
 
-	TGene &dVal = value[rand_sse() * value.size() / (RAND_MAX + 1)];
+	TGene &dVal = value[rand_sse() * value.size() / (RAND_SSE_MAX + 1)];
 	dVal *= 1 + GetFactor();
 	dVal += GetAdjustment();
 	if(dVal < m_minValue)
@@ -180,5 +180,5 @@ void CGAValueArrayChromosome<TGene>::CGAValueArrayChromosomeSingleValueMutator::
 	CVector<TGene> &value = chromosome.GetValue();
 	value.clear();
 	for(size_t i=0; i < m_length; i++)
-		value.push_back((TGene)(m_minValue + rand_sse() * (m_maxValue - m_minValue) / RAND_MAX));
+		value.push_back((TGene)(m_minValue + rand_sse() * (m_maxValue - m_minValue) / RAND_SSE_MAX));
 }

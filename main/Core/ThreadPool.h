@@ -1,35 +1,58 @@
 #pragma once
 
-#include "Core/Vector.h"
+#include <condition_variable>
+#include <memory>
+#include <mutex>
+#include <thread>
+#include <vector>
 
+// One-shot "the work is done" latch. Wait() as often as you like,
+// before or after completion; it only ever unlatches once.
+class CThreadTask
+{
+public:
+	void Wait()
+	{
+		std::unique_lock<std::mutex> lock(m_mutex);
+		m_cv.wait(lock, [this]{ return m_done; });
+	}
+
+	void Signal()
+	{
+		{
+			std::lock_guard<std::mutex> lock(m_mutex);
+			m_done = true;
+		}
+		m_cv.notify_all();
+	}
+
+private:
+	std::mutex m_mutex;
+	std::condition_variable m_cv;
+	bool m_done = false;
+};
+
+typedef std::shared_ptr<CThreadTask> CThreadTaskPtr;
+
+// Threads are reused rather than respawned because each worker owns
+// thread-local memory pools that live as long as the thread does.
 class CThreadPool
 {
 public:
-	CThreadPool();
+	CThreadPool() {}
 	~CThreadPool();
 
 	static CThreadPool *Get();
 
-	HANDLE StartThread(void (*Func)(void *), void *parameter);
-	void SetAvailable(HANDLE handle);
+	CThreadTaskPtr StartThread(void (*Func)(void *), void *parameter);
 
 protected:
-	class CThreadInfo
-	{
-	public:
-		CThreadInfo() : m_threadHandle(0), m_eventHandle(0), m_Func(NULL), m_parameter(NULL), m_dummyHandle(NULL) {}
-		~CThreadInfo() {}
+	class CWorker;
 
-		HANDLE m_threadHandle;
-		HANDLE m_eventHandle;
-		HANDLE m_dummyHandle;
-		void (*m_Func)(void *);
-		void *m_parameter;
-	};
+	static void WorkerLoop(CWorker *worker);
+	void SetAvailable(CWorker *worker);
 
-	HANDLE m_semaphore;
-	CVector<CThreadInfo *> m_busyThreads;
-	CVector<CThreadInfo *> m_availableThreads;
-
-	static DWORD WINAPI ThreadExecute(LPVOID input);
+	std::mutex m_mutex;
+	std::vector<CWorker *> m_availableWorkers;
+	size_t m_busyCount = 0;
 };

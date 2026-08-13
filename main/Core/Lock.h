@@ -1,26 +1,8 @@
 #pragma once
 
-#include <windows.h>
-#include <iostream>
+#include <mutex>
 
-class CLock
-{
-public:
-	CLock(HANDLE gh)
-		: m_ghSemaphore(gh)
-	{
-		while(WAIT_OBJECT_0 != WaitForSingleObject(m_ghSemaphore, 0));
-	}
-
-	~CLock()
-	{
-		if(!ReleaseSemaphore(m_ghSemaphore, 1, 0))
-		{
-			DWORD dwErr = GetLastError();
-			std::cerr << dwErr << std::endl;
-		}
-	}
-
-protected:
-	HANDLE m_ghSemaphore;
-};
+// In a previous life this was a Win32 binary semaphore doing a very
+// convincing mutex impression (complete with spin-wait). It has since
+// transcended to become an actual mutex.
+typedef std::lock_guard<std::mutex> CLock;

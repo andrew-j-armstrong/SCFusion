@@ -51,8 +51,8 @@ template<typename TGene>
 CGASequenceChromosome<TGene> *CGASequenceChromosome<TGene>::Breed(const CGASequenceChromosome<TGene> *spouse, short crossover) const
 {
 	CGASequenceChromosome<TGene> *child = new CGASequenceChromosome<TGene>();
-	child->GetValue().append(m_value.data(), ((size_t)crossover * m_value.size()) / RAND_MAX);
-	size_t crossoverPoint = ((size_t)crossover * spouse->GetValue().size()) / RAND_MAX;
+	child->GetValue().append(m_value.data(), ((size_t)crossover * m_value.size()) / RAND_SSE_MAX);
+	size_t crossoverPoint = ((size_t)crossover * spouse->GetValue().size()) / RAND_SSE_MAX;
 	child->GetValue().append(spouse->GetValue().data() + crossoverPoint, spouse->GetValue().size() - crossoverPoint);
 
 	return child;
@@ -85,9 +85,9 @@ template<typename TGene>
 CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::CGASequenceChromosomeMutator(const CVector<TGene> &alphabet, double mutationRate)
 : m_alphabet(alphabet)
 , m_mutationRate(mutationRate)
-, m_mutationCountOneCutOff((short)(RAND_MAX * mutationRate))
-, m_mutationCountTwoCutOff((short)(m_mutationCountOneCutOff + RAND_MAX * 0.1 * mutationRate))
-, m_mutationCountThreeCutOff((short)(m_mutationCountTwoCutOff + RAND_MAX * 0.01 * mutationRate))
+, m_mutationCountOneCutOff((short)(RAND_SSE_MAX * mutationRate))
+, m_mutationCountTwoCutOff((short)(m_mutationCountOneCutOff + RAND_SSE_MAX * 0.1 * mutationRate))
+, m_mutationCountThreeCutOff((short)(m_mutationCountTwoCutOff + RAND_SSE_MAX * 0.01 * mutationRate))
 {
 }
 
@@ -103,8 +103,8 @@ bool CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::Mutate(CGASeque
 	mutationCount = GetMutationCount();
 	for(; mutationCount > 0; mutationCount--)
 	{
-		i = (rand_sse() * (value.size() + 1)) / (RAND_MAX + 1);
-		value.insert(i, m_alphabet[(rand_sse() * m_alphabet.size()) / (RAND_MAX + 1)]);
+		i = (rand_sse() * (value.size() + 1)) / (RAND_SSE_MAX + 1);
+		value.insert(i, m_alphabet[(rand_sse() * m_alphabet.size()) / (RAND_SSE_MAX + 1)]);
 	}
 
 	// Duplicate
@@ -113,7 +113,7 @@ bool CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::Mutate(CGASeque
 		mutationCount = GetMutationCount();
 		for(; mutationCount > 0; mutationCount--)
 		{
-			i = (rand_sse() * value.size()) / (RAND_MAX + 1);
+			i = (rand_sse() * value.size()) / (RAND_SSE_MAX + 1);
 			value.insert(i, value[i]);
 		}
 	}
@@ -127,7 +127,7 @@ bool CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::Mutate(CGASeque
 
 		for(; mutationCount > 0; mutationCount--)
 		{
-			i = (rand_sse() * value.size()) / (RAND_MAX + 1);
+			i = (rand_sse() * value.size()) / (RAND_SSE_MAX + 1);
 			value.erase(i);
 		}
 	}
@@ -138,7 +138,7 @@ bool CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::Mutate(CGASeque
 		mutationCount = GetMutationCount();
 		for(; mutationCount > 0; mutationCount--)
 		{
-			i = (rand_sse() * (value.size() - 1)) / (RAND_MAX + 1);
+			i = (rand_sse() * (value.size() - 1)) / (RAND_SSE_MAX + 1);
 			j = i+1;
 
 			gene = value[i];
@@ -153,8 +153,8 @@ bool CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::Mutate(CGASeque
 		mutationCount = GetMutationCount();
 		for(; mutationCount > 0; mutationCount--)
 		{
-			i = (rand_sse() * value.size()) / (RAND_MAX + 1);
-			j = (rand_sse() * value.size()) / (RAND_MAX + 1);
+			i = (rand_sse() * value.size()) / (RAND_SSE_MAX + 1);
+			j = (rand_sse() * value.size()) / (RAND_SSE_MAX + 1);
 
 			gene = value[i];
 			value[i] = value[j];
@@ -168,8 +168,8 @@ bool CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::Mutate(CGASeque
 		mutationCount = GetMutationCount();
 		for(; mutationCount > 0; mutationCount--)
 		{
-			i = (rand_sse() * value.size()) / (RAND_MAX + 1);
-			j = (rand_sse() * (value.size() - 1)) / (RAND_MAX + 1);
+			i = (rand_sse() * value.size()) / (RAND_SSE_MAX + 1);
+			j = (rand_sse() * (value.size() - 1)) / (RAND_SSE_MAX + 1);
 
 			gene = value[i];
 			value.erase(i);
@@ -183,9 +183,9 @@ bool CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::Mutate(CGASeque
 		mutationCount = GetMutationCount();
 		for(; mutationCount > 0; mutationCount--)
 		{
-			i = (rand_sse() * value.size()) / (RAND_MAX + 1);
+			i = (rand_sse() * value.size()) / (RAND_SSE_MAX + 1);
 
-			value[i] = m_alphabet[(rand_sse() * m_alphabet.size()) / (RAND_MAX + 1)];
+			value[i] = m_alphabet[(rand_sse() * m_alphabet.size()) / (RAND_SSE_MAX + 1)];
 		}
 	}
 
@@ -198,5 +198,5 @@ void CGASequenceChromosome<TGene>::CGASequenceChromosomeMutator::InitRandomChrom
 	CVector<TGene> &value = chromosome.GetValue();
 	value.clear();
 	for(size_t i=0; i < 10; i++)
-		value.push_back(m_alphabet[(m_alphabet.size() * rand_sse()) / (RAND_MAX + 1)]);
+		value.push_back(m_alphabet[(m_alphabet.size() * rand_sse()) / (RAND_SSE_MAX + 1)]);
 }

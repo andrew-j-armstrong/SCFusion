@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "../Core/Vector.h"
 
 #include "GAConfiguration.h"
@@ -192,7 +194,7 @@ bool CGAPopulation<TChromosome, TMutator, TFitnessCalc, TFitness, TPopulationSor
 	for(size_t i=0; i < breedingStockLimit; i++)
 	{
 		curFitness += m_population[i]->GetFitness() + fitnessAdjust;
-		short randValue = (short)((curFitness * (RAND_MAX + 1)) / totalFitnessRange);
+		short randValue = (short)((curFitness * (RAND_SSE_MAX + 1)) / totalFitnessRange);
 		rouletteIndex.push_back(randValue);
 	}
 

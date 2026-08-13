@@ -5,6 +5,78 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased (v2.3.0)
+
+### Linux / headless support
+
+* New CMake build (`cmake -B build && cmake --build build`) producing a
+  headless `scfusion-cli` that reads the same save-file XML as the GUI,
+  runs the genetic engine, and prints the best build order. Links against
+  wxBase only (no GUI libraries). The Windows GUI build in
+  `Super Fusion.sln` is unchanged.
+* Ported `Core/` threading from Win32 to `std::thread`/`std::mutex`
+  (identical behavior on Windows; the code is now portable C++17).
+* Fixed a 64-bit portability bug: the GA scaled its roulette-wheel and
+  mutation indices by `RAND_MAX`, which matches `rand_sse()`'s 15-bit range
+  on MSVC but not on glibc (where it overflowed and silently disabled
+  evolution). Now uses an explicit `RAND_SSE_MAX`.
+* The GA engine now keeps its best game available after `Stop()` instead of
+  discarding it (the GUI polled continuously and never noticed).
+* Added `baselines/` — per-version reference outputs from `scfusion-cli`
+  for sanity-checking balance-data changes.
+* The full GUI now builds and runs on Linux (`scfusion-gui`, built
+  automatically when wxGTK is installed): WinSparkle and Win32 priority
+  calls are Windows-only via `#ifdef`, colors follow the OS light/dark
+  theme (with paired accent palettes for the output grid and Gantt
+  chart), and `Versions/` is found relative to the executable as well as
+  the working directory.
+* GitHub Actions CI: Linux build + per-race GA smoke test, and a Windows
+  MSBuild compile check of the Visual Studio project against the official
+  wxWidgets 3.1.7 binaries (`wxWidgets/wxwidgets.props` is now committed).
+
+### Upgrade for [Patch v5.0.16](https://news.blizzard.com/en-us/article/24245740/starcraft-ii-5-0-16-patch-notes)
+
+#### Economy
+* Starting workers reduced from 12 to 8 (all races).
+
+#### Protoss
+* Nexus supply provided reduced from 15 to 13.
+* Warpgate research now speeds up Gateway unit production by 40%: modeled as
+  research-gated "Boosted Gateway" build commands (Zealot 16s, Adept 18s,
+  Stalker 16s, Sentry 14s, High/Dark Templar 26s) that the existing
+  first-match Multi commands prefer over the regular Gateway ones.
+* Warp-in time increased from 3.6 to 4 seconds.
+* Warpgate cooldowns: Zealot/Adept 20→22, Stalker/Sentry 23→22,
+  High/Dark Templar 32→35.
+* 'Transform to Warpgate' now costs 25/25, charged on the
+  Convert Gateway To Warp Gate command (exact per-gateway one-time cost as
+  long as no gateway is converted back and forth, which the optimizer has
+  no incentive to do).
+
+#### Terran
+* Command Center (and Orbital Command / Planetary Fortress) supply provided
+  reduced from 15 to 13.
+* Ghost supply cost increased from 2 to 3.
+
+#### Zerg
+* Hatchery/Lair/Hive supply provided reduced from 6 to 4.
+* Hatchery cost increased from 275 to 300 (Macro Hatchery keeps its +25
+  offset: 300 → 325).
+* Larva spawn interval: Blizzard's notes say 10.7s → 9.5s; this data set
+  said 11.0 (0.3s above Blizzard's old number, presumably spawn overhead),
+  so it becomes 9.8 to keep that offset.
+* Carapace upgrade costs reduced: L1 150/150→100/100, L2 200/200→150/150,
+  L3 250/250→200/200.
+* Microbial Shroud no longer requires an upgrade: research removed from the
+  data (the energy-based ability target remains).
+
+#### Not modeled (intentionally skipped)
+* Map pool; mineral patch / vespene geyser resource totals (the income
+  model is saturation-rate based with no depletion); rich geyser return;
+  all combat stats (damage/range/health/speed); Shield Battery starting
+  energy (battery energy is not used by any build-order command); Overlord
+  speed; subgroup priorities; all bug fixes / QoL items.
+
 ## Super Fusion v2.2.4
 
 ### Upgrade for [Patch v5.0.15](https://news.blizzard.com/en-us/article/24225313/starcraft-ii-5-0-15-patch-notes)

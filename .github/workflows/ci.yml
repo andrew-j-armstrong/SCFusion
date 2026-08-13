@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  # Linux: full CMake build (CLI + GUI) and a real GA smoke test per race.
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install wxWidgets
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwxgtk3.2-dev
+
+      - name: Configure and build
+        run: |
+          cmake -B build -S .
+          cmake --build build -j"$(nproc)"
+
+      - name: Smoke-test the optimizer (all three races)
+        run: |
+          for target in baselines/targets/*.xml; do
+            echo "=== $target"
+            ./build/scfusion-cli --versions-dir main/Versions \
+              --time-limit 20 --quiet "$target"
+          done
+
+  # Windows: compile-check the real Visual Studio project against the same
+  # official wxWidgets 3.1.7 binaries + WinSparkle described in download.txt.
+  # (Exit criteria is "MSVC still compiles and links it" — runtime testing
+  # stays a human job on a real Windows box before releases.)
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - name: Cache wxWidgets + WinSparkle binaries
+        id: deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            wxWidgets/include
+            wxWidgets/lib
+            WinSparkle/include
+            WinSparkle/Release
+          key: deps-wx3.1.4-vc14x-winsparkle0.8.1
+
+      - name: Download wxWidgets + WinSparkle
+        if: steps.deps.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          # 3.1.4 because the vcxproj deploys wx*314u_vc14x.dll by name.
+          $wx = 'https://github.com/wxWidgets/wxWidgets/releases/download/v3.1.4'
+          curl.exe -sSL -o wx-headers.7z "$wx/wxWidgets-3.1.4-headers.7z"
+          curl.exe -sSL -o wx-dev.7z "$wx/wxMSW-3.1.4_vc14x_Dev.7z"
+          curl.exe -sSL -o wx-dlls.7z "$wx/wxMSW-3.1.4_vc14x_ReleaseDLL.7z"
+          # The archives ship their own wxwidgets.props; ours (committed) is
+          # the one the vcxproj must see, so keep theirs out of the way.
+          7z x -y wx-headers.7z -owxWidgets '-x!wxwidgets.props'
+          7z x -y wx-dev.7z -owxWidgets '-x!wxwidgets.props'
+          7z x -y wx-dlls.7z -owxWidgets '-x!wxwidgets.props'
+          curl.exe -sSL -o winsparkle.zip 'https://github.com/vslavik/winsparkle/releases/download/v0.8.1/WinSparkle-0.8.1.zip'
+          7z x -y winsparkle.zip
+          Move-Item WinSparkle-0.8.1/include WinSparkle/include
+          Move-Item WinSparkle-0.8.1/Release WinSparkle/Release
+
+      - name: Build (Release, Win32, v143)
+        run: msbuild main\SCFusion_vc10.vcxproj -m -p:Configuration=Release -p:Platform=Win32
+
+      - name: Upload runnable build
+        uses: actions/upload-artifact@v4
+        with:
+          name: SCFusion-win32
+          path: |
+            main/vc_mswu/Fusion.exe
+            main/vc_mswu/*.dll
+            main/Versions

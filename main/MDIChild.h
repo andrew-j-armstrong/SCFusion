@@ -145,8 +145,8 @@ private:
 
 	void OnTimer(wxTimerEvent& event);
 
-	DWORD m_startTickCount;
-	void UpdateListBoxEntry(int nItem, size_t population, size_t evolution, size_t stagnationCount, unsigned long long gameCount, double bestFitness, DWORD timeDiff);
+	wxLongLong_t m_startTickCount;	// milliseconds (DWORD ticks were a Windows habit)
+	void UpdateListBoxEntry(int nItem, size_t population, size_t evolution, size_t stagnationCount, unsigned long long gameCount, double bestFitness, wxLongLong_t timeDiff);
 	void UpdateRemoveButton();
 	bool UpdatePropertySummary(wxPGProperty *prop);
 	bool InterpretProperty(wxPGProperty *prop);

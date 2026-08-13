@@ -48,7 +48,9 @@ public:
 	~CTargetOptionalMinMax() {}
 
 	inline bool IsWithinRange(TVal val) const { return (!haveMin || min <= val) && (!haveMax || val <= max); }
-	inline void Combine(const CTargetMinMax<TVal> &value) { haveMin ||= value.haveMin; min = mymax(min, value.min); haveMax ||= value.haveMax; max = mymax(max, value.max); }
+	// Fun fact: this used to say `haveMin ||= ...`, an operator C++ does not have.
+	// MSVC apparently didn't want to make a scene about it.
+	inline void Combine(const CTargetMinMax<TVal> &value) { haveMin = haveMin || value.haveMin; min = mymax(min, value.min); haveMax = haveMax || value.haveMax; max = mymax(max, value.max); }
 
 	double GetRequirementValue(TVal stateVal, double valuePerUnit) const
 	{

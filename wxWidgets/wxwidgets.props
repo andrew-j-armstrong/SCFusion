@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Points the Visual Studio build at the official wxWidgets Windows binaries,
+  unpacked into this directory (see download.txt). wxWidgets 3.1.4 — the
+  vcxproj deploys wx*314u_vc14x.dll by name:
+    wxWidgets/include/...            from wxWidgets-3.1.4-headers.7z
+    wxWidgets/lib/vc14x_dll/...      from wxMSW-3.1.4_vc14x_Dev.7z
+                                     and wxMSW-3.1.4_vc14x_ReleaseDLL.7z
+
+  wxMSVC_VERSION=14x steers include/msvc/wx/setup.h at the vc14x compiler-
+  agnostic binaries (VS2015 through VS2022); WXUSINGDLL selects DLL linkage
+  to match the import libraries. CI reconstructs this exact layout — if you
+  change versions here, change .github/workflows/ci.yml to match.
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <WxWidgetsDir>$(MSBuildThisFileDirectory)</WxWidgetsDir>
+    <IncludePath>$(WxWidgetsDir)include\msvc;$(WxWidgetsDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(WxWidgetsDir)lib\vc14x_dll;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>WXUSINGDLL;wxMSVC_VERSION=14x;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(WxWidgetsDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WXUSINGDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+</Project>

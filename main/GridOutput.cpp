@@ -1,6 +1,18 @@
 #include "GridOutput.h"
 #include "GridItem.h"
+#include <wx/menu.h>
+#include <wx/settings.h>
 #include <map>
+
+// Follow the OS: light theme, dark theme, we're not here to argue.
+static bool IsDarkTheme()
+{
+#if wxCHECK_VERSION(3, 1, 3)
+	return wxSystemSettings::GetAppearance().IsDark();
+#else
+	return false;	// wx too old to ask; it was always light back then anyway
+#endif
+}
 
 
 #define ID_CONTEXT_MENU 	2000
@@ -34,6 +46,11 @@ GridOutput::GridOutput(wxWindow* parent, wxWindowID id, bool hasLarvae) :
     SetDefaultCellAlignment(wxALIGN_RIGHT, wxALIGN_CENTRE);
     SetDoubleBuffered(true);
 
+    // Base colours come from the OS theme; the item-type accents (below)
+    // come in light and dark flavours to match.
+    SetDefaultCellBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW));
+    SetDefaultCellTextColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+
     SetGridColumns();
 
     m_menu = new wxMenu();
@@ -62,18 +79,39 @@ GridOutput::GridOutput(wxWindow* parent, wxWindowID id, bool hasLarvae) :
 
 }
 
-const std::map<GridItem::GridItemType, wxColor> COLORFUL = {
-   {GridItem::tDefault, wxColor(255, 255, 255)},
-   {GridItem::tMilestone, wxColor(255, 255, 255)},
-   {GridItem::tBase, wxColor(204, 229, 255)},
-   {GridItem::tGas, wxColor(204, 229, 204)},
-   {GridItem::tSupply, wxColor(255, 255, 204)},
-   {GridItem::tStatus, wxColor(255, 255, 255)},
-   {GridItem::tMilitary, wxColor(255, 204, 204)},
-   {GridItem::tMilitaryUnit, wxColor(255, 229, 229)},
-   {GridItem::tWorker, wxColor(229, 242, 255)},
-   {GridItem::tResearch, wxColor(255, 229, 255)},
-};
+// Item-type accent colours. No OS theme ships "supply-depot yellow", so we
+// keep two palettes — pastels on light, embers on dark — and let the theme
+// pick. Neutral rows use the theme's own window colour either way.
+// (Function-local statics: wxSystemSettings must not be poked before wxApp.)
+static const std::map<GridItem::GridItemType, wxColor> &ItemColours()
+{
+    const wxColor base = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+    static const std::map<GridItem::GridItemType, wxColor> lightPalette = {
+       {GridItem::tDefault, base},
+       {GridItem::tMilestone, base},
+       {GridItem::tBase, wxColor(204, 229, 255)},
+       {GridItem::tGas, wxColor(204, 229, 204)},
+       {GridItem::tSupply, wxColor(255, 255, 204)},
+       {GridItem::tStatus, base},
+       {GridItem::tMilitary, wxColor(255, 204, 204)},
+       {GridItem::tMilitaryUnit, wxColor(255, 229, 229)},
+       {GridItem::tWorker, wxColor(229, 242, 255)},
+       {GridItem::tResearch, wxColor(255, 229, 255)},
+    };
+    static const std::map<GridItem::GridItemType, wxColor> darkPalette = {
+       {GridItem::tDefault, base},
+       {GridItem::tMilestone, base},
+       {GridItem::tBase, wxColor(38, 58, 82)},
+       {GridItem::tGas, wxColor(42, 66, 42)},
+       {GridItem::tSupply, wxColor(78, 72, 36)},
+       {GridItem::tStatus, base},
+       {GridItem::tMilitary, wxColor(92, 44, 44)},
+       {GridItem::tMilitaryUnit, wxColor(72, 48, 48)},
+       {GridItem::tWorker, wxColor(48, 66, 90)},
+       {GridItem::tResearch, wxColor(78, 48, 78)},
+    };
+    return IsDarkTheme() ? darkPalette : lightPalette;
+}
 
 void GridOutput::SetGridColumns()
 {
@@ -238,49 +276,49 @@ void GridOutput::DrawRow(size_t rowIndex, GridItem item)
     if (rowIndex >= (size_t)GetNumberRows()) InsertRows(rowIndex, 1);
 
     SetCellValue(rowIndex, 0, wxString::Format(L"%2d:%05.2f ", (int)(item.time / 60) - 60 * (int)(item.time / 3600), item.time - 60 * (int)(item.time / 60)));
-    SetCellBackgroundColour(rowIndex, 0, COLORFUL.at(item.itemType));
+    SetCellBackgroundColour(rowIndex, 0, ItemColours().at(item.itemType));
 
     int colIndex = 1;
     if (m_visible_cols[1])
     {
         SetCellValue(rowIndex, colIndex, wxString::Format(L"%d ", item.minerals));
-        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        SetCellBackgroundColour(rowIndex, colIndex, ItemColours().at(item.itemType));
         colIndex++;
     }
     if (m_visible_cols[2])
     {
         SetCellValue(rowIndex, colIndex, wxString::Format(L"%d ", item.gas));
-        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        SetCellBackgroundColour(rowIndex, colIndex, ItemColours().at(item.itemType));
         colIndex++;
     }
     if (m_visible_cols[3])
     {
         SetCellValue(rowIndex, colIndex, wxString::Format(L"%d ", item.larvae));
-        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        SetCellBackgroundColour(rowIndex, colIndex, ItemColours().at(item.itemType));
         colIndex++;
     }
     if (m_visible_cols[4])
     {
         SetCellValue(rowIndex, colIndex, wxString::Format(L"%.2f ", item.mineralIncomeRate));
-        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        SetCellBackgroundColour(rowIndex, colIndex, ItemColours().at(item.itemType));
         colIndex++;
     }
     if (m_visible_cols[5])
     {
         SetCellValue(rowIndex, colIndex, wxString::Format(L"%.2f ", item.gasIncomeRate));
-        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        SetCellBackgroundColour(rowIndex, colIndex, ItemColours().at(item.itemType));
         colIndex++;
     }
     if (m_visible_cols[6])
     {
         SetCellValue(rowIndex, colIndex, wxString::Format(L"%d ", item.workers));
-        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        SetCellBackgroundColour(rowIndex, colIndex, ItemColours().at(item.itemType));
         colIndex++;
     }
     if (m_visible_cols[7])
     {
         SetCellValue(rowIndex, colIndex, wxString::Format(L"%d / %d ", item.supply, item.supplyCap));
-        SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+        SetCellBackgroundColour(rowIndex, colIndex, ItemColours().at(item.itemType));
         colIndex++;
     }
 
@@ -292,7 +330,7 @@ void GridOutput::DrawRow(size_t rowIndex, GridItem item)
         name += "\n Research: " + item.researchCompleted;
     }
     SetCellValue(rowIndex, colIndex, name);
-    SetCellBackgroundColour(rowIndex, colIndex, COLORFUL.at(item.itemType));
+    SetCellBackgroundColour(rowIndex, colIndex, ItemColours().at(item.itemType));
 
     SetCellAlignment(rowIndex, colIndex, wxALIGN_LEFT, wxALIGN_CENTER);
     SetRowSize(rowIndex, GetDefaultRowSize() * (item.itemType == GridItem::tMilestone ? 4 : 1));

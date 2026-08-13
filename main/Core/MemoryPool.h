@@ -92,16 +92,18 @@ void CMemoryPool::AppendToFreeStack(void *p)
 	(*(++m_pEndFree)) = p;
 }
 
+template <typename T> class CMemPoolNode; // forward-declared; defined below, befriended forever
+
 class CMemPoolNodePoolManager
 {
 public:
-	CMemPoolNodePoolManager() { m_semaphore = CreateSemaphore(0, 1, 1, 0); }
+	CMemPoolNodePoolManager() {}
 	~CMemPoolNodePoolManager();
 
 	static CMemPoolNodePoolManager *Get() { if(!m_singleton) m_singleton = new CMemPoolNodePoolManager(); return m_singleton; }
 
 	void InitialiseThread();
-	void AddPoolFunction(CMemoryPool *&(*func)(), size_t size) { CLock lock(m_semaphore); m_poolFunctions[func] = size; }
+	void AddPoolFunction(CMemoryPool *&(*func)(), size_t size) { CLock lock(m_mutex); m_poolFunctions[func] = size; }
 
 	template<typename T>
 	class CAutoAddFunction
@@ -116,7 +118,7 @@ public:
 protected:
 	static CMemPoolNodePoolManager *m_singleton;
 
-	HANDLE m_semaphore;
+	std::mutex m_mutex;
 	map<CMemoryPool *&(*)(), size_t> m_poolFunctions;
 	vector<CMemoryPool *> m_allPools;
 };
@@ -158,9 +160,9 @@ public:
 	static bool HasAutoAdd() { return m_autoAddFunction != NULL; }
 
 private:
-	__declspec(thread) static CMemoryPool *m_pool;
+	static thread_local CMemoryPool *m_pool;
 	static CMemPoolNodePoolManager::CAutoAddFunction<T> *m_autoAddFunction;
 };
 
-template <typename T> CMemoryPool *CMemPoolNode<T>::m_pool = NULL;
+template <typename T> thread_local CMemoryPool *CMemPoolNode<T>::m_pool = NULL;
 template <typename T> CMemPoolNodePoolManager::CAutoAddFunction<T> *CMemPoolNode<T>::m_autoAddFunction = new CMemPoolNodePoolManager::CAutoAddFunction<T>();

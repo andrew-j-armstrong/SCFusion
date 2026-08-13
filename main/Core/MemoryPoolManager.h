@@ -56,5 +56,5 @@ protected:
 	typedef map<size_t, CMemoryPool *> CMemoryPoolMap;
 	CMemoryPoolMap m_mapPools;
 
-	__declspec(thread) static CMemoryPoolManager *m_singleton;
+	static thread_local CMemoryPoolManager *m_singleton;
 };
